@@ -1,0 +1,72 @@
+﻿@page "/"
+
+<PageTitle>CasaMiro</PageTitle>
+
+<section class="hero-section d-flex flex-column align-items-center justify-content-center text-center text-white">
+    <h1 class="display-3 fw-bold">Welcome to Casa Miro</h1>
+    <p class="lead">A Community of Comfort and Elegance</p>
+    <a href="#about" class="btn btn-lg btn-custom mt-3">Discover More</a>
+    <div class="scroll-indicator">
+        <i class="bi bi-chevron-down"></i>
+    </div>
+</section>
+
+<section id="about" class="container py-5 text-center">
+    <h2 class="fw-bold">About Casa Miro</h2>
+    <p class="text-muted">A premier subdivision offering a harmonious blend of comfort, elegance, and modern living.</p>
+</section>
+
+<section id="services" class="bg-light py-5 text-center">
+    <div class="container">
+        <h2 class="fw-bold">Our Services</h2>
+        <div class="row mt-4">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-lg p-4 h-100 service-card">
+                    <div class="icon-wrapper mb-3">
+                        <i class="bi bi-house-door"></i>
+                    </div>
+                    <h5 class="fw-bold">Luxury Homes</h5>
+                    <p class="text-muted">Elegant and spacious homes designed for modern living.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-lg p-4 h-100 service-card">
+                    <div class="icon-wrapper mb-3">
+                        <i class="bi bi-tree"></i>
+                    </div>
+                    <h5 class="fw-bold">Community Spaces</h5>
+                    <p class="text-muted">Beautifully designed parks and recreational areas.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-lg p-4 h-100 service-card">
+                    <div class="icon-wrapper mb-3">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5 class="fw-bold">Security & Convenience</h5>
+                    <p class="text-muted">24/7 security and easy access to essential amenities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="container py-5 text-center">
+    <h2 class="fw-bold">Contact Us</h2>
+    <p class="text-muted">Get in touch with us for inquiries and more information.</p>
+    <a href="mailto:info@casamiro.com" class="btn btn-custom">Email Us</a>
+</section>
+
+
+<script>
+    window.initializeSmoothScroll = function() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    }
+</script>

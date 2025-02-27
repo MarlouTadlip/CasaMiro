@@ -1,0 +1,58 @@
+﻿.hero-section {
+    height: 100vh;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero.jpg') center no-repeat;
+    position: relative;
+}
+
+.btn-custom {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    color: white;
+}
+
+    .btn-custom:hover {
+        opacity: 0.8;
+        color: white;
+    }
+
+.card {
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+    .icon-wrapper i {
+        font-size: 24px;
+        color: white;
+    }
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
+
+    .scroll-indicator i {
+        font-size: 2rem;
+        color: white;
+    }
+
