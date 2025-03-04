@@ -1,0 +1,129 @@
+﻿@page "/users/edit"
+@using Microsoft.EntityFrameworkCore
+@using CasaMiro.Models
+@inject IDbContextFactory<CasaMiro.Data.ApplicationDbContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>User</h2>
+<hr />
+@if (User is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="User" OnValidSubmit="UpdateUser" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="User.Id" value="@User.Id" />
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="User.Email" class="form-control" />
+                    <ValidationMessage For="() => User.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <InputText id="password" @bind-Value="User.Password" class="form-control" />
+                    <ValidationMessage For="() => User.Password" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First_name:</label>
+                    <InputText id="first_name" @bind-Value="User.First_name" class="form-control" />
+                    <ValidationMessage For="() => User.First_name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last_name:</label>
+                    <InputText id="last_name" @bind-Value="User.Last_name" class="form-control" />
+                    <ValidationMessage For="() => User.Last_name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone:</label>
+                    <InputText id="phone" @bind-Value="User.Phone" class="form-control" />
+                    <ValidationMessage For="() => User.Phone" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <InputText id="address" @bind-Value="User.Address" class="form-control" />
+                    <ValidationMessage For="() => User.Address" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role:</label>
+                    <InputText id="role" @bind-Value="User.Role" class="form-control" />
+                    <ValidationMessage For="() => User.Role" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="created_at" class="form-label">Created_at:</label>
+                    <InputDate id="created_at" @bind-Value="User.Created_at" class="form-control" />
+                    <ValidationMessage For="() => User.Created_at" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="is_active" class="form-label">Is_active:</label>
+                    <InputCheckbox id="is_active" @bind-Value="User.Is_active" class="form-check-input" />
+                    <ValidationMessage For="() => User.Is_active" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/users">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private User? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        User ??= await context.Users.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (User is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateUser()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(User!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!UserExists(User!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/users");
+    }
+
+    private bool UserExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Users.Any(e => e.Id == id);
+    }
+}

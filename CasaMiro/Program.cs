@@ -1,4 +1,6 @@
 using CasaMiro.Components;
+using CasaMiro.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CasaMiro
 {
@@ -11,6 +13,14 @@ namespace CasaMiro
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
+            builder.Services.AddScoped<AuthenticationService>();
+
+            builder.Services.AddQuickGridEntityFrameworkAdapter();
+
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             var app = builder.Build();
 
@@ -20,6 +30,7 @@ namespace CasaMiro
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+    app.UseMigrationsEndPoint();
             }
 
             app.UseHttpsRedirection();
