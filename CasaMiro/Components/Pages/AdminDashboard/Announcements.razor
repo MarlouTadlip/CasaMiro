@@ -1,0 +1,162 @@
+﻿@page "/announcements"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-2">
+            <Sidebar />
+        </div>
+
+        <!-- Main content -->
+        <div class="col-10">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">Announcements</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="ShowAddAnnouncementModal">
+                            <i class="fa-solid fa-plus-circle"></i> Add New Announcement
+                        </button>
+                    </div>
+
+                    <!-- Announcements Table -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var announcement in announcements)
+                            {
+                                <tr>
+                                    <td>@announcement.Id</td>
+                                    <td>@announcement.Title</td>
+                                    <td>@announcement.Description</td>
+                                    <td>@announcement.Date.ToString("MM/dd/yyyy")</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" @onclick="() => EditAnnouncement(announcement.Id)">
+                                            <i class="fa-solid fa-pencil-alt"></i> Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteAnnouncement(announcement.Id)">
+                                            <i class="fa-solid fa-trash-alt"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Adding/Editing Announcement -->
+            <div class="modal" tabindex="-1" role="dialog" id="addAnnouncementModal" style="@addAnnouncementModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">@(announcementEditMode ? "Edit" : "Add") Announcement</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddAnnouncementModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="currentAnnouncement" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Title">Title</label>
+                                    <InputText id="Title" class="form-control" @bind-Value="currentAnnouncement.Title" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Description">Description</label>
+                                    <InputTextArea id="Description" class="form-control" @bind-Value="currentAnnouncement.Description" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Date">Date</label>
+                                    <InputDate id="Date" class="form-control" @bind-Value="currentAnnouncement.Date" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Announcement</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Announcement> announcements = new List<Announcement>
+    {
+        new Announcement { Id = 1, Title = "Meeting", Description = "Annual meeting on 25th", Date = DateTime.Now.AddDays(5) },
+        new Announcement { Id = 2, Title = "New Service", Description = "We have added a new service!", Date = DateTime.Now.AddDays(2) }
+    };
+
+    private Announcement currentAnnouncement = new Announcement() { Title = "", Description = "" };
+    private bool announcementEditMode = false;
+    private string addAnnouncementModalStyle = "display:none;";
+
+    private void ShowAddAnnouncementModal()
+    {
+        currentAnnouncement = new Announcement() { Title = "", Description = ""}; // Reset for new announcement
+        announcementEditMode = false;
+        addAnnouncementModalStyle = "display:block;";
+    }
+
+    private void HideAddAnnouncementModal()
+    {
+        addAnnouncementModalStyle = "display:none;";
+    }
+
+    private void EditAnnouncement(int id)
+    {
+        announcementEditMode = true;
+        currentAnnouncement = announcements.FirstOrDefault(a => a.Id == id);
+        if (currentAnnouncement != null)
+        {
+            addAnnouncementModalStyle = "display:block;";
+        }
+    }
+
+    private void DeleteAnnouncement(int id)
+    {
+        var announcement = announcements.FirstOrDefault(a => a.Id == id);
+        if (announcement != null)
+        {
+            announcements.Remove(announcement);
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (!announcementEditMode)
+        {
+            currentAnnouncement.Id = announcements.Max(a => a.Id) + 1; // Simple auto-increment logic
+            announcements.Add(currentAnnouncement);
+        }
+        else
+        {
+            var announcement = announcements.FirstOrDefault(a => a.Id == currentAnnouncement.Id);
+            if (announcement != null)
+            {
+                announcement.Title = currentAnnouncement.Title;
+                announcement.Description = currentAnnouncement.Description;
+                announcement.Date = currentAnnouncement.Date;
+            }
+        }
+
+        HideAddAnnouncementModal();
+    }
+}

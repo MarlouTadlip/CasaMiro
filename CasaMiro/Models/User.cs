@@ -12,6 +12,6 @@
         public string Role { get; set; } = "HomeOwner";
         public DateTime Created_at { get; set; } = DateTime.Now;
         public bool Is_active { get; set; } = true;
-
     }
+  
 }
