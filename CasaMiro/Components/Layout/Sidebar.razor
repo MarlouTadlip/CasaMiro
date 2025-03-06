@@ -1,4 +1,5 @@
-﻿<div class="sidebar-container">
+﻿@inject NavigationManager Navigation
+<div class="sidebar-container">
     <div class="sidebar-header">
         <h4 class="text-center">Admin Dashboard</h4>
         <button class="toggle-sidebar" onclick="toggleSidebar()">
@@ -6,20 +7,20 @@
         </button>
     </div>
     <nav class="sidebar-links">
-        <a href="/dashboard" class="active"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
-        <a href="/usermanagement"><i class="fa-solid fa-users"></i><span>User Management</span></a>
-        <a href="/announcements"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
-        <a href="/billingandpayments"><i class="fa-solid fa-credit-card"></i><span>Billing & Payments</span></a>
-        <a href="#"><i class="fa-solid fa-building"></i><span>Facility Reservations</span></a>
-        <a href="#"><i class="fa-solid fa-screwdriver-wrench"></i><span>Service Requests</span></a>
-        <a href="#"><i class="fa-solid fa-folder"></i><span>Document Management</span></a>
-        <a href="#"><i class="fa-solid fa-comments"></i><span>Community Forum</span></a>
-        <a href="#"><i class="fa-solid fa-shield-alt"></i><span>Security Features</span></a>
-        <a href="#"><i class="fa-solid fa-calendar"></i><span>Event Calendar</span></a>
-        <a href="#"><i class="fa-solid fa-clipboard-list"></i><span>Feedback & Complaints</span></a>
-        <a href="#"><i class="fa-solid fa-chart-bar"></i><span>Reports & Analytics</span></a>
-        <a href="#"><i class="fa-solid fa-poll"></i><span>Polls & Surveys</span></a>
-        <a href="#"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
+        <a href="/dashboard" class="@(IsActive("/dashboard") ? "active" : "")"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+        <a href="/usermanagement" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-users"></i><span>User Management</span></a>
+        <a href="/announcements" class="@(IsActive("/announcements") ? "active" : "")"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
+        <a href="/billingandpayments" class="@(IsActive("/billingandpaymentsv") ? "active" : "")"><i class="fa-solid fa-credit-card"></i><span>Billing & Payments</span></a>
+        <a href="/facilityreservation" class="@(IsActive("/facilityreservation") ? "active" : "")"><i class="fa-solid fa-building"></i><span>Facility Reservations</span></a>
+        <a href="/servicerequests" class="@(IsActive("/servicerequests") ? "active" : "")"><i class="fa-solid fa-screwdriver-wrench"></i><span>Service Requests</span></a>
+        <a href="/documentmanagements" class="@(IsActive("/documentmanagements") ? "active" : "")"><i class="fa-solid fa-folder"></i><span>Document Management</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-comments"></i><span>Community Forum</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-shield-alt"></i><span>Security Features</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-calendar"></i><span>Event Calendar</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-clipboard-list"></i><span>Feedback & Complaints</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-chart-bar"></i><span>Reports & Analytics</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-poll"></i><span>Polls & Surveys</span></a>
+        <a href="#" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-cogs"></i><span>Settings</span></a>
     </nav>
 
     <!-- Logout Button -->
@@ -29,6 +30,13 @@
 </div>
 <script>
     function toggleSidebar() {
-        document.querySelector(".sidebar-container").classList.toggle("closed");
+    document.querySelector(".sidebar-container").classList.toggle("closed");
     }
 </script>
+
+@code{
+    private bool IsActive(string path)
+    {
+        return Navigation.Uri.EndsWith(path, StringComparison.OrdinalIgnoreCase);
+    }
+}

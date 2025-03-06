@@ -1,0 +1,159 @@
+﻿@page "/documentmanagements"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-2">
+            <Sidebar />
+        </div>
+
+        <!-- Main content -->
+        <div class="col-10">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">Document Management</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="ShowAddDocumentModal">
+                            <i class="fa-solid fa-plus-circle"></i> Add New Document
+                        </button>
+                    </div>
+
+                    <!-- Documents Table -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Document Title</th>
+                                <th>Uploaded By</th>
+                                <th>Date Uploaded</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var document in documents)
+                            {
+                                <tr>
+                                    <td>@document.Id</td>
+                                    <td>@document.Title</td>
+                                    <td>@document.UploadedBy</td>
+                                    <td>@document.DateUploaded.ToString("yyyy-MM-dd")</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" @onclick="() => EditDocument(document.Id)">
+                                            <i class="fa-solid fa-pencil-alt"></i> Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteDocument(document.Id)">
+                                            <i class="fa-solid fa-trash-alt"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Adding New Document -->
+            <div class="modal" tabindex="-1" role="dialog" id="addDocumentModal" style="@addDocumentModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Document</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddDocumentModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newDocument" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Title">Document Title</label>
+                                    <InputText id="Title" class="form-control" @bind-Value="newDocument.Title" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="UploadedBy">Uploaded By</label>
+                                    <InputText id="UploadedBy" class="form-control" @bind-Value="newDocument.UploadedBy" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="UploadDate">Upload Date</label>
+                                    <InputDate id="UploadDate" class="form-control" @bind-Value="newDocument.DateUploaded" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Document</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<DocumentManagement> documents = new List<DocumentManagement>
+    {
+        new DocumentManagement { Id = 1, Title = "User Manual", UploadedBy = "John Doe", DateUploaded = DateTime.Now.AddDays(-1) },
+        new DocumentManagement { Id = 2, Title = "System Architecture", UploadedBy = "Jane Smith", DateUploaded = DateTime.Now.AddDays(-2) }
+    };
+
+    private DocumentManagement newDocument = new DocumentManagement { Id = 0, Title = "", UploadedBy = "", DateUploaded = DateTime.Now };
+    private string addDocumentModalStyle = "display:none;";
+
+    private void ShowAddDocumentModal()
+    {
+        addDocumentModalStyle = "display:block;";
+    }
+
+    private void HideAddDocumentModal()
+    {
+        addDocumentModalStyle = "display:none;";
+    }
+
+    private void EditDocument(int id)
+    {
+        var document = documents.FirstOrDefault(d => d.Id == id);
+        if (document != null)
+        {
+            newDocument = document;
+            ShowAddDocumentModal();
+        }
+    }
+
+    private void DeleteDocument(int id)
+    {
+        var document = documents.FirstOrDefault(d => d.Id == id);
+        if (document != null)
+        {
+            documents.Remove(document);
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (newDocument.Id == 0)
+        {
+            newDocument.Id = documents.Max(d => d.Id) + 1; // Simple auto-increment logic
+            documents.Add(newDocument);
+        }
+        else
+        {
+            var document = documents.FirstOrDefault(d => d.Id == newDocument.Id);
+            if (document != null)
+            {
+                document.Title = newDocument.Title;
+                document.UploadedBy = newDocument.UploadedBy;
+                document.DateUploaded = newDocument.DateUploaded;
+            }
+        }
+
+        HideAddDocumentModal();
+    }
+}
