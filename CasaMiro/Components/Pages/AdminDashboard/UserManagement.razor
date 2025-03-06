@@ -1,6 +1,9 @@
 ﻿@page "/usermanagement"
+@using Microsoft.EntityFrameworkCore
 @using CasaMiro.Models
+@using CasaMiro.Data
 @inject NavigationManager Navigation
+@inject IDbContextFactory<CasaMiro.Data.ApplicationDbContext> DbFactory
 
 @using CasaMiro.Components.Layout
 @layout DashboardLayout
@@ -20,7 +23,7 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <button class="btn btn-primary" @onclick="ShowAddUserModal">
+                        <button class="btn btn-primary" >
                             <i class="fa-solid fa-user-plus"></i> Add New User
                         </button>
                     </div>
@@ -40,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in users)
+                            @foreach (var user in context.Users)
                             {
                                 <tr>
                                     <td>@user.Id</td>
@@ -51,11 +54,11 @@
                                     <td>@user.Role</td>
                                     <td>@(user.Is_active ? "Active" : "Inactive")</td>
                                     <td>
-                                        <button class="btn btn-warning btn-sm" @onclick="() => EditUser(user.Id)">
+                                        <button class="btn btn-warning btn-sm" >
                                             <i class="fa-solid fa-pencil-alt"></i> Edit
                                         </button>
-                                        <button class="btn btn-danger btn-sm" @onclick="() => ToggleUserStatus(user.Id)">
-                                            <i class="fa-solid fa-trash-alt"></i> @(user.Is_active ? "Deactivate" : "Activate")
+                                        <button class="btn btn-danger btn-sm" >
+                                            <i class="fa-solid fa-trash-alt"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -65,117 +68,68 @@
                 </div>
             </div>
 
-            <!-- Modal for Adding New User -->
-            <div class="modal" tabindex="-1" role="dialog" id="addUserModal" style="@addUserModalStyle">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add New User</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddUserModal">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <EditForm Model="newUser" OnValidSubmit="HandleValidSubmit">
-                                <DataAnnotationsValidator />
-                                <ValidationSummary />
+            @* <!-- Modal for Adding New User --> *@
+            @* <div class="modal" tabindex="-1" role="dialog" id="addUserModal" > *@
+            @*     <div class="modal-dialog" role="document"> *@
+            @*         <div class="modal-content"> *@
+            @*             <div class="modal-header"> *@
+            @*                 <h5 class="modal-title">Add New User</h5> *@
+            @*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" > *@
+            @*                     <span aria-hidden="true">&times;</span> *@
+            @*                 </button> *@
+            @*             </div> *@
+            @*             <div class="modal-body"> *@
+            @*                 <EditForm > *@
+            @*                     <DataAnnotationsValidator /> *@
+            @*                     <ValidationSummary /> *@
 
-                                <div class="form-group">
-                                    <label for="FirstName">First Name</label>
-                                    <InputText id="FirstName" class="form-control" @bind-Value="newUser.First_name" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="LastName">Last Name</label>
-                                    <InputText id="LastName" class="form-control" @bind-Value="newUser.Last_name" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="Email">Email</label>
-                                    <InputText id="Email" class="form-control" @bind-Value="newUser.Email" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="Phone">Phone</label>
-                                    <InputText id="Phone" class="form-control" @bind-Value="newUser.Phone" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="Role">Role</label>
-                                    <InputText id="Role" class="form-control" @bind-Value="newUser.Role" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="Address">Address</label>
-                                    <InputText id="Address" class="form-control" @bind-Value="newUser.Address" />
-                                </div>
+            @*                     <div class="form-group"> *@
+            @*                         <label for="FirstName">First Name</label> *@
+            @*                         <InputText id="FirstName" class="form-control" /> *@
+            @*                     </div> *@
+            @*                     <div class="form-group"> *@
+            @*                         <label for="LastName">Last Name</label> *@
+            @*                         <InputText id="LastName" class="form-control"  /> *@
+            @*                     </div> *@
+            @*                     <div class="form-group"> *@
+            @*                         <label for="Email">Email</label> *@
+            @*                         <InputText id="Email" class="form-control"  /> *@
+            @*                     </div> *@
+            @*                     <div class="form-group"> *@
+            @*                         <label for="Phone">Phone</label> *@
+            @*                         <InputText id="Phone" class="form-control"  /> *@
+            @*                     </div> *@
+            @*                     <div class="form-group"> *@
+            @*                         <label for="Role">Role</label> *@
+            @*                         <InputText id="Role" class="form-control" /> *@
+            @*                     </div> *@
+            @*                     <div class="form-group"> *@
+            @*                         <label for="Address">Address</label> *@
+            @*                         <InputText id="Address" class="form-control"  /> *@
+            @*                     </div> *@
 
-                                <button type="submit" class="btn btn-primary">Save User</button>
-                            </EditForm>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @*                     <button type="submit" class="btn btn-primary">Save User</button> *@
+            @*                 </EditForm> *@
+            @*             </div> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
     </div>
 </div>
 
 @code {
-    private List<User> users = new List<User>
-    {
-        new User { Id = 1, First_name = "John", Last_name = "Doe",Password = "", Email = "john@example.com", Phone = "1234567890", Role = "Admin", Address = "123 St.", Is_active = true },
-        new User { Id = 2, First_name = "Jane", Last_name = "Smith",Password = "", Email = "jane@example.com", Phone = "0987654321", Role = "HomeOwner", Address = "456 St.", Is_active = false }
-    };
+    private ApplicationDbContext context = default!;
 
-    private User newUser = new User { Id = 1, First_name = "John", Last_name = "Doe", Password = "", Email = "john@example.com", Phone = "1234567890", Role = "Admin", Address = "123 St.", Is_active = true };
-    private string addUserModalStyle = "display:none;";
-
-    private void ShowAddUserModal()
+    protected override void OnInitialized()
     {
-        addUserModalStyle = "display:block;";
+        context = DbFactory.CreateDbContext();
     }
 
-    private void HideAddUserModal()
-    {
-        addUserModalStyle = "display:none;";
-    }
-
-    private void EditUser(int id)
-    {
-        // Logic to edit the user
-        var user = users.FirstOrDefault(u => u.Id == id);
-        if (user != null)
-        {
-            newUser = user;
-            ShowAddUserModal();
-        }
-    }
-
-    private void ToggleUserStatus(int id)
-    {
-        var user = users.FirstOrDefault(u => u.Id == id);
-        if (user != null)
-        {
-            user.Is_active = !user.Is_active;
-        }
-    }
-
-    private void HandleValidSubmit()
-    {
-        if (newUser.Id == 0)
-        {
-            newUser.Id = users.Max(u => u.Id) + 1; // Simple auto-increment logic
-            users.Add(newUser);
-        }
-        else
-        {
-            var user = users.FirstOrDefault(u => u.Id == newUser.Id);
-            if (user != null)
-            {
-                user.First_name = newUser.First_name;
-                user.Last_name = newUser.Last_name;
-                user.Email = newUser.Email;
-                user.Phone = newUser.Phone;
-                user.Role = newUser.Role;
-                user.Address = newUser.Address;
-            }
-        }
-
-        HideAddUserModal();
-    }
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
 }
+
+           
+
+
+            

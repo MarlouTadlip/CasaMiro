@@ -1,0 +1,173 @@
+﻿@page "/servicerequests"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-2">
+            <Sidebar />
+        </div>
+
+        <!-- Main content -->
+        <div class="col-10">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">Service Requests</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="ShowAddServiceRequestModal">
+                            <i class="fa-solid fa-plus-circle"></i> Add New Service Request
+                        </button>
+                    </div>
+
+                    <!-- Service Requests Table -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Request Title</th>
+                                <th>Description</th>
+                                <th>Requested By</th>
+                                <th>Date Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var serviceRequest in serviceRequests)
+                            {
+                                <tr>
+                                    <td>@serviceRequest.Id</td>
+                                    <td>@serviceRequest.Title</td>
+                                    <td>@serviceRequest.Description</td>
+                                    <td>@serviceRequest.RequestedBy</td>
+                                    <td>@serviceRequest.DateSubmitted.ToString("yyyy-MM-dd")</td>
+                                    <td>@(serviceRequest.IsResolved ? "Resolved" : "Pending")</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" @onclick="() => EditServiceRequest(serviceRequest.Id)">
+                                            <i class="fa-solid fa-pencil-alt"></i> Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => ToggleServiceRequestStatus(serviceRequest.Id)">
+                                            <i class="fa-solid fa-check-circle"></i> @(serviceRequest.IsResolved ? "Mark as Pending" : "Mark as Resolved")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Adding New Service Request -->
+            <div class="modal" tabindex="-1" role="dialog" id="addServiceRequestModal" style="@(isModalVisible ? "display:block;" : "display:none;")">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Service Request</h5>
+                            <button type="button" class="close" aria-label="Close" @onclick="HideAddServiceRequestModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newServiceRequest" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Title">Request Title</label>
+                                    <InputText id="Title" class="form-control" @bind-Value="newServiceRequest.Title" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Description">Description</label>
+                                    <InputTextArea id="Description" class="form-control" @bind-Value="newServiceRequest.Description" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="RequestedBy">Requested By</label>
+                                    <InputText id="RequestedBy" class="form-control" @bind-Value="newServiceRequest.RequestedBy" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Service Request</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<ServiceRequest> serviceRequests = new List<ServiceRequest>
+    {
+        new ServiceRequest { Id = 1, Title = "Plumbing Issue", Description = "Leaky faucet in the kitchen.", RequestedBy = "John Doe", DateSubmitted = DateTime.Now.AddDays(-1), IsResolved = false },
+        new ServiceRequest { Id = 2, Title = "Electrical Repair", Description = "Light not working in the living room.", RequestedBy = "Jane Smith", DateSubmitted = DateTime.Now.AddDays(-2), IsResolved = true }
+    };
+
+    private ServiceRequest newServiceRequest = new ServiceRequest { Id = 0, Title = "", Description = "", RequestedBy = "", DateSubmitted = DateTime.Now, IsResolved = false };
+    private bool isModalVisible = false;
+
+    // Show the modal to add a new service request
+    private void ShowAddServiceRequestModal()
+    {
+        newServiceRequest = new ServiceRequest { Id = 0, Title = "", Description = "", RequestedBy = "", DateSubmitted = DateTime.Now, IsResolved = false };
+        isModalVisible = true;
+    }
+
+    // Hide the modal
+    private void HideAddServiceRequestModal()
+    {
+        isModalVisible = false;
+    }
+
+    // Submit the form and add or update the service request
+    private void HandleValidSubmit()
+    {
+        // If it's a new request, add it to the list with a new Id
+        if (newServiceRequest.Id == 0)
+        {
+            newServiceRequest.Id = serviceRequests.Max(r => r.Id) + 1;
+            newServiceRequest.DateSubmitted = DateTime.Now; // Set current date for new request
+            serviceRequests.Add(newServiceRequest);
+        }
+        else
+        {
+            // Update existing request logic (for Edit functionality)
+            var serviceRequest = serviceRequests.FirstOrDefault(r => r.Id == newServiceRequest.Id);
+            if (serviceRequest != null)
+            {
+                serviceRequest.Title = newServiceRequest.Title;
+                serviceRequest.Description = newServiceRequest.Description;
+                serviceRequest.RequestedBy = newServiceRequest.RequestedBy;
+            }
+        }
+
+        // Hide the modal after saving
+        isModalVisible = false;
+    }
+
+    // Function to edit a service request
+    private void EditServiceRequest(int id)
+    {
+        var serviceRequest = serviceRequests.FirstOrDefault(r => r.Id == id);
+        if (serviceRequest != null)
+        {
+            newServiceRequest = serviceRequest;
+            isModalVisible = true;
+        }
+    }
+
+    // Toggle the resolved status
+    private void ToggleServiceRequestStatus(int id)
+    {
+        var serviceRequest = serviceRequests.FirstOrDefault(r => r.Id == id);
+        if (serviceRequest != null)
+        {
+            serviceRequest.IsResolved = !serviceRequest.IsResolved;
+        }
+    }
+}

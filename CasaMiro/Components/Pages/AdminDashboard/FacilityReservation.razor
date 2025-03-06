@@ -1,0 +1,169 @@
+﻿@page "/facilityreservation"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-2">
+            <Sidebar />
+        </div>
+
+        <!-- Main content -->
+        <div class="col-10">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">Facility Reservation</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="ShowAddReservationModal">
+                            <i class="fa-solid fa-calendar-plus"></i> Add New Reservation
+                        </button>
+                    </div>
+
+                    <!-- Reservations Table -->
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Facility Name</th>
+                                <th>Owner Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reservation in reservations)
+                            {
+                                <tr>
+                                    <td>@reservation.Id</td>
+                                    <td>@reservation.FacilityName</td>
+                                    <td>@reservation.OwnerName</td>
+                                    <td>@reservation.StartDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@reservation.EndDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@(reservation.IsConfirmed ? "Confirmed" : "Pending")</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" @onclick="() => EditReservation(reservation.Id)">
+                                            <i class="fa-solid fa-pencil-alt"></i> Edit
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => ToggleReservationStatus(reservation.Id)">
+                                            <i class="fa-solid fa-trash-alt"></i> @(reservation.IsConfirmed ? "Cancel" : "Confirm")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Adding New Reservation -->
+            <div class="modal" tabindex="-1" role="dialog" id="addReservationModal" style="@addReservationModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add New Reservation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddReservationModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newReservation" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="FacilityName">Facility Name</label>
+                                    <InputText id="FacilityName" class="form-control" @bind-Value="newReservation.FacilityName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="OwnerName">Owner Name</label>
+                                    <InputText id="OwnerName" class="form-control" @bind-Value="newReservation.OwnerName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="StartDate">Start Date</label>
+                                    <InputDate id="StartDate" class="form-control" @bind-Value="newReservation.StartDate" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="EndDate">End Date</label>
+                                    <InputDate id="EndDate" class="form-control" @bind-Value="newReservation.EndDate" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Reservation</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Reservation> reservations = new List<Reservation>
+    {
+        new Reservation { Id = 1, FacilityName = "Tennis Court", OwnerName = "John Doe", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(2), IsConfirmed = false },
+        new Reservation { Id = 2, FacilityName = "Swimming Pool", OwnerName = "Jane Smith", StartDate = DateTime.Now.AddDays(3), EndDate = DateTime.Now.AddDays(4), IsConfirmed = true }
+    };
+
+    private Reservation newReservation = new Reservation { Id = 0, FacilityName = "", OwnerName = "", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), IsConfirmed = false };
+    private string addReservationModalStyle = "display:none;";
+
+    private void ShowAddReservationModal()
+    {
+        addReservationModalStyle = "display:block;";
+    }
+
+    private void HideAddReservationModal()
+    {
+        addReservationModalStyle = "display:none;";
+    }
+
+    private void EditReservation(int id)
+    {
+        // Logic to edit the reservation
+        var reservation = reservations.FirstOrDefault(r => r.Id == id);
+        if (reservation != null)
+        {
+            newReservation = reservation;
+            ShowAddReservationModal();
+        }
+    }
+
+    private void ToggleReservationStatus(int id)
+    {
+        var reservation = reservations.FirstOrDefault(r => r.Id == id);
+        if (reservation != null)
+        {
+            reservation.IsConfirmed = !reservation.IsConfirmed;
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (newReservation.Id == 0)
+        {
+            newReservation.Id = reservations.Max(r => r.Id) + 1; // Simple auto-increment logic
+            reservations.Add(newReservation);
+        }
+        else
+        {
+            var reservation = reservations.FirstOrDefault(r => r.Id == newReservation.Id);
+            if (reservation != null)
+            {
+                reservation.FacilityName = newReservation.FacilityName;
+                reservation.OwnerName = newReservation.OwnerName;
+                reservation.StartDate = newReservation.StartDate;
+                reservation.EndDate = newReservation.EndDate;
+            }
+        }
+
+        HideAddReservationModal();
+    }
+}
