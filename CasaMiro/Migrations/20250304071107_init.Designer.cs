@@ -13,7 +13,7 @@ namespace CasaMiro.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250304071107_init")]
-    partial class init
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
