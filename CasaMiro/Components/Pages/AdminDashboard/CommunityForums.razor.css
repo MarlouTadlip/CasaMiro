@@ -1,0 +1,44 @@
+﻿/* User avatar styling */
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Card Header */
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Post Content */
+.card-body {
+    background-color: #ffffff;
+    padding: 15px;
+}
+
+/* Like and comment buttons */
+.btn-outline-primary {
+    margin-right: 10px;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+/* Comment section */
+.list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+    .list-group-item img {
+        margin-right: 10px;
+    }
+
+textarea.form-control {
+    margin-top: 10px;
+}

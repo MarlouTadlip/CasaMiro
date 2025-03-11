@@ -1,0 +1,144 @@
+﻿@page "/reports"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Reports and Analytics</h1>
+
+    <!-- Summary Card Section -->
+    <div class="row">
+        <!-- Total Users -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">@analyticsReport.TotalUsers</h5>
+                    <p class="card-text">Registered users in the system.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Total Feedbacks -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Total Feedbacks</div>
+                <div class="card-body">
+                    <h5 class="card-title">@analyticsReport.TotalFeedbacks</h5>
+                    <p class="card-text">Total feedback submissions received.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Total Complaints -->
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Total Complaints</div>
+                <div class="card-body">
+                    <h5 class="card-title">@analyticsReport.TotalComplaints</h5>
+                    <p class="card-text">Total complaints submitted by users.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Total Events -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Total Events</div>
+                <div class="card-body">
+                    <h5 class="card-title">@analyticsReport.TotalEvents</h5>
+                    <p class="card-text">Total number of events created in the system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activities Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Recent Activities</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                @foreach (var activity in recentActivities)
+                {
+                    <li class="list-group-item">
+                        <strong>@activity.Date.ToString("MM/dd/yyyy HH:mm")</strong> - @activity.Description
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <!-- Report Table Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Detailed Report</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Event</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in detailedReports)
+                    {
+                        <tr>
+                            <td>@report.Date.ToString("MM/dd/yyyy")</td>
+                            <td>@report.Event</td>
+                            <td>@report.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Last Updated Section -->
+    <div class="alert alert-info">
+        <strong>Last Updated:</strong> @analyticsReport.LastUpdated.ToString("MM/dd/yyyy HH:mm")
+    </div>
+</div>
+
+@code {
+    // Sample analytics report
+    private AnalyticsReport analyticsReport = new AnalyticsReport
+        {
+            TotalUsers = 1000,
+            TotalFeedbacks = 250,
+            TotalComplaints = 45,
+            TotalEvents = 60,
+            LastUpdated = DateTime.Now
+        };
+
+    // Sample recent activities
+    private List<RecentActivity> recentActivities = new List<RecentActivity>
+    {
+        new RecentActivity { Date = DateTime.Now.AddMinutes(-10), Description = "User John Doe submitted a feedback." },
+        new RecentActivity { Date = DateTime.Now.AddMinutes(-30), Description = "User Jane Smith reported a bug." },
+        new RecentActivity { Date = DateTime.Now.AddHours(-1), Description = "Event 'Annual Meeting' was created." }
+    };
+
+    // Sample detailed report data
+    private List<DetailedReport> detailedReports = new List<DetailedReport>
+    {
+        new DetailedReport { Date = DateTime.Now.AddDays(-1), Event = "User registered", Status = "Completed" },
+        new DetailedReport { Date = DateTime.Now.AddDays(-2), Event = "Feedback submitted", Status = "Pending" },
+        new DetailedReport { Date = DateTime.Now.AddDays(-5), Event = "Complaint filed", Status = "Resolved" }
+    };
+
+    public class RecentActivity
+    {
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class DetailedReport
+    {
+        public DateTime Date { get; set; }
+        public string Event { get; set; }
+        public string Status { get; set; }
+    }
+}

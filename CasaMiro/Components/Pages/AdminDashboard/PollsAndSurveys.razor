@@ -1,0 +1,201 @@
+﻿@page "/polls"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Polls & Surveys</h1>
+
+    <!-- Button to Add New Poll -->
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddPollModal">
+            <i class="fa-solid fa-plus-circle"></i> Add New Poll/Survey
+        </button>
+    </div>
+
+    <!-- Polls Table -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Active Polls</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Poll Title</th>
+                        <th>Date Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var poll in polls)
+                    {
+                        <tr>
+                            <td>@poll.Title</td>
+                            <td>@poll.DateCreated.ToString("MM/dd/yyyy")</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" @onclick="() => ShowPollResults(poll.Id)">
+                                    <i class="fa-solid fa-chart-bar"></i> View Results
+                                </button>
+                                <button class="btn btn-info btn-sm" @onclick="() => ShowVotePollModal(poll.Id)">
+                                    <i class="fa-solid fa-vote-yea"></i> Vote
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal for Viewing Poll Results -->
+    <div class="modal" tabindex="-1" role="dialog" id="pollResultsModal" style="@pollResultsModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Poll Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HidePollResultsModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (currentPollResults != null)
+                    {
+                        <h5>@currentPollResults.Title</h5>
+                        @foreach (var question in currentPollResults.Questions)
+                        {
+                            <h6>@question.QuestionText</h6>
+                            <ul>
+                                @foreach (var option in question.Options)
+                                {
+                                    <li>@option.OptionText - Votes: @option.VoteCount</li>
+                                }
+                            </ul>
+                        }
+                    }
+                    else
+                    {
+                        <p>No results available for this poll.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Poll Voting Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="votePollModal" style="@votePollModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vote on Poll</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideVotePollModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentPollVote" OnValidSubmit="SubmitPollVote">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        @foreach (var question in currentPollVote.Questions)
+                        {
+                            <div class="form-group">
+                                <label>@question.QuestionText</label>
+                                @foreach (var option in question.Options)
+                                {
+                                    <div class="form-check">
+                                        <!-- Bind the selected value for each question by using question text as the key -->
+                                        <InputRadio id="@option.OptionText" class="form-check-input"
+                                                    name="@question.QuestionText"
+                                                    @bind-Value="selectedOptions[question.QuestionText]" />
+                                        <label class="form-check-label" for="@option.OptionText">@option.OptionText</label>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+
+                        <button type="submit" class="btn btn-primary">Submit Vote</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Poll> polls = new List<Poll>();
+    private Poll currentPoll = new Poll();
+    private Poll currentPollVote = new Poll();
+    private Poll currentPollResults = new Poll(); // Store current poll results
+    private Dictionary<string, string> selectedOptions = new Dictionary<string, string>();
+    private string pollModalStyle = "display:none;";
+    private string votePollModalStyle = "display:none;";
+    private string pollResultsModalStyle = "display:none;"; // Modal style for the results modal
+
+    // Show modal to create a new poll
+    private void ShowAddPollModal()
+    {
+        currentPoll = new Poll();
+        pollModalStyle = "display:block;";
+    }
+
+    // Hide poll modal
+    private void HidePollModal()
+    {
+        pollModalStyle = "display:none;";
+    }
+
+    // Handle creating a new poll
+    private void HandlePollSubmit()
+    {
+        currentPoll.DateCreated = DateTime.Now;
+        polls.Add(currentPoll);
+        HidePollModal();
+    }
+
+    // Show modal to vote on a poll
+    private void ShowVotePollModal(int pollId)
+    {
+        currentPollVote = polls.FirstOrDefault(p => p.Id == pollId);
+        selectedOptions.Clear(); // Reset previous selections
+        votePollModalStyle = "display:block;";
+    }
+
+    // Hide poll voting modal
+    private void HideVotePollModal()
+    {
+        votePollModalStyle = "display:none;";
+    }
+
+    // Submit vote on the poll
+    private void SubmitPollVote()
+    {
+        foreach (var question in currentPollVote.Questions)
+        {
+            var selectedOption = question.Options.FirstOrDefault(o => o.OptionText == selectedOptions[question.QuestionText]);
+            if (selectedOption != null)
+            {
+                selectedOption.VoteCount++;
+            }
+        }
+        HideVotePollModal();
+    }
+
+    // Show poll results in a modal
+    private void ShowPollResults(int pollId)
+    {
+        currentPollResults = polls.FirstOrDefault(p => p.Id == pollId);
+        if (currentPollResults != null)
+        {
+            pollResultsModalStyle = "display:block;"; // Show the modal
+        }
+    }
+
+    // Hide the results modal
+    private void HidePollResultsModal()
+    {
+        pollResultsModalStyle = "display:none;";
+    }
+}

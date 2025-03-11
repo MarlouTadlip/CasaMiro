@@ -1,0 +1,163 @@
+﻿@page "/security"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Security Features</h1>
+
+    <!-- Change Password Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Change Password</h5>
+        </div>
+        <div class="card-body">
+            <form @onsubmit="HandleChangePassword">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <InputText id="currentPassword" class="form-control" type="password" @bind-Value="currentPassword" />
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <InputText id="newPassword" class="form-control" type="password" @bind-Value="newPassword" />
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password</label>
+                    <InputText id="confirmPassword" class="form-control" type="password" @bind-Value="confirmPassword" />
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Change Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Two-Factor Authentication Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Two-Factor Authentication (2FA)</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-check">
+                <InputCheckbox id="enable2FA" class="form-check-input" @bind-Value="is2FAEnabled" />
+                <label class="form-check-label" for="enable2FA">Enable Two-Factor Authentication</label>
+            </div>
+            @if (is2FAEnabled)
+            {
+                <p class="mt-2">You have enabled Two-Factor Authentication. A code will be sent to your phone/email each time you log in.</p>
+            }
+            <button class="btn btn-info mt-2" @onclick="Toggle2FA">@(is2FAEnabled ? "Disable" : "Enable") 2FA</button>
+        </div>
+    </div>
+
+    <!-- Login Activity Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Login Activity</h5>
+        </div>
+        <div class="card-body">
+            <h6>Recent Login Attempts</h6>
+            <ul class="list-group">
+                @foreach (var login in recentLogins)
+                {
+                    <li class="list-group-item">
+                        <strong>@login.Date.ToString("MM/dd/yyyy hh:mm tt")</strong> - @login.IPAddress
+                        @if (!login.IsSuccessful)
+                        {
+                            <span class="badge badge-danger float-right">Failed</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-success float-right">Success</span>
+                        }
+                    </li>
+                }
+            </ul>
+            <button class="btn btn-link mt-2" @onclick="ViewMoreLogins">View More</button>
+        </div>
+    </div>
+
+    <!-- User Notifications Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Security Notifications</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-check">
+                <InputCheckbox id="emailNotifications" class="form-check-input" @bind-Value="emailNotificationsEnabled" />
+                <label class="form-check-label" for="emailNotifications">Receive email notifications for security alerts</label>
+            </div>
+            <div class="form-check">
+                <InputCheckbox id="smsNotifications" class="form-check-input" @bind-Value="smsNotificationsEnabled" />
+                <label class="form-check-label" for="smsNotifications">Receive SMS notifications for security alerts</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Adding Security Features -->
+<div class="modal" tabindex="-1" role="dialog" id="addSecurityFeatureModal" style="@securityFeatureModalStyle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Security Feature Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideSecurityFeatureModal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Add your content here, like forms for more settings -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string currentPassword;
+    private string newPassword;
+    private string confirmPassword;
+    private bool is2FAEnabled = false;
+    private List<LoginAttempt> recentLogins = new List<LoginAttempt>
+    {
+        new LoginAttempt { Date = DateTime.Now.AddDays(-1), IPAddress = "192.168.1.1", IsSuccessful = true },
+        new LoginAttempt { Date = DateTime.Now.AddDays(-2), IPAddress = "192.168.1.2", IsSuccessful = false }
+    };
+    private bool emailNotificationsEnabled = true;
+    private bool smsNotificationsEnabled = false;
+    private string securityFeatureModalStyle = "display:none;";
+
+    private void HandleChangePassword()
+    {
+        // Logic to change password
+        if (newPassword != confirmPassword)
+        {
+            // Show error: Passwords do not match
+        }
+        else
+        {
+            // Call service to change password
+        }
+    }
+
+    private void Toggle2FA()
+    {
+        // Logic to toggle 2FA status
+        is2FAEnabled = !is2FAEnabled;
+    }
+
+    private void ViewMoreLogins()
+    {
+        // Logic to load more login activity
+    }
+
+    private void HideSecurityFeatureModal()
+    {
+        securityFeatureModalStyle = "display:none;";
+    }
+}
+
+public class LoginAttempt
+{
+    public DateTime Date { get; set; }
+    public string IPAddress { get; set; }
+    public bool IsSuccessful { get; set; }
+}

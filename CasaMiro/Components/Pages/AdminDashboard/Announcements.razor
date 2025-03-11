@@ -7,13 +7,9 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-2">
-            <Sidebar />
-        </div>
 
         <!-- Main content -->
-        <div class="col-10">
+        <div class="col-12">
             <div class="card mt-3">
                 <div class="card-header">
                     <h4 class="card-title">Announcements</h4>
@@ -25,37 +21,33 @@
                         </button>
                     </div>
 
-                    <!-- Announcements Table -->
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var announcement in announcements)
-                            {
-                                <tr>
-                                    <td>@announcement.Id</td>
-                                    <td>@announcement.Title</td>
-                                    <td>@announcement.Description</td>
-                                    <td>@announcement.Date.ToString("MM/dd/yyyy")</td>
-                                    <td>
+                    <!-- Announcements Cards -->
+                    <div class="row">
+                        @foreach (var announcement in announcements)
+                        {
+                            <div class="col-12 col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">@announcement.Title</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">@announcement.Description</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">@announcement.Date.ToString("MM/dd/yyyy")</small>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-right">
                                         <button class="btn btn-warning btn-sm" @onclick="() => EditAnnouncement(announcement.Id)">
                                             <i class="fa-solid fa-pencil-alt"></i> Edit
                                         </button>
                                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteAnnouncement(announcement.Id)">
                                             <i class="fa-solid fa-trash-alt"></i> Delete
                                         </button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -110,7 +102,7 @@
 
     private void ShowAddAnnouncementModal()
     {
-        currentAnnouncement = new Announcement() { Title = "", Description = ""}; // Reset for new announcement
+        currentAnnouncement = new Announcement() { Title = "", Description = "" }; // Reset for new announcement
         announcementEditMode = false;
         addAnnouncementModalStyle = "display:block;";
     }

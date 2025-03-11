@@ -1,0 +1,26 @@
+﻿/* Style for calendar date numbers */
+.date-number {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style for event list under each day */
+.event-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+    .event-list li {
+        font-size: 12px;
+        color: #007bff;
+    }
+
+        .event-list li a {
+            text-decoration: none;
+        }
+
+            .event-list li a:hover {
+                text-decoration: underline;
+            }

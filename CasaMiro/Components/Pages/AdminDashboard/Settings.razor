@@ -1,0 +1,144 @@
+﻿@page "/settings"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">User Settings</h1>
+
+    <!-- Profile Information Section -->
+    <h3>Profile Information</h3>
+    <EditForm Model="userSettings" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="userName">Full Name</label>
+            <InputText id="userName" class="form-control" @bind-Value="userSettings.UserName" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <InputText id="email" class="form-control" @bind-Value="userSettings.Email" />
+        </div>
+
+        <div class="form-group">
+            <label for="avatar">Profile Avatar</label>
+            <InputFile id="avatar" class="form-control" OnChange="HandleAvatarChange" />
+        </div>
+
+        <!-- Password Change Section -->
+        <h3>Change Password</h3>
+        <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <InputText id="currentPassword" class="form-control" @bind-Value="passwordSettings.CurrentPassword" type="password" />
+        </div>
+
+        <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <InputText id="newPassword" class="form-control" @bind-Value="passwordSettings.NewPassword" type="password" />
+        </div>
+
+        <div class="form-group">
+            <label for="confirmNewPassword">Confirm New Password</label>
+            <InputText id="confirmNewPassword" class="form-control" @bind-Value="passwordSettings.ConfirmNewPassword" type="password" />
+        </div>
+
+        <!-- Notification Settings Section -->
+        <h3>Notification Preferences</h3>
+        <div class="form-check">
+            <InputCheckbox id="receiveMarketingEmails" class="form-check-input" @bind-Value="userSettings.ReceiveMarketingEmails" />
+            <label class="form-check-label" for="receiveMarketingEmails">Receive Marketing Emails</label>
+        </div>
+
+        <div class="form-check">
+            <InputCheckbox id="receiveActivityEmails" class="form-check-input" @bind-Value="userSettings.ReceiveActivityEmails" />
+            <label class="form-check-label" for="receiveActivityEmails">Receive Activity Emails</label>
+        </div>
+
+        <!-- Two-Factor Authentication -->
+        <h3>Two-Factor Authentication</h3>
+        <div class="form-group">
+            <label for="enable2FA">Enable Two-Factor Authentication</label>
+            <InputCheckbox id="enable2FA" class="form-check-input" @bind-Value="userSettings.Enable2FA" />
+        </div>
+
+        <!-- Theme Settings Section -->
+        <h3>Theme Settings</h3>
+        <div class="form-group">
+            <label for="theme">Theme</label>
+            <select id="theme" class="form-control" @bind="userSettings.Theme">
+                <option value="Light">Light</option>
+                <option value="Dark">Dark</option>
+                <option value="Custom">Custom</option>
+            </select>
+        </div>
+
+        <!-- Time Zone Settings Section -->
+        <h3>Time Zone</h3>
+        <div class="form-group">
+            <label for="timezone">Time Zone</label>
+            <select id="timezone" class="form-control" @bind="userSettings.TimeZone">
+                <option value="GMT">GMT</option>
+                <option value="CET">CET</option>
+                <option value="EST">EST</option>
+                <option value="PST">PST</option>
+            </select>
+        </div>
+
+        <!-- Save Button -->
+        <button type="submit" class="btn btn-primary mt-2">Save Settings</button>
+    </EditForm>
+
+    <!-- Delete Account Section -->
+    <div class="mt-5">
+        <h3 class="text-danger">Delete Account</h3>
+        <p class="text-danger">This action is irreversible. Deleting your account will remove all your data.</p>
+        <button class="btn btn-danger" @onclick="DeleteAccount">Delete Account</button>
+    </div>
+</div>
+
+@code {
+    private UserSettings userSettings = new UserSettings
+        {
+            UserName = "John Doe",
+            Email = "john.doe@example.com",
+            Theme = "Light",
+            Language = "English",
+            ReceiveMarketingEmails = true,
+            ReceiveActivityEmails = true,
+            Enable2FA = false,
+            TimeZone = "GMT"
+        };
+
+    private PasswordSettings passwordSettings = new PasswordSettings
+        {
+            CurrentPassword = "",
+            NewPassword = "",
+            ConfirmNewPassword = ""
+        };
+
+    private void HandleValidSubmit()
+    {
+        // Handle the settings save logic
+        // In a real application, you would typically save this to a server or database
+        Console.WriteLine($"Settings saved: {userSettings.UserName}, {userSettings.Email}, Notifications: {userSettings.ReceiveMarketingEmails}, TimeZone: {userSettings.TimeZone}");
+        // For example, save the settings to a local storage or database
+        Navigation.NavigateTo("/dashboard"); // Navigate to a dashboard or home page after saving
+    }
+
+    private void HandleAvatarChange(InputFileChangeEventArgs e)
+    {
+        // Handle avatar file change, possibly upload to server
+        var file = e.File;
+        Console.WriteLine($"Avatar file: {file.Name}, {file.Size} bytes");
+    }
+
+    private void DeleteAccount()
+    {
+        // Handle account deletion logic (with confirmation in a real app)
+        Console.WriteLine("Account deleted.");
+        Navigation.NavigateTo("/goodbye"); // Redirect to a goodbye page or log out
+    }
+}

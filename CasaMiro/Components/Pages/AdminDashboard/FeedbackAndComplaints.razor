@@ -1,0 +1,165 @@
+﻿@page "/feedback"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Feedback & Complaints</h1>
+
+    <!-- Add New Feedback/Complaint Button -->
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddFeedbackModal">
+            <i class="fa-solid fa-comment-dots"></i> Add Feedback or Complaint
+        </button>
+    </div>
+
+    <!-- Feedback/Complaints Table -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Submitted Feedback and Complaints</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var feedback in feedbacks)
+                    {
+                        <tr>
+                            <td>@feedback.Id</td>
+                            <td>@feedback.Title</td>
+                            <td>@feedback.Description</td>
+                            <td>@feedback.User</td>
+                            <td>@feedback.Date.ToString("MM/dd/yyyy")</td>
+                            <td>@(feedback.IsComplaint ? "Complaint" : "Feedback")</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" @onclick="() => EditFeedback(feedback.Id)">
+                                    <i class="fa-solid fa-pencil-alt"></i> Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" @onclick="() => DeleteFeedback(feedback.Id)">
+                                    <i class="fa-solid fa-trash-alt"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal for Adding/Editing Feedback -->
+    <div class="modal" tabindex="-1" role="dialog" id="addFeedbackModal" style="@feedbackModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@(feedbackEditMode ? "Edit" : "Add") Feedback/Complaint</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideFeedbackModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentFeedback" OnValidSubmit="HandleFeedbackSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="Title">Title</label>
+                            <InputText id="Title" class="form-control" @bind-Value="currentFeedback.Title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Description">Description</label>
+                            <InputTextArea id="Description" class="form-control" @bind-Value="currentFeedback.Description" />
+                        </div>
+                        <div class="form-group">
+                            <label for="User">Your Name</label>
+                            <InputText id="User" class="form-control" @bind-Value="currentFeedback.User" />
+                        </div>
+                        <div class="form-group">
+                            <label for="IsComplaint">Type</label>
+                            <InputCheckbox id="IsComplaint" @bind-Value="currentFeedback.IsComplaint" />
+                            <span>Complaint</span>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Feedback</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private List<Feedback> feedbacks = new List<Feedback>
+    {
+        new Feedback { Id = 1, Title = "Feature Request", Description = "I would love a dark mode.", User = "John Doe", Date = DateTime.Now.AddDays(-2), IsComplaint = false },
+        new Feedback { Id = 2, Title = "Bug Report", Description = "App crashes on startup.", User = "Jane Smith", Date = DateTime.Now.AddDays(-1), IsComplaint = true }
+    };
+
+    private Feedback currentFeedback = new Feedback() { Title = "", Description = "", User = "" };
+    private bool feedbackEditMode = false;
+    private string feedbackModalStyle = "display:none;";
+
+    private void ShowAddFeedbackModal()
+    {
+        currentFeedback = new Feedback() { Title = "", Description = "", User = "" }; // Reset for new feedback
+        feedbackEditMode = false;
+        feedbackModalStyle = "display:block;";
+    }
+
+    private void EditFeedback(int id)
+    {
+        feedbackEditMode = true;
+        currentFeedback = feedbacks.FirstOrDefault(f => f.Id == id);
+        if (currentFeedback != null)
+        {
+            feedbackModalStyle = "display:block;";
+        }
+    }
+
+    private void DeleteFeedback(int id)
+    {
+        var feedback = feedbacks.FirstOrDefault(f => f.Id == id);
+        if (feedback != null)
+        {
+            feedbacks.Remove(feedback);
+        }
+    }
+
+    private void HideFeedbackModal()
+    {
+        feedbackModalStyle = "display:none;";
+    }
+
+    private void HandleFeedbackSubmit()
+    {
+        if (!feedbackEditMode)
+        {
+            currentFeedback.Id = feedbacks.Max(f => f.Id) + 1; // Simple auto-increment logic
+            feedbacks.Add(currentFeedback);
+        }
+        else
+        {
+            var feedbackToUpdate = feedbacks.FirstOrDefault(f => f.Id == currentFeedback.Id);
+            if (feedbackToUpdate != null)
+            {
+                feedbackToUpdate.Title = currentFeedback.Title;
+                feedbackToUpdate.Description = currentFeedback.Description;
+                feedbackToUpdate.User = currentFeedback.User;
+                feedbackToUpdate.IsComplaint = currentFeedback.IsComplaint;
+            }
+        }
+
+        HideFeedbackModal();
+    }
+}

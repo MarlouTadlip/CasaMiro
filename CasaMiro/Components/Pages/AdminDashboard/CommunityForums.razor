@@ -1,1 +1,176 @@
-﻿
+﻿@page "/communityforums"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Community Forum</h1>
+
+    <!-- Create New Post Button -->
+    <div class="mb-4">
+        <button class="btn btn-primary" @onclick="ShowAddPostModal">
+            <i class="fa-solid fa-plus-circle"></i> Create New Post
+        </button>
+    </div>
+
+    <!-- Forum Posts -->
+    <div class="row">
+        @foreach (var post in forumPosts)
+        {
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <!-- Post Header -->
+                    <div class="card-header d-flex align-items-center">
+                        <img class="avatar" src="https://via.placeholder.com/40" alt="User Avatar" />
+                        <div class="ml-3">
+                            <h6 class="card-title">@post.Author</h6>
+                            <p class="card-text text-muted">@post.Date.ToString("MM/dd/yyyy")</p>
+                        </div>
+                    </div>
+                    <!-- Post Content -->
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text">@post.Content</p>
+
+                        <!-- Like Button -->
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fa-solid fa-thumbs-up"></i> Like
+                        </button>
+
+                        <!-- View Comments Button -->
+                        <button class="btn btn-link btn-sm" @onclick="() => ToggleComments(post.Id)">
+                            <i class="fa-solid fa-comments"></i> View Comments
+                        </button>
+                    </div>
+
+                    <!-- Post Comments -->
+                    @if (post.ShowComments)
+                    {
+                        <div class="card-footer">
+                            <div class="mb-3">
+                                <h6>Comments:</h6>
+                                <div class="list-group">
+                                    @foreach (var comment in post.Comments)
+                                    {
+                                        <div class="list-group-item">
+                                            <div class="d-flex align-items-start">
+                                                <img class="avatar" src="https://via.placeholder.com/40" alt="User Avatar" />
+                                                <div class="ml-3">
+                                                    <strong>@comment.Author</strong>
+                                                    <p>@comment.Content</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Add Comment Section -->
+                            <textarea class="form-control mb-2" placeholder="Add a comment..." @bind="newCommentContent" rows="3"></textarea>
+                            <button class="btn btn-primary btn-sm" @onclick="() => AddComment(post.Id)">
+                                <i class="fa-solid fa-comment"></i> Add Comment
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Modal for Creating/Editing Post -->
+    <div class="modal" tabindex="-1" role="dialog" id="addPostModal" style="@addPostModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@(postEditMode ? "Edit" : "Create") Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddPostModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentPost" OnValidSubmit="HandlePostSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="Title">Title</label>
+                            <InputText id="Title" class="form-control" @bind-Value="currentPost.Title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Content">Content</label>
+                            <InputTextArea id="Content" class="form-control" @bind-Value="currentPost.Content" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Post</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<ForumPost> forumPosts = new List<ForumPost>
+    {
+        new ForumPost { Id = 1, Title = "Welcome to the Forum", Content = "Introduce yourself and let others know who you are.", Author = "Admin", Date = DateTime.Now.AddDays(-1), Comments = new List<Comment>(), ShowComments = false },
+        new ForumPost { Id = 2, Title = "Site Feedback", Content = "What do you think about the new features?", Author = "User1", Date = DateTime.Now.AddDays(-2), Comments = new List<Comment>(), ShowComments = false }
+    };
+
+    private ForumPost currentPost = new ForumPost() { Title = "", Content = "" };
+    private bool postEditMode = false;
+    private string addPostModalStyle = "display:none;";
+    private string newCommentContent = "";
+
+    private void ShowAddPostModal()
+    {
+        currentPost = new ForumPost() { Title = "", Content = "" }; // Reset for new post
+        postEditMode = false;
+        addPostModalStyle = "display:block;";
+    }
+
+    private void HideAddPostModal()
+    {
+        addPostModalStyle = "display:none;";
+    }
+
+    private void HandlePostSubmit()
+    {
+        if (!postEditMode)
+        {
+            currentPost.Id = forumPosts.Max(p => p.Id) + 1; // Simple auto-increment logic
+            forumPosts.Add(currentPost);
+        }
+        else
+        {
+            var post = forumPosts.FirstOrDefault(p => p.Id == currentPost.Id);
+            if (post != null)
+            {
+                post.Title = currentPost.Title;
+                post.Content = currentPost.Content;
+            }
+        }
+
+        HideAddPostModal();
+    }
+
+    private void ToggleComments(int postId)
+    {
+        var post = forumPosts.FirstOrDefault(p => p.Id == postId);
+        if (post != null)
+        {
+            post.ShowComments = !post.ShowComments;
+        }
+    }
+
+    private void AddComment(int postId)
+    {
+        var post = forumPosts.FirstOrDefault(p => p.Id == postId);
+        if (post != null && !string.IsNullOrEmpty(newCommentContent))
+        {
+            post.Comments.Add(new Comment { Author = "User", Content = newCommentContent });
+            newCommentContent = ""; // Clear the comment input after adding
+        }
+    }
+}

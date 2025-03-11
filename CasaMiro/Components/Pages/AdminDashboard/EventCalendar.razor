@@ -1,0 +1,181 @@
+﻿@page "/eventcalendar"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container">
+    <h1 class="mb-4">Event Calendar</h1>
+
+    <!-- Event Calendar Display -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Upcoming Events</h5>
+        </div>
+        <div class="card-body">
+            <!-- Calendar Table -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 6; i++) 
+                    {
+                        <tr>
+                            @for (int j = 0; j < 7; j++)
+                            {
+                                var currentDate = currentMonth.StartOfWeek().AddDays(i * 7 + j);
+                                var eventsForDay = events.Where(e => e.Date.Date == currentDate.Date).ToList();
+
+                                <td class="position-relative">
+                                    <span class="date-number">@currentDate.Day</span>
+                                    @if (eventsForDay.Any())
+                                    {
+                                        <ul class="event-list">
+                                            @foreach (var ev in eventsForDay)
+                                            {
+                                                <li>
+                                                    <a href="#" @onclick="() => ShowEventDetails(ev)">@ev.Title</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add New Event Button -->
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddEventModal">
+            <i class="fa-solid fa-calendar-plus"></i> Add New Event
+        </button>
+    </div>
+
+    <!-- Modal for Adding/Editing Event -->
+    <div class="modal" tabindex="-1" role="dialog" id="addEventModal" style="@eventModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@(eventEditMode ? "Edit" : "Add") Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideEventModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="currentEvent" OnValidSubmit="HandleEventSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="form-group">
+                            <label for="EventTitle">Event Title</label>
+                            <InputText id="EventTitle" class="form-control" @bind-Value="currentEvent.Title" />
+                        </div>
+                        <div class="form-group">
+                            <label for="EventDate">Event Date</label>
+                            <InputDate id="EventDate" class="form-control" @bind-Value="currentEvent.Date" />
+                        </div>
+                        <div class="form-group">
+                            <label for="EventDescription">Event Description</label>
+                            <InputTextArea id="EventDescription" class="form-control" @bind-Value="currentEvent.Description" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Event</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="eventDetailsModal" style="@eventDetailsModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideEventDetailsModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4>@currentEvent.Title</h4>
+                    <p><strong>Date:</strong> @currentEvent.Date.ToString("MM/dd/yyyy")</p>
+                    <p>@currentEvent.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private List<Event> events = new List<Event>
+    {
+        new Event { Id = 1, Title = "Team Meeting", Date = DateTime.Now.AddDays(5), Description = "Annual planning session." },
+        new Event { Id = 2, Title = "Product Launch", Date = DateTime.Now.AddDays(10), Description = "Launch of the new product." },
+        new Event { Id = 3, Title = "Holiday Party", Date = DateTime.Now.AddDays(12), Description = "Year-end celebration." }
+    };
+
+    private Event currentEvent = new Event() { Title = "", Description = "" };
+    private bool eventEditMode = false;
+    private string eventModalStyle = "display:none;";
+    private string eventDetailsModalStyle = "display:none;";
+
+    private DateTime currentMonth = DateTime.Now;
+
+    private void ShowAddEventModal()
+    {
+        currentEvent = new Event() { Title = "", Description = "" };
+        eventEditMode = false;
+        eventModalStyle = "display:block;";
+    }
+
+    private void ShowEventDetails(Event eventDetails)
+    {
+        currentEvent = eventDetails;
+        eventDetailsModalStyle = "display:block;";
+    }
+
+    private void HideEventModal()
+    {
+        eventModalStyle = "display:none;";
+    }
+
+    private void HideEventDetailsModal()
+    {
+        eventDetailsModalStyle = "display:none;";
+    }
+
+    private void HandleEventSubmit()
+    {
+        if (!eventEditMode)
+        {
+            currentEvent.Id = events.Max(e => e.Id) + 1; // Simple auto-increment logic
+            events.Add(currentEvent);
+        }
+        else
+        {
+            var eventToUpdate = events.FirstOrDefault(e => e.Id == currentEvent.Id);
+            if (eventToUpdate != null)
+            {
+                eventToUpdate.Title = currentEvent.Title;
+                eventToUpdate.Description = currentEvent.Description;
+                eventToUpdate.Date = currentEvent.Date;
+            }
+        }
+
+        HideEventModal();
+    }
+}

@@ -1,0 +1,22 @@
+﻿/* Styling for the card headers */
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Customize the toggle button for 2FA */
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Style for buttons */
+.btn-info {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Add custom margins for list-group items */
+.list-group-item {
+    margin-bottom: 5px;
+}
