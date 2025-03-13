@@ -1,28 +1,27 @@
 ﻿@page "/"
-
 <PageTitle>CasaMiro</PageTitle>
 
-<section class="hero-section d-flex flex-column align-items-center justify-content-center text-center text-white">
-	<h1 class="display-3 fw-bold">Welcome to Casa Miro</h1>
-	<p class="lead">A Community of Comfort and Elegance</p>
-	<a href="#about" class="btn btn-lg btn-custom mt-3">Discover More</a>
+<section id="home" class="hero-section d-flex flex-column align-items-center justify-content-center text-center text-white">
+	<h1 class="display-3 fw-bold fade-in">Welcome to Casa Miro</h1>
+	<p class="lead fade-in">A Community of Comfort and Elegance</p>
+	<a href="#about" class="btn btn-lg btn-custom mt-3 fade-in">Discover More</a>
 	<div class="scroll-indicator">
 		<i class="bi bi-chevron-down"></i>
 	</div>
 </section>
 
-<section id="about" class="container py-5 text-center">
+<section id="about" class="container py-5 text-center fade-in-section">
 	<h2 class="fw-bold">About Casa Miro</h2>
 	<p class="text-muted">A premier subdivision offering a harmonious blend of comfort, elegance, and modern living.</p>
 </section>
 
-<section id="services" class="bg-light py-5 text-center">
+<section id="services" class="bg-light py-5 text-center fade-in-section">
 	<div class="container">
 		<h2 class="fw-bold">Our Services</h2>
 		<div class="row mt-4">
 			<div class="col-md-4 mb-4">
 				<div class="card border-0 shadow-lg p-4 h-100 service-card">
-					<div class="icon-wrapper mb-3">
+					<div class="icon-wrapper mb-3 fade-in">
 						<i class="bi bi-house-door"></i>
 					</div>
 					<h5 class="fw-bold">Luxury Homes</h5>
@@ -31,7 +30,7 @@
 			</div>
 			<div class="col-md-4 mb-4">
 				<div class="card border-0 shadow-lg p-4 h-100 service-card">
-					<div class="icon-wrapper mb-3">
+					<div class="icon-wrapper mb-3 fade-in">
 						<i class="bi bi-tree"></i>
 					</div>
 					<h5 class="fw-bold">Community Spaces</h5>
@@ -40,7 +39,7 @@
 			</div>
 			<div class="col-md-4 mb-4">
 				<div class="card border-0 shadow-lg p-4 h-100 service-card">
-					<div class="icon-wrapper mb-3">
+					<div class="icon-wrapper mb-3 fade-in">
 						<i class="bi bi-shield-check"></i>
 					</div>
 					<h5 class="fw-bold">Security & Convenience</h5>
@@ -51,9 +50,7 @@
 	</div>
 </section>
 
-<!-- Add these sections before the contact section -->
-
-<section id="available-homes" class="container py-5 text-center">
+<section id="available-homes" class="container py-5 text-center fade-in-section">
 	<h2 class="fw-bold mb-5">Available Homes</h2>
 	<div class="row">
 		<div class="col-md-4 mb-4">
@@ -104,8 +101,9 @@
 	</div>
 </section>
 
-<section id="amenities" class="bg-light py-5 text-center">
+<section id="amenities" class="bg-light py-5 text-center fade-in-section">
 	<div class="container">
+		<h2 class="fw-bold mb-5">Amenities</h2>
 		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 			<div class="col">
 				<div class="d-flex align-items-center">
@@ -167,102 +165,90 @@
 	</div>
 </section>
 
-<style>
-	/* Add to existing styles */
-	.text-primary {
-	color: #6a11cb !important;
-	}
+<section id="testimonials" class="container py-5 text-center fade-in-section">
+	<h2 class="fw-bold">What Our Residents Say</h2>
+	<div class="row mt-4">
+		<div class="col-md-4">
+			<div class="card border-0 shadow-lg p-4 h-100">
+				<p class="text-muted">"Living in Casa Miro has been a dream come true. The community is peaceful and welcoming!"</p>
+				<h5 class="fw-bold">- Maria D.</h5>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card border-0 shadow-lg p-4 h-100">
+				<p class="text-muted">"Security and comfort at its finest. I highly recommend Casa Miro!"</p>
+				<h5 class="fw-bold">- Juan R.</h5>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card border-0 shadow-lg p-4 h-100">
+				<p class="text-muted">"The best decision we've made for our family! The amenities are top-notch."</p>
+				<h5 class="fw-bold">- Angela P.</h5>
+			</div>
+		</div>
+	</div>
+</section>
 
-	.card-img-top {
-	border-top-left-radius: 12px;
-	border-top-right-radius: 12px;
-	}
+<section id="news" class="bg-light py-5 text-center fade-in-section">
+	<div class="container">
+		<h2 class="fw-bold">Latest News & Updates</h2>
+		<p class="text-muted">Stay updated with our latest community news and events.</p>
+		<div class="row mt-4">
+			<div class="col-md-4">
+				<div class="card border-0 shadow-lg h-100">
+					<img src="/oak.webp" alt="News 1" class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">New Park Opening!</h5>
+						<p class="text-muted">We're excited to announce the grand opening of our new community park.</p>
+						<a href="#" class="btn btn-custom">Read More</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card border-0 shadow-lg h-100">
+					<img src="/oak.webp" alt="News 1" class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">New Park Opening!</h5>
+						<p class="text-muted">We're excited to announce the grand opening of our new community park.</p>
+						<a href="#" class="btn btn-custom">Read More</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card border-0 shadow-lg h-100">
+					<img src="/oak.webp" alt="News 1" class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">New Park Opening!</h5>
+						<p class="text-muted">We're excited to announce the grand opening of our new community park.</p>
+						<a href="#" class="btn btn-custom">Read More</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-	#amenities .col {
-	transition: transform 0.3s ease-in-out;
-	}
 
-	#amenities .col:hover {
-	transform: translateY(-5px);
-	}
-
-
-</style>
-
-<section id="contact" class="container py-5 text-center">
+<section id="contact" class="container py-5 text-center fade-in-section">
 	<h2 class="fw-bold">Contact Us</h2>
 	<p class="text-muted">Get in touch with us for inquiries and more information.</p>
 	<a href="mailto:info@casamiro.com" class="btn btn-custom">Email Us</a>
 </section>
 
-<style>
-	.hero-section {
-	height: 100vh;
-	background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero.jpg');
-	position: relative;
-	}
-
-	.btn-custom {
-	background: linear-gradient(45deg, #6a11cb, #2575fc);
-	border: none;
-	padding: 12px 30px;
-	font-size: 1.2rem;
-	transition: 0.3s;
-	color: white;
-	}
-
-	.btn-custom:hover {
-	opacity: 0.8;
-	color: white;
-	}
-
-	.card {
-	border-radius: 12px;
-	transition: transform 0.3s ease-in-out;
-	}
-
-	.service-card:hover {
-	transform: translateY(-5px);
-	}
-
-	.icon-wrapper {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	background: linear-gradient(45deg, #6a11cb, #2575fc);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 0 auto;
-	}
-
-	.icon-wrapper i {
-	font-size: 24px;
-	color: white;
-	}
-
-	.scroll-indicator {
-	position: absolute;
-	bottom: 30px;
-	left: 50%;
-	transform: translateX(-50%);
-	animation: bounce 2s infinite;
-	}
-
-	.scroll-indicator i {
-	font-size: 2rem;
-	color: white;
-	}
-</style>
 <script>
-	window.initializeSmoothScroll = function() {
-	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-	anchor.addEventListener('click', function (e) {
-	e.preventDefault();
-	document.querySelector(this.getAttribute('href')).scrollIntoView({
-	behavior: 'smooth'
+	document.addEventListener("DOMContentLoaded", function() {
+		const fadeIns = document.querySelectorAll(".fade-in-section");
+
+		function fadeInOnScroll() {
+			fadeIns.forEach(section => {
+				const sectionTop = section.getBoundingClientRect().top;
+				if (sectionTop < window.innerHeight - 100) {
+					section.classList.add("show");
+				}
+			});
+		}
+
+		window.addEventListener("scroll", fadeInOnScroll);
+		fadeInOnScroll();
 	});
-	});
-	});
-	}
 </script>

@@ -4,6 +4,9 @@
 @using CasaMiro.Models
 @inject IDbContextFactory<CasaMiro.Data.ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+
 
 @using CasaMiro.Components.Layout
 @layout DashboardLayout
@@ -74,13 +77,17 @@
                     <ValidationSummary class="text-danger" role="alert"/>
 
                     <div class="mb-3">
-                        <label class="form-label">First Name</label>
+                        <label class="form-label">Full Name</label>
                         <InputText class="form-control" @bind-Value="NewUser.FullName" required />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <InputText type="email" class="form-control" @bind-Value="NewUser.Email" required />
-                    </div
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <InputText class="form-control" @bind-Value="NewUser.Password" required />
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Address</label>
                         <InputText class="form-control" @bind-Value="NewUser.Address" required />
@@ -127,7 +134,7 @@
                     <ValidationSummary class="text-danger" role="alert" />
 
                     <div class="mb-3">                                      
-                        <label class="form-label">First Name</label>
+                        <label class="form-label">Full Name</label>
                         <InputText class="form-control" @bind-Value="EditingUser.FullName" required />
                     </div>
                     <div class="mb-3">
@@ -169,6 +176,8 @@
 
 
 @code {
+    private bool firstRender = true;
+
     @inject IJSRuntime JSRuntime
 
     private List<User> Users = new();
@@ -194,14 +203,23 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadUsers();
-    }
 
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.firstRender = false;
+            objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setDotNetReference", objRef);
+        }
+    }
     private async Task LoadUsers()
     {
         using var context = await DbFactory.CreateDbContextAsync();
         Users = await context.Users.ToListAsync();
+        StateHasChanged(); // Add this to ensure UI updates
     }
-
     private async Task AddUser()
     {
         using var context = await DbFactory.CreateDbContextAsync();
@@ -254,10 +272,19 @@
             await context.SaveChangesAsync();
             await LoadUsers();
         }
-		await JSRuntime.InvokeVoidAsync("closeModal", "editUserModal");
+        await JSRuntime.InvokeVoidAsync("closeModal", "editUserModal");
     }
 
+    private DotNetObjectReference<UserManagement>? objRef;
+
+
     private async Task DeleteUser(int userId)
+    {
+        await JSRuntime.InvokeVoidAsync("confirmDelete", userId);
+    }
+
+    [JSInvokable]
+    public async Task DeleteUserConfirmed(int userId)
     {
         using var context = await DbFactory.CreateDbContextAsync();
         var user = await context.Users.FindAsync(userId);
@@ -266,10 +293,21 @@
         {
             context.Users.Remove(user);
             await context.SaveChangesAsync();
+
+            // Reload the users list
             await LoadUsers();
 
+            // Force UI to update
+            StateHasChanged();
 
+            // Show success message
+            await JSRuntime.InvokeVoidAsync("showDeleteSuccess");
         }
-
     }
+
+    public void Dispose()
+    {
+        objRef?.Dispose();
+    }
+
 }

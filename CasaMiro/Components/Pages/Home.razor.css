@@ -1,7 +1,8 @@
 ﻿.hero-section {
     height: 100vh;
-    background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero.jpg') center no-repeat;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero.jpg');
     position: relative;
+    overflow: hidden;
 }
 
 .btn-custom {
@@ -13,35 +14,14 @@
     color: white;
 }
 
-    .btn-custom:hover {
-        opacity: 0.8;
-        color: white;
-    }
-
-.card {
-    border-radius: 12px;
-    transition: transform 0.3s ease-in-out;
+.btn-custom:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
 }
 
 .service-card:hover {
     transform: translateY(-5px);
 }
-
-.icon-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
-
-    .icon-wrapper i {
-        font-size: 24px;
-        color: white;
-    }
 
 .scroll-indicator {
     position: absolute;
@@ -51,8 +31,29 @@
     animation: bounce 2s infinite;
 }
 
-    .scroll-indicator i {
-        font-size: 2rem;
-        color: white;
-    }
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in-section.show {
+    opacity: 1;
+    transform: translateY(0);
+}

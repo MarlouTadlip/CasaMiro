@@ -9,6 +9,21 @@
     display: flex;
     flex-direction: column;
     position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%); /* Start off-screen */
+    animation: slideIn 0.5s ease-in-out forwards;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
 }
 
 /* Sidebar Header */
@@ -43,7 +58,7 @@
         display: flex;
         align-items: center;
         padding: 10px 16px;
-        font-size: 13px; /* Smaller text */
+        font-size: 13px;
         color: #ccc;
         text-decoration: none;
         transition: 0.3s ease-in-out;
@@ -96,29 +111,30 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.sidebar-footer .logout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ff4d4d;
-    text-decoration: none;
-    transition: 0.3s ease-in-out;
-    border-radius: 6px;
-}
+    .sidebar-footer .logout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #ff4d4d;
+        text-decoration: none;
+        transition: 0.3s ease-in-out;
+        border-radius: 6px;
+    }
 
-.sidebar-footer .logout i {
-    font-size: 16px;
-    margin-right: 10px;
-}
+        .sidebar-footer .logout i {
+            font-size: 16px;
+            margin-right: 10px;
+        }
 
-.sidebar-footer .logout:hover {
-    background: rgba(255, 77, 77, 0.1);
-    color: #ff6666;
-}
+        .sidebar-footer .logout:hover {
+            background: rgba(255, 77, 77, 0.1);
+            color: #ff6666;
+        }
 
+/* Responsive */
 @media (max-width: 768px) {
     .sidebar-container {
         width: 70px;
@@ -142,6 +158,7 @@
 /* Collapsible Sidebar */
 .sidebar-container.closed {
     width: 70px;
+    transform: translateX(-100%);
 }
 
     .sidebar-container.closed h4,
