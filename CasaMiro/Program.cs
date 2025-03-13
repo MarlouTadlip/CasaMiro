@@ -1,5 +1,7 @@
+using CasaMiro.Auth;
 using CasaMiro.Components;
 using CasaMiro.Data;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace CasaMiro
@@ -16,7 +18,12 @@ namespace CasaMiro
             builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
+
+
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>(); // Fix ambiguous reference
+            builder.Services.AddScoped<CustomAuthStateProvider>(); // Ensure direct injection
             builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddAuthorizationCore();
 
             builder.Services.AddQuickGridEntityFrameworkAdapter();
 

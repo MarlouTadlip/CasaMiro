@@ -23,8 +23,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Full Name</th>
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Address</th>
@@ -38,18 +37,17 @@
                         {
                             <tr>
                                 <td>@user.Id</td>
-                                <td>@user.First_name</td>
-                                <td>@user.Last_name</td>
+                                <td>@user.FullName</td>
                                 <td>@user.Email</td>
                                 <td>@user.Phone</td>
-								<td>@user.Address</td>
+                                <td>@user.Address</td>
                                 <td>@user.Role</td>
                                 <td>@(user.Is_active ? "Active" : "Inactive")</td>
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal" @onclick="() => OpenEditModal(user)">
                                         <i class="fa-solid fa-pencil-alt"></i> Edit
                                     </button>
-                                    <button class="btn btn-danger btn-sm">
+                                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteUser(user.Id)">
                                         <i class="fa-solid fa-trash-alt"></i>
                                     </button>
                                 </td>
@@ -77,15 +75,15 @@
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <InputText class="form-control" @bind-Value="NewUser.First_name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Last Name</label>
-                        <InputText class="form-control" @bind-Value="NewUser.Last_name" required />
+                        <InputText class="form-control" @bind-Value="NewUser.FullName" required />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <InputText type="email" class="form-control" @bind-Value="NewUser.Email" required />
+                    </div
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <InputText class="form-control" @bind-Value="NewUser.Address" required />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
@@ -95,7 +93,11 @@
                         <label class="form-label">Role</label>
                         <InputSelect class="form-control" @bind-Value="NewUser.Role">
                             <option>Admin</option>
-                            <option>User</option>
+                            <option>Homeowner</option>
+                            <option>Security</option>
+                            <option>Treasurer</option>
+                            <option>Maintenance</option>
+                            <option>Moderator</option>
                         </InputSelect>
                     </div>
                     <div class="mb-3">
@@ -126,15 +128,15 @@
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <InputText class="form-control" @bind-Value="EditingUser.First_name" required />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Last Name</label>
-                        <InputText class="form-control" @bind-Value="EditingUser.Last_name" required />
+                        <InputText class="form-control" @bind-Value="EditingUser.FullName" required />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <InputText type="email" class="form-control" @bind-Value="EditingUser.Email" required />
+                        <InputText type="email" class="form-control" @bind-Value="NewUser.Email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <InputText class="form-control" @bind-Value="EditingUser.Address" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
@@ -144,9 +146,11 @@
                         <label class="form-label">Role</label>
                         <InputSelect class="form-control" @bind-Value="EditingUser.Role">
                             <option>Admin</option>
-                            <option>Front Desk</option>
-							<option>Housekeeping</option>
-                            <option>Guest</option>
+                            <option>Homeowner</option>
+                            <option>Security</option>
+                            <option>Treasurer</option>
+                            <option>Maintenance</option>
+                            <option>Moderator</option>
                         </InputSelect>
                     </div>
                     <div class="mb-3">
@@ -172,8 +176,7 @@
         {
             Email = "",
             Password = "",
-            First_name = "",
-            Last_name = "",
+            FullName = "",
             Phone = "",
             Address = "",
             Role = "",
@@ -182,8 +185,7 @@
         {
             Email = "",
             Password = "",
-            First_name = "",
-            Last_name = "",
+            FullName = "",
             Phone = "",
             Address = "",
             Role = "",
@@ -211,14 +213,13 @@
             {
                 Email = "",
                 Password = "",
-                First_name = "",
-                Last_name = "",
+                FullName = "",
                 Phone = "",
                 Address = "",
                 Role = "",
             };
         await LoadUsers();
-		await JSRuntime.InvokeVoidAsync("closeModal", "addUserModal");
+        await JSRuntime.InvokeVoidAsync("closeModal", "addUserModal");
     }
 
     private void OpenEditModal(User user)
@@ -227,8 +228,7 @@
             {
                 Id = user.Id,
                 Email = user.Email,
-                First_name = user.First_name,
-                Last_name = user.Last_name,
+                FullName = user.FullName,
                 Phone = user.Phone,
                 Role = user.Role,
                 Is_active = user.Is_active,
@@ -245,8 +245,8 @@
         if (user != null)
         {
             user.Email = EditingUser.Email;
-            user.First_name = EditingUser.First_name;
-            user.Last_name = EditingUser.Last_name;
+            user.FullName = EditingUser.FullName;
+            user.Address = EditingUser.Address;
             user.Phone = EditingUser.Phone;
             user.Role = EditingUser.Role;
             user.Is_active = EditingUser.Is_active;
