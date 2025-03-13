@@ -1,4 +1,4 @@
-using CasaMiro.Auth;
+
 using CasaMiro.Components;
 using CasaMiro.Data;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -19,9 +19,6 @@ namespace CasaMiro
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
 
-
-            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>(); // Fix ambiguous reference
-            builder.Services.AddScoped<CustomAuthStateProvider>(); // Ensure direct injection
             builder.Services.AddScoped<AuthenticationService>();
             builder.Services.AddAuthorizationCore();
 
