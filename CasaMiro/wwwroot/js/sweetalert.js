@@ -34,3 +34,12 @@ function closeModal(modalId) {
     const modal = bootstrap.Modal.getInstance(modalElement);
     modal.hide();
 }
+
+function showSuspendedAlert() {
+    Swal.fire({
+        title: 'Account Suspended',
+        text: 'Your account has been suspended. Please contact support for further assistance.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+    });
+}

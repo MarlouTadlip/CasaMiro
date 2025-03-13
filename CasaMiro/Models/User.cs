@@ -11,7 +11,7 @@
         public required string Phone { get; set; }
         public required string Address { get; set; }
         public DateTime Created_at { get; set; } = DateTime.Now;
-        public bool Is_active { get; set; } = true;
+        public string Status { get; set; } = "Active";
     }
   
 }

@@ -42,6 +42,8 @@
     private LoginModel loginModel = new();
     private string ErrorMessage = string.Empty;
 
+
+
     private async Task Login()
     {
         Debug.WriteLine("Login method called.");
@@ -62,6 +64,18 @@
         {
             ErrorMessage = "Invalid email or password.";
             await JS.InvokeVoidAsync("triggerShakeAnimation"); // Trigger shake animation
+            return;
+        }
+
+        if (authenticatedUser.Status == "Suspended")
+        {
+            await JS.InvokeVoidAsync("Swal.fire", new
+            {
+                title = "Account Suspended",
+                text = "Your account has been suspended. Please contact support for further assistance.",
+                icon = "error",
+                confirmButtonText = "OK"
+            });
             return;
         }
 

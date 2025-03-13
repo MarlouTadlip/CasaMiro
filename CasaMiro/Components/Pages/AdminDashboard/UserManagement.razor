@@ -45,7 +45,7 @@
                                 <td>@user.Phone</td>
                                 <td>@user.Address</td>
                                 <td>@user.Role</td>
-                                <td>@(user.Is_active ? "Active" : "Inactive")</td>
+                                <td>@user.Status</td>
                                 <td>
                                     <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal" @onclick="() => OpenEditModal(user)">
                                         <i class="fa-solid fa-pencil-alt"></i> Edit
@@ -109,7 +109,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <InputCheckbox class="form-check-input" @bind-Value="NewUser.Is_active" />
+                        <InputSelect class="form-control" @bind-Value="NewUser.Status">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>Suspended</option>
+                        </InputSelect>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -162,7 +166,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <InputCheckbox class="form-check-input" @bind-Value="EditingUser.Is_active" />
+                        <InputSelect class="form-control" @bind-Value="EditingUser.Status">
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>Suspended</option>
+                        </InputSelect>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -249,7 +257,7 @@
                 FullName = user.FullName,
                 Phone = user.Phone,
                 Role = user.Role,
-                Is_active = user.Is_active,
+				Status = user.Status,
 				Password = user.Password,
 				Address = user.Address
             };
@@ -267,7 +275,7 @@
             user.Address = EditingUser.Address;
             user.Phone = EditingUser.Phone;
             user.Role = EditingUser.Role;
-            user.Is_active = EditingUser.Is_active;
+			user.Status = EditingUser.Status;
 
             await context.SaveChangesAsync();
             await LoadUsers();
