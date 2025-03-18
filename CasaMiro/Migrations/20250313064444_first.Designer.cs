@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasaMiro.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250313042117_updet")]
-    partial class updet
+    [Migration("20250313064444_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
