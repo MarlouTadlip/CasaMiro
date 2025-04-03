@@ -1,0 +1,127 @@
+﻿@page "/user-dashboard"
+@using CasaMiro.Components.Layout
+
+@layout UserDashboardLayout
+
+<div class="dashboard-container">
+    <div class="sidebar-container">
+        <!-- Sidebar Content Here (assuming it's already defined) -->
+    </div>
+
+    <div class="main-content">
+        <div class="content">
+            <h1>Welcome to Your User Dashboard</h1><br>
+            <p>View your activity, track your balance, and manage requests effectively.</p>
+
+            <!-- User Overview -->
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">My Balance</h5>
+                            <h2>$450.00</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Upcoming Events</h5>
+                            <h2>3</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Open Service Requests</h5>
+                            <h2>1</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Balance Trend Over Time</h5>
+                            <canvas id="balanceTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Service Requests by Category</h5>
+                            <canvas id="serviceRequestChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activities Section -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Recent Activities</h5>
+                            <ul>
+                                <li>You signed up for the "Community Gardening" event</li>
+                                <li>Your recent payment of $100 was successfully processed</li>
+                                <li>Your maintenance request for "Electricity Issue" is being reviewed</li>
+                                <li>You updated your contact information</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Recent Notifications</h5>
+                            <ul>
+                                <li>Your upcoming event "Fitness Class" starts tomorrow at 10 AM</li>
+                                <li>Your document upload for the "Homeownership Agreement" was successful</li>
+                                <li>Your feedback on "Community Safety" was received</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx1 = document.getElementById('balanceTrendChart').getContext('2d');
+    var balanceTrendChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Balance ($)',
+                data: [450, 460, 470, 480, 490, 500],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2
+            }]
+        }
+    });
+
+    var ctx2 = document.getElementById('serviceRequestChart').getContext('2d');
+    var serviceRequestChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Plumbing', 'Electrical', 'Security', 'Other'],
+            datasets: [{
+                data: [30, 40, 20, 10],
+                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
+            }]
+        }
+    });
+</script>

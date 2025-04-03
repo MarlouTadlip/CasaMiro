@@ -1,0 +1,86 @@
+﻿@page "/profile"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Profile Section -->
+        <div class="col-lg-8 mx-auto">
+            <!-- Profile Header -->
+            <div class="profile-header card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-img mb-3 rounded-circle">
+                    <h3 class="profile-name">MAWLOW G</h3>
+                    <p class="text-muted">Web Developer</p>
+                    <div class="d-flex justify-content-center mt-3">
+                        <button class="btn btn-outline-primary mx-2" data-toggle="modal" data-target="#editProfileModal">
+                            <i class="fa-solid fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="btn btn-outline-danger mx-2">
+                            <i class="fa-solid fa-sign-out-alt"></i> Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Info Section -->
+            <div class="profile-info card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Information</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Email:</strong>
+                            <span>john.doe@example.com</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Phone:</strong>
+                            <span>+1234567890</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <strong>Address:</strong>
+                            <span>1234 Main St, Cityville</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Social Links Section -->
+            <div class="social-links card shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Social Links</h5>
+                    <div class="d-flex justify-content-between">
+                        <a href="https://facebook.com/johndoe" class="btn btn-outline-primary">
+                            <i class="fa-brands fa-facebook-f"></i> Facebook
+                        </a>
+                        <a href="https://twitter.com/johndoe" class="btn btn-outline-info">
+                            <i class="fa-brands fa-twitter"></i> Twitter
+                        </a>
+                        <a href="https://linkedin.com/in/johndoe" class="btn btn-outline-secondary">
+                            <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal (Static Placeholder) -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Here you can edit your profile details (this is just a placeholder for the static view).</p>
+            </div>
+        </div>
+    </div>
+</div>

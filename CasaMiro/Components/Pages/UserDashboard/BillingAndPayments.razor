@@ -1,0 +1,174 @@
+﻿@page "/billingandpayments"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Billing Overview Section -->
+        <div class="col-lg-8 mx-auto">
+            <!-- Header Section -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Billing & Payments</h3>
+                    <p class="text-muted">Manage your billing and payment information below. You can view your bills, update payment status, and more.</p>
+                </div>
+            </div>
+
+            <!-- Add New Bill Button -->
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary" @onclick="ShowAddBillingModal">
+                    <i class="fa-solid fa-plus-circle"></i> Add New Bill
+                </button>
+            </div>
+
+            <!-- Billing Table Section -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Billing History</h5>
+                    <p class="text-muted">All your billing details are listed below, with the ability to manage payment statuses and edit entries.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Bill ID</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var bill in billingRecords)
+                            {
+                                <tr>
+                                    <td>@bill.Id</td>
+                                    <td>@bill.BillId</td>
+                                    <td>@bill.Amount.ToString("C")</td>
+                                    <td>@bill.DueDate.ToString("MM/dd/yyyy")</td>
+                                    <td>@(bill.IsPaid ? "Paid" : "Unpaid")</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" @onclick="() => EditBill(bill.Id)">
+                                            <i class="fa-solid fa-pencil-alt"></i> Edit
+                                        </button>
+                                        <button class="btn btn-success btn-sm" @onclick="() => ToggleBillStatus(bill.Id)">
+                                            <i class="fa-solid fa-check-circle"></i> @(bill.IsPaid ? "Mark as Unpaid" : "Mark as Paid")
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Adding/Editing Bill -->
+            <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="addBillModalLabel" aria-hidden="true" style="@addBillModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addBillModalLabel">@(billEditMode ? "Edit" : "Add") Bill</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddBillModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="currentBill" OnValidSubmit="HandleValidSubmit">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="BillId">Bill ID</label>
+                                    <InputText id="BillId" class="form-control" @bind-Value="currentBill.BillId" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Amount">Amount</label>
+                                    <InputNumber id="Amount" class="form-control" @bind-Value="currentBill.Amount" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="DueDate">Due Date</label>
+                                    <InputDate id="DueDate" class="form-control" @bind-Value="currentBill.DueDate" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="IsPaid">Payment Status</label>
+                                    <InputCheckbox id="IsPaid" class="form-control" @bind-Value="currentBill.IsPaid" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Bill</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for billing records
+    private List<Billing> billingRecords = new List<Billing>
+    {
+        new Billing { Id = 1, BillId = "B123", Amount = 100.50m, DueDate = DateTime.Now.AddDays(7), IsPaid = false },
+        new Billing { Id = 2, BillId = "B124", Amount = 250.75m, DueDate = DateTime.Now.AddDays(14), IsPaid = true }
+    };
+
+    private Billing currentBill = new Billing() { Id = 1, BillId = "B123", Amount = 100.50m };
+    private bool billEditMode = false;
+    private string addBillModalStyle = "display:none;";
+
+    private void ShowAddBillingModal()
+    {
+        currentBill = new Billing() { Id = 1, BillId = "B123", Amount = 100.50m }; // Reset for new bill
+        billEditMode = false;
+        addBillModalStyle = "display:block;";
+    }
+
+    private void HideAddBillModal()
+    {
+        addBillModalStyle = "display:none;";
+    }
+
+    private void EditBill(int id)
+    {
+        billEditMode = true;
+        currentBill = billingRecords.FirstOrDefault(b => b.Id == id);
+        if (currentBill != null)
+        {
+            addBillModalStyle = "display:block;";
+        }
+    }
+
+    private void ToggleBillStatus(int id)
+    {
+        var bill = billingRecords.FirstOrDefault(b => b.Id == id);
+        if (bill != null)
+        {
+            bill.IsPaid = !bill.IsPaid;
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (!billEditMode)
+        {
+            currentBill.Id = billingRecords.Max(b => b.Id) + 1; // Simple auto-increment logic
+            billingRecords.Add(currentBill);
+        }
+        else
+        {
+            var bill = billingRecords.FirstOrDefault(b => b.Id == currentBill.Id);
+            if (bill != null)
+            {
+                bill.BillId = currentBill.BillId;
+                bill.Amount = currentBill.Amount;
+                bill.DueDate = currentBill.DueDate;
+                bill.IsPaid = currentBill.IsPaid;
+            }
+        }
+
+        HideAddBillModal();
+    }
+}
