@@ -1,0 +1,145 @@
+﻿@page "/communityforum"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Page Header Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Community Forum</h3>
+                    <p class="text-muted">Join the conversation! Post new topics or reply to existing ones.</p>
+                </div>
+            </div>
+
+            <!-- New Post Button -->
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary" @onclick="ShowNewPostModal">
+                    <i class="fa-solid fa-plus-circle"></i> New Post
+                </button>
+            </div>
+
+            <!-- Forum Topics List -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Forum Topics</h5>
+                    <p class="text-muted">Browse through the topics posted by community members.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Post Date</th>
+                                <th>Replies</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var post in userForumPosts)
+                            {
+                                <tr>
+                                    <td>@post.Id</td>
+                                    <td>@post.Title</td>
+                                    <td>@post.Author</td>
+                                    <td>@post.PostDate.ToString("MM/dd/yyyy")</td>
+                                    <td>@post.Replies.Count</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" @onclick="() => ViewPostDetails(post.Id)">
+                                            <i class="fa-solid fa-eye"></i> View
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Posting New Topic -->
+            <div class="modal fade" id="newPostModal" tabindex="-1" role="dialog" aria-labelledby="newPostModalLabel" aria-hidden="true" style="@newPostModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newPostModalLabel">Create New Post</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideNewPostModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newUserForumPost" OnValidSubmit="HandleCreateNewPost">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Title">Post Title</label>
+                                    <InputText id="Title" class="form-control" @bind-Value="newUserForumPost.Title" placeholder="Enter post title" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Content">Post Content</label>
+                                    <InputTextArea id="Content" class="form-control" @bind-Value="newUserForumPost.Content" placeholder="Enter post content" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Create Post</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for user forum posts
+    private List<UserForumPost> userForumPosts = new List<UserForumPost>
+    {
+        new UserForumPost { Id = 1, Title = "How to upload a document?", Content = "Can someone guide me through the process?", PostDate = DateTime.Now.AddDays(-1), Author = "JohnDoe" },
+        new UserForumPost { Id = 2, Title = "Troubleshooting login issues", Content = "I can't seem to log in, any help?", PostDate = DateTime.Now.AddDays(-3), Author = "JaneDoe" }
+    };
+
+    private UserForumPost newUserForumPost = new UserForumPost();
+    private string newPostModalStyle = "display:none;";
+
+    // Show modal for creating a new post
+    private void ShowNewPostModal()
+    {
+        newUserForumPost = new UserForumPost(); // Reset new post model
+        newPostModalStyle = "display:block;";
+    }
+
+    // Hide modal for new post creation
+    private void HideNewPostModal()
+    {
+        newPostModalStyle = "display:none;";
+    }
+
+    // Handle submitting the new post form
+    private void HandleCreateNewPost()
+    {
+        // Add the new post to the forum (for demonstration purposes)
+        newUserForumPost.PostDate = DateTime.Now;
+        newUserForumPost.Author = "CurrentUser"; // Replace with logged-in user's name
+        userForumPosts.Add(newUserForumPost);
+
+        // Hide the modal after submitting
+        HideNewPostModal();
+    }
+
+    // View details of a post (for simplicity, we log it to console)
+    private void ViewPostDetails(int id)
+    {
+        var post = userForumPosts.FirstOrDefault(p => p.Id == id);
+        if (post != null)
+        {
+            // For simplicity, we just show in the console (you could show a modal with details)
+            Console.WriteLine($"Viewing post: {post.Title}");
+        }
+    }
+}

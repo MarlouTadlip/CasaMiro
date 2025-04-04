@@ -1,0 +1,135 @@
+﻿@page "/usereventcalendar"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Calendar Header -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Event Calendar</h3>
+                    <p class="text-muted">View and manage your scheduled events.</p>
+
+                    <!-- Month Navigation -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn btn-secondary" @onclick="PreviousMonth">← Previous</button>
+                        <h4>@currentMonth.ToString("MMMM yyyy")</h4>
+                        <button class="btn btn-secondary" @onclick="NextMonth">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Grid -->
+            <div class="calendar">
+                <!-- Days of the Week -->
+                <div class="calendar-header">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+
+                <!-- Calendar Days -->
+                <div class="calendar-body">
+                    @for (int i = 0; i < startDayOffset; i++)
+                    {
+                        <div class="calendar-day empty"></div>
+                    }
+                    @foreach (var day in Enumerable.Range(1, daysInMonth))
+                    {
+                        var eventForDay = userEvents.FirstOrDefault(e => e.EventDate.Date == new DateTime(currentMonth.Year, currentMonth.Month, day));
+                        <div class="calendar-day" @onclick="() => ShowEventDetails(day)">
+                            <span class="day-number">@day</span>
+                            @if (eventForDay != null)
+                            {
+                                <div class="event-badge">@eventForDay.Name</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" style="@eventModalStyle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Event on @selectedEventDate.ToShortDateString()</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseEventModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (selectedEvent != null)
+                    {
+                        <p><strong>@selectedEvent.Name</strong></p>
+                        <p>@selectedEvent.Description</p>
+                    }
+                    else
+                    {
+                        <p>No events for this day.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime currentMonth = DateTime.Now;
+    private int daysInMonth;
+    private int startDayOffset;
+    private List<UserEvent> userEvents = new List<UserEvent>
+    {
+        new UserEvent { Id = 1, Name = "Project Meeting", EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10), Description = "Monthly project discussion." },
+        new UserEvent { Id = 2, Name = "Dentist Appointment", EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15), Description = "Annual check-up." }
+    };
+
+    private UserEvent selectedEvent;
+    private DateTime selectedEventDate;
+    private string eventModalStyle = "display:none;";
+
+    protected override void OnInitialized()
+    {
+        UpdateCalendar();
+    }
+
+    private void UpdateCalendar()
+    {
+        daysInMonth = DateTime.DaysInMonth(currentMonth.Year, currentMonth.Month);
+        startDayOffset = (int)new DateTime(currentMonth.Year, currentMonth.Month, 1).DayOfWeek;
+    }
+
+    private void PreviousMonth()
+    {
+        currentMonth = currentMonth.AddMonths(-1);
+        UpdateCalendar();
+    }
+
+    private void NextMonth()
+    {
+        currentMonth = currentMonth.AddMonths(1);
+        UpdateCalendar();
+    }
+
+    private void ShowEventDetails(int day)
+    {
+        selectedEventDate = new DateTime(currentMonth.Year, currentMonth.Month, day);
+        selectedEvent = userEvents.FirstOrDefault(e => e.EventDate.Date == selectedEventDate);
+        eventModalStyle = "display:block;";
+    }
+
+    private void CloseEventModal()
+    {
+        eventModalStyle = "display:none;";
+    }
+}

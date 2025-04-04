@@ -1,0 +1,49 @@
+﻿/* Style for the Forum Page */
+.container-fluid {
+    margin-top: 20px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .table th, .table td {
+        padding: 15px;
+        text-align: left;
+    }
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.modal-content {
+    border-radius: 8px;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+}

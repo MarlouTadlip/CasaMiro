@@ -1,0 +1,158 @@
+﻿@page "/userdocuments"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Page Header Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Documents</h3>
+                    <p class="text-muted">Manage and view your documents below. You can download or view documents related to your account.</p>
+                </div>
+            </div>
+
+            <!-- New Document Upload Button -->
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary" @onclick="ShowNewDocumentModal">
+                    <i class="fa-solid fa-plus-circle"></i> Upload New Document
+                </button>
+            </div>
+
+            <!-- User's Documents Table -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Documents</h5>
+                    <p class="text-muted">Here is a list of documents associated with your account. You can download or view them.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Document ID</th>
+                                <th>Name</th>
+                                <th>Upload Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var document in userDocuments)
+                            {
+                                <tr>
+                                    <td>@document.Id</td>
+                                    <td>@document.DocumentId</td>
+                                    <td>@document.Name</td>
+                                    <td>@document.UploadDate.ToString("MM/dd/yyyy")</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" @onclick="() => ViewDocumentDetails(document.Id)">
+                                            <i class="fa-solid fa-eye"></i> View
+                                        </button>
+                                        <button class="btn btn-success btn-sm" @onclick="() => DownloadDocument(document.Id)">
+                                            <i class="fa-solid fa-download"></i> Download
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Uploading New Document -->
+            <div class="modal fade" id="newDocumentModal" tabindex="-1" role="dialog" aria-labelledby="newDocumentModalLabel" aria-hidden="true" style="@newDocumentModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newDocumentModalLabel">Upload New Document</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideNewDocumentModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newDocument" OnValidSubmit="HandleUploadNewDocument">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="DocumentName">Document Name</label>
+                                    <InputText id="DocumentName" class="form-control" @bind-Value="newDocument.Name" placeholder="Enter document name" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DocumentFile">Document File</label>
+                                    <InputFile id="DocumentFile" class="form-control" @bind-Value="newDocument.File" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Upload Document</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for user documents
+    private List<UserDocument> userDocuments = new List<UserDocument>
+    {
+        new UserDocument { Id = 1, DocumentId = "D001", Name = "Contract_2023.pdf", UploadDate = DateTime.Now.AddMonths(-1) },
+        new UserDocument { Id = 2, DocumentId = "D002", Name = "Invoice_001.pdf", UploadDate = DateTime.Now.AddDays(-10) }
+    };
+
+    private UserDocument newDocument = new UserDocument();
+    private string newDocumentModalStyle = "display:none;";
+
+    // Show modal for uploading a new document
+    private void ShowNewDocumentModal()
+    {
+        newDocument = new UserDocument(); // Reset new document model
+        newDocumentModalStyle = "display:block;";
+    }
+
+    // Hide modal for new document upload
+    private void HideNewDocumentModal()
+    {
+        newDocumentModalStyle = "display:none;";
+    }
+
+    // Handle submitting the new document form
+    private void HandleUploadNewDocument()
+    {
+        // Add the new document to the list (for demonstration purposes)
+        newDocument.DocumentId = "D" + (userDocuments.Count + 1).ToString("D3");
+        newDocument.UploadDate = DateTime.Now;
+        userDocuments.Add(newDocument);
+
+        // Hide the modal after submitting
+        HideNewDocumentModal();
+    }
+
+    // View details of a document (for simplicity, we log it to console)
+    private void ViewDocumentDetails(int id)
+    {
+        var document = userDocuments.FirstOrDefault(d => d.Id == id);
+        if (document != null)
+        {
+            // For simplicity, we just show in the console (you could show a modal with details)
+            Console.WriteLine($"Viewing document: {document.Name}, Uploaded on: {document.UploadDate}");
+        }
+    }
+
+    // Simulate document download (just a basic example)
+    private void DownloadDocument(int id)
+    {
+        var document = userDocuments.FirstOrDefault(d => d.Id == id);
+        if (document != null)
+        {
+            // For simplicity, we'll just log the document name to the console.
+            // In a real app, you'd trigger a download from a file server or blob storage.
+            Console.WriteLine($"Downloading document: {document.Name}");
+        }
+    }
+}

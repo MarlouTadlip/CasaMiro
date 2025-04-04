@@ -1,0 +1,142 @@
+﻿@page "/usersettings"
+@using CasaMiro.Models
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+@* Injecting the necessary dependencies *@
+@inject NavigationManager Navigation
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Page Header Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Account Settings</h3>
+                    <p class="text-muted">Manage your account settings and preferences</p>
+                </div>
+            </div>
+
+            <!-- Settings Navigation Sidebar -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <nav class="nav flex-column">
+                                <a href="/settings/profile" class="nav-link @GetActiveClass("/settings/profile")">
+                                    <i class="fa-solid fa-user"></i><span>Profile</span>
+                                </a>
+                                <a href="/settings/privacy" class="nav-link @GetActiveClass("/settings/privacy")">
+                                    <i class="fa-solid fa-lock"></i><span>Privacy</span>
+                                </a>
+                                <a href="/settings/notifications" class="nav-link @GetActiveClass("/settings/notifications")">
+                                    <i class="fa-solid fa-bell"></i><span>Notifications</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Area for Settings -->
+                <div class="col-md-9">
+                    <!-- Profile Settings Section -->
+                    @if (Navigation.Uri.Contains("/settings/profile"))
+                    {
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5>Profile Settings</h5>
+                                <p>Update your personal information here. You can modify your name, email, and profile picture.</p>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Enter your full name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" class="form-control" id="email" placeholder="Enter your email address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profilePicture">Profile Picture</label>
+                                        <input type="file" class="form-control" id="profilePicture">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Privacy Settings Section -->
+                    @if (Navigation.Uri.Contains("/settings/privacy"))
+                    {
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5>Privacy Settings</h5>
+                                <p>Manage your privacy preferences. Control who can see your activity and information.</p>
+                                <form>
+                                    <div class="form-group">
+                                        <label>Profile Visibility</label>
+                                        <select class="form-control">
+                                            <option>Public</option>
+                                            <option>Friends Only</option>
+                                            <option>Private</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Activity Sharing</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="activitySharing" checked>
+                                            <label class="form-check-label" for="activitySharing">
+                                                Share activity with others
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Privacy Settings</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Notifications Settings Section -->
+                    @if (Navigation.Uri.Contains("/settings/notifications"))
+                    {
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5>Notification Settings</h5>
+                                <p>Set your notification preferences here. Control what type of notifications you would like to receive.</p>
+                                <form>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                        <label class="form-check-label" for="emailNotifications">
+                                            Receive email notifications
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                        <label class="form-check-label" for="smsNotifications">
+                                            Receive SMS notifications
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="appNotifications" checked>
+                                        <label class="form-check-label" for="appNotifications">
+                                            Receive in-app notifications
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string GetActiveClass(string page)
+    {
+        return Navigation.Uri.Contains(page) ? "active" : "";
+    }
+}

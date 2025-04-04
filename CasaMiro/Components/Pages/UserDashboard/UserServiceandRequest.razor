@@ -1,0 +1,139 @@
+﻿@page "/userservicerequests"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Page Header Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Service Requests</h3>
+                    <p class="text-muted">Submit and track your service requests. Here, you can view the status of your requests and follow up on them.</p>
+                </div>
+            </div>
+
+            <!-- New Service Request Button -->
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary" @onclick="ShowNewRequestModal">
+                    <i class="fa-solid fa-plus-circle"></i> Submit New Request
+                </button>
+            </div>
+
+            <!-- User's Service Requests Table -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Service Requests</h5>
+                    <p class="text-muted">Here are all your requests with the current status. You can click on any request to get more details.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Request ID</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var request in serviceRequests)
+                            {
+                                <tr>
+                                    <td>@request.Id</td>
+                                    <td>@request.RequestId</td>
+                                    <td>@request.Description</td>
+                                    <td>@request.Status</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" @onclick="() => ViewRequestDetails(request.Id)">
+                                            <i class="fa-solid fa-eye"></i> View Details
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Creating a New Service Request -->
+            <div class="modal fade" id="newRequestModal" tabindex="-1" role="dialog" aria-labelledby="newRequestModalLabel" aria-hidden="true" style="@newRequestModalStyle">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newRequestModalLabel">Submit New Service Request</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideNewRequestModal">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <EditForm Model="newRequest" OnValidSubmit="HandleSubmitNewRequest">
+                                <DataAnnotationsValidator />
+                                <ValidationSummary />
+
+                                <div class="form-group">
+                                    <label for="Description">Request Description</label>
+                                    <InputTextArea id="Description" class="form-control" @bind-Value="newRequest.Description" placeholder="Describe the issue" />
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Submit Request</button>
+                            </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Sample data for user service requests using your model
+    private List<UserServiceRequest> serviceRequests = new List<UserServiceRequest>
+    {
+        new UserServiceRequest { Id = 1, RequestId = "SR001", Description = "Water leakage in the kitchen", Status = "Pending" },
+        new UserServiceRequest { Id = 2, RequestId = "SR002", Description = "Air conditioner not cooling", Status = "In Progress" }
+    };
+
+    private UserServiceRequest newRequest = new UserServiceRequest();
+    private string newRequestModalStyle = "display:none;";
+
+    // Show modal for submitting a new service request
+    private void ShowNewRequestModal()
+    {
+        newRequest = new UserServiceRequest(); // Reset new request model
+        newRequestModalStyle = "display:block;";
+    }
+
+    // Hide modal for new service request
+    private void HideNewRequestModal()
+    {
+        newRequestModalStyle = "display:none;";
+    }
+
+    // Handle submitting the new service request form
+    private void HandleSubmitNewRequest()
+    {
+        // Add the new service request to the list
+        newRequest.RequestId = "SR" + (serviceRequests.Count + 1).ToString("D3");
+        newRequest.Status = "Pending"; // New requests start as pending
+        serviceRequests.Add(newRequest);
+
+        // Hide the modal after submitting
+        HideNewRequestModal();
+    }
+
+    // View details of a service request
+    private void ViewRequestDetails(int id)
+    {
+        var request = serviceRequests.FirstOrDefault(r => r.Id == id);
+        if (request != null)
+        {
+            // For simplicity, you could show the request details in a modal or alert
+            // For now, we'll just show it in the console (you can customize this)
+            Console.WriteLine($"Viewing request details: {request.Description}, Status: {request.Status}");
+        }
+    }
+}

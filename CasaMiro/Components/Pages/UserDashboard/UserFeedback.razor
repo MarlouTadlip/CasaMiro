@@ -1,0 +1,91 @@
+﻿@page "/user-feedback"
+@using CasaMiro.Models
+
+@using CasaMiro.Components.Layout
+@layout UserDashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Page Header Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Feedback & Complaints</h3>
+                    <p class="text-muted">Submit your feedback or complaints below. We value your input.</p>
+                </div>
+            </div>
+
+            <!-- New Feedback Button -->
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-primary">
+                    <i class="fa-solid fa-comment-dots"></i> Submit Feedback
+                </button>
+            </div>
+
+            <!-- User's Feedback Table -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Feedback</h5>
+                    <p class="text-muted">Here is a list of feedback you've submitted.</p>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Submitted On</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Late Service</td>
+                                <td>Pending</td>
+                                <td>04/02/2025</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm">
+                                        <i class="fa-solid fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Excellent Support</td>
+                                <td>Resolved</td>
+                                <td>03/28/2025</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm">
+                                        <i class="fa-solid fa-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal for Feedback Details -->
+            <div class="modal fade" id="feedbackDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Feedback Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Subject:</strong> Late Service</p>
+                            <p><strong>Message:</strong> The maintenance team was late.</p>
+                            <p><strong>Status:</strong> Pending</p>
+                            <p><strong>Submitted On:</strong> 04/02/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
