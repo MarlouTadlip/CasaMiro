@@ -1,0 +1,66 @@
+﻿@page "/view-feedback"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0">Resident Feedback</h4>
+                    <span class="badge bg-light text-dark">Admin Access</span>
+                </div>
+                <div class="card-body">
+
+                    <!-- Search Bar -->
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" placeholder="Search by name or topic" />
+                        <button class="btn btn-outline-primary" type="button">Search</button>
+                    </div>
+
+                    <!-- Feedback List -->
+                    <div class="list-group">
+                        <div class="list-group-item list-group-item-action flex-column align-items-start shadow-sm mb-2">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Maria Santos</h5>
+                                <small class="text-muted">April 5, 2025</small>
+                            </div>
+                            <p class="mb-1">I suggest installing more street lights along the east entrance. It gets too dark at night and feels unsafe.</p>
+                            <small class="text-muted">Category: Safety</small>
+                        </div>
+
+                        <div class="list-group-item list-group-item-action flex-column align-items-start shadow-sm mb-2">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Leo Garcia</h5>
+                                <small class="text-muted">April 2, 2025</small>
+                            </div>
+                            <p class="mb-1">Can we have a weekly garbage collection schedule posted in the clubhouse or group chat?</p>
+                            <small class="text-muted">Category: Sanitation</small>
+                        </div>
+
+                        <div class="list-group-item list-group-item-action flex-column align-items-start shadow-sm mb-2">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Anna Reyes</h5>
+                                <small class="text-muted">March 30, 2025</small>
+                            </div>
+                            <p class="mb-1">The playground area is great, but some equipment needs repair. A maintenance schedule would help.</p>
+                            <small class="text-muted">Category: Amenities</small>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Legend -->
+                    <div class="mt-4">
+                        <h6 class="text-muted">Feedback Categories:</h6>
+                        <span class="badge bg-info text-dark me-2">Safety</span>
+                        <span class="badge bg-warning text-dark me-2">Sanitation</span>
+                        <span class="badge bg-success text-white me-2">Amenities</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

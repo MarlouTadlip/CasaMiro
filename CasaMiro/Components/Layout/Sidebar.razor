@@ -1,13 +1,13 @@
 ﻿@inject NavigationManager Navigation
 <div class="sidebar-container">
     <div class="sidebar-header">
-        <h4 class="text-center">Admin Dashboard</h4>
+        <h4 class="text-center">Staff Dashboard</h4>
         <button class="toggle-sidebar" onclick="toggleSidebar()">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
     <nav class="sidebar-links">
-        <a href="/dashboard" class="@(IsActive("/dashboard") ? "active" : "")"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+        <a href="/staff-dashboard" class="@(IsActive("/staff-dashboard") ? "active" : "")"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
         <a href="/usermanagement" class="@(IsActive("/usermanagement") ? "active" : "")"><i class="fa-solid fa-users"></i><span>User Management</span></a>
         <a href="/announcements" class="@(IsActive("/announcements") ? "active" : "")"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></a>
         <a href="/billingandpayments" class="@(IsActive("/billingandpaymentsv") ? "active" : "")"><i class="fa-solid fa-credit-card"></i><span>Billing & Payments</span></a>

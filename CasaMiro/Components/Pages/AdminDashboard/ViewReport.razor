@@ -1,0 +1,80 @@
+﻿@page "/view-reports"
+@page "/community-forums"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-3 shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Resident Reports</h4>
+                    <span class="badge bg-secondary">Admin View Only</span>
+                </div>
+                <div class="card-body">
+
+                    <!-- Search Bar -->
+                    <div class="input-group mb-4">
+                        <input type="text" class="form-control" placeholder="Search by report type or resident name" />
+                        <button class="btn btn-outline-dark" type="button">Search</button>
+                    </div>
+
+                    <!-- Reports List -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Report ID</th>
+                                    <th scope="col">Resident Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Date Submitted</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#RPT-0012</td>
+                                    <td>Angela Ramos</td>
+                                    <td>Incident</td>
+                                    <td>Reported loud noise from neighboring unit at midnight.</td>
+                                    <td>April 4, 2025</td>
+                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#RPT-0013</td>
+                                    <td>Victor Cruz</td>
+                                    <td>Maintenance</td>
+                                    <td>Street lamp at Block 3 has been flickering constantly.</td>
+                                    <td>April 3, 2025</td>
+                                    <td><span class="badge bg-success">Resolved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#RPT-0014</td>
+                                    <td>Elena Navarro</td>
+                                    <td>Violation</td>
+                                    <td>Unauthorized construction activity without permit.</td>
+                                    <td>April 1, 2025</td>
+                                    <td><span class="badge bg-danger">Under Review</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="mt-4">
+                        <h6 class="text-muted">Report Status Key:</h6>
+                        <span class="badge bg-warning text-dark me-2">Pending</span>
+                        <span class="badge bg-success me-2">Resolved</span>
+                        <span class="badge bg-danger me-2">Under Review</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

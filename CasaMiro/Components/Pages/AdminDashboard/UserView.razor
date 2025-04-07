@@ -1,0 +1,100 @@
+﻿@page "/userview"
+@using CasaMiro.Models
+@inject NavigationManager Navigation
+
+@using CasaMiro.Components.Layout
+@layout DashboardLayout
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Main content -->
+        <div class="col-12">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h4 class="card-title">User Management</h4>
+                </div>
+                <div class="card-body">
+
+                    <!-- Search Bar (Static only, no logic) -->
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search Users by Username or Email" />
+                    </div>
+
+                    <!-- User Cards (Static content) -->
+                    <div class="row">
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Marlou</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Email: Marlou@gmail.com</p>
+                                    <p class="card-text">Role: Staff</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">Joined: 01/15/2023</small>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <button class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-pencil-alt"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Christian Joseph</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Email: ravanes@gmail.com</p>
+                                    <p class="card-text">Role: Home Owner</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">Joined: 02/10/2023</small>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <button class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-pencil-alt"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Marlo</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Email: marlo@gmail.com</p>
+                                    <p class="card-text">Role: Staff</p>
+                                    <p class="card-text">
+                                        <small class="text-muted">Joined: 03/15/2023</small>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-right">
+                                    <button class="btn btn-warning btn-sm">
+                                        <i class="fa-solid fa-pencil-alt"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm">
+                                        <i class="fa-solid fa-trash-alt"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
