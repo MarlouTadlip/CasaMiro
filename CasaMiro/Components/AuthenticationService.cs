@@ -1,34 +1,40 @@
-﻿using CasaMiro.Data; // Adjust namespace based on your project structure
+﻿using CasaMiro.Data;
 using CasaMiro.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Components.Authorization;
 public class AuthenticationService
 {
     private readonly ApplicationDbContext _context;
+    private readonly AuthenticationStateProvider _authStateProvider;
 
-    public AuthenticationService(ApplicationDbContext context)
+    public AuthenticationService(
+        ApplicationDbContext context,
+        AuthenticationStateProvider authStateProvider)
     {
         _context = context;
+        _authStateProvider = authStateProvider;
     }
 
     public async Task<User?> LoginAsync(string email, string password)
     {
-        Debug.WriteLine($"Attempting to log in with email: {email}");
-
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        if (user == null || user.Password != password) return null;
 
-        if (user == null)
+        // Update authentication state
+        var claims = new List<Claim>
         {
-            return null; // User not found
-        }
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Role, user.Role ?? "User")
+        };
+        var identity = new ClaimsIdentity(claims, "Cookies");
+        await ((CustomAuthStateProvider)_authStateProvider).SetUserAuthentication(identity);
 
-        if (user.Password == password)
-        {
-            return user; // Authentication successful
-        }
-
-        return null; // Invalid password
+        return user;
     }
 }
+
+

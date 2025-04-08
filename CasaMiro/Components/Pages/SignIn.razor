@@ -1,10 +1,10 @@
 ﻿@page "/login"
-@rendermode InteractiveServer
 @using CasaMiro.Models
-@using System.Diagnostics
+@using System.ComponentModel.DataAnnotations
 @inject NavigationManager Navigation
-@inject AuthenticationService AuthenticationService
+@inject AuthenticationService AuthService
 @inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <PageTitle>Login</PageTitle>
 
@@ -12,18 +12,18 @@
     <div class="login-container">
         <div class="login-box animate__animated animate__fadeIn">
             <h2 class="text-center">Welcome Back</h2>
-            <EditForm Model="@loginModel" OnValidSubmit="Login">
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" FormName="handelogin">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <p class="text-danger animate__animated" id="errorMessage">@ErrorMessage</p>
                 <div class="mb-3">
                     <label class="form-label" for="email">Email Address</label>
-                    <input id="email" type="email" class="form-control" placeholder="Enter your email" @bind="loginModel.Email" required />
+                    <InputText id="email" type="email" class="form-control" placeholder="Enter your email" @bind-Value="loginModel.Email" />
                     <ValidationMessage For="@(() => loginModel.Email)" />
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="password">Password</label>
-                    <input id="password" type="password" class="form-control" placeholder="Enter your password" @bind="loginModel.Password" required />
+                    <InputText id="password" type="password" class="form-control" placeholder="Enter your password" @bind-Value="loginModel.Password" />
                     <ValidationMessage For="@(() => loginModel.Password)" />
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
@@ -33,59 +33,57 @@
 </div>
 
 @code {
-    private class LoginModel
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
     private LoginModel loginModel = new();
     private string ErrorMessage = string.Empty;
 
-
-
-    private async Task Login()
+    private async Task HandleLogin()
     {
-        Debug.WriteLine("Login method called.");
-        Debug.WriteLine($"Email: {loginModel.Email}");
-        Debug.WriteLine($"Password: {loginModel.Password}");
-
-        if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+        try
         {
-            ErrorMessage = "Email and password are required.";
-            await JS.InvokeVoidAsync("triggerShakeAnimation"); // Trigger shake animation
-            return;
-        }
+            ErrorMessage = string.Empty;
+            var user = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
 
-        var authenticatedUser = await AuthenticationService.LoginAsync(loginModel.Email, loginModel.Password);
-        Debug.WriteLine($"Authentication result: {authenticatedUser != null}");
-
-        if (authenticatedUser == null)
-        {
-            ErrorMessage = "Invalid email or password.";
-            await JS.InvokeVoidAsync("triggerShakeAnimation"); // Trigger shake animation
-            return;
-        }
-
-        if (authenticatedUser.Status == "Suspended")
-        {
-            await JS.InvokeVoidAsync("Swal.fire", new
+            if (user == null)
             {
-                title = "Account Suspended",
-                text = "Your account has been suspended. Please contact support for further assistance.",
-                icon = "error",
-                confirmButtonText = "OK"
-            });
-            return;
-        }
+                ErrorMessage = "Invalid email or password.";
+                await JS.InvokeVoidAsync("triggerShakeAnimation");
+                return;
+            }
 
-        if (authenticatedUser.Role == "Admin")
-        {
-            Navigation.NavigateTo("/admin-dashboard");
+            // Navigation remains the same
+            var role = user.Role ?? "User";
+            if (role.Equals("Admin"))
+            {
+                Navigation.NavigateTo("/admin-dashboard");
+            }
+            else if (role.Equals("Staff"))
+            {
+                Navigation.NavigateTo("/staff-dashboard");
+            }
+            else if (role.Equals("Homeowner"))
+            {
+                Navigation.NavigateTo("/user-dashboard");
+            }
+            else
+            {
+                Console.WriteLine("Error: Invalid Role");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Navigation.NavigateTo("/user-dashboard");
+            Console.WriteLine($"Login error: {ex.Message}");
+            ErrorMessage = "Login failed. Please try again.";
+            await JS.InvokeVoidAsync("triggerShakeAnimation");
         }
     }
+    private class LoginModel
+    {
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required")]
+        public string Password { get; set; } = string.Empty;
+    }
+
 }
