@@ -1,22 +1,131 @@
-﻿/* Styling for the card headers */
+﻿/* General Container Styling */
+.container {
+    padding: 2rem;
+}
+
+/* Page Header */
+h1 {
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #5a67d8;
+    margin-bottom: 2rem;
+}
+
+/* Card Styling */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
 .card-header {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #f7fafc;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: none;
 }
 
-/* Customize the toggle button for 2FA */
-.form-check-input:checked {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+/* Input and Form Styling */
+.form-group {
+    margin-bottom: 1.2rem;
 }
 
-/* Style for buttons */
+.form-control {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+}
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+}
+
 .btn-info {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    color: #fff;
 }
 
-/* Add custom margins for list-group items */
+.btn-link {
+    color: #5b86e5;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+/* Checkbox Styling */
+.form-check {
+    margin-top: 0.75rem;
+}
+
+.form-check-label {
+    font-size: 0.95rem;
+}
+
+/* Badge Styles */
+.badge-success {
+    background-color: #28a745;
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    background-color: #f7fafc;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.close {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* List Group */
 .list-group-item {
-    margin-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    padding: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .card-header {
+        font-size: 1rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+    }
 }

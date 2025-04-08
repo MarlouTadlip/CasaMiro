@@ -1,25 +1,97 @@
-﻿/* Modal Styling */
-.modal-content {
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+﻿/* General container and layout */
+.container-fluid {
+    margin-top: 20px;
 }
 
-/* Table Row Hover Effect */
-.table-striped tbody tr:hover {
-    background-color: #f8f9fa;
+/* Card styling */
+.card {
+    border-radius: 10px;
+    border: 1px solid #e3e6f0;
 }
 
-/* New Document Button */
+/* Card title */
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6f42c1; /* Purple color for consistency with Announcements */
+}
+
+/* Button styles (matching purple-blue gradient theme) */
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #6f42c1; /* Purple */
+    border-color: #6f42c1; /* Purple */
 }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
-    }
+.btn-primary:hover {
+    background-color: #5a32b3; /* Darker purple for hover */
+    border-color: #4b2b99; /* Darker purple for hover */
+}
 
-/* Table Styling */
+.btn-info {
+    background-color: #4e73df; /* Blue */
+    border-color: #4e73df; /* Blue */
+}
+
+.btn-info:hover {
+    background-color: #2e59d9; /* Darker blue */
+    border-color: #2653c7; /* Darker blue */
+}
+
+.btn-success {
+    background-color: #28a745; /* Green */
+    border-color: #28a745; /* Green */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green */
+    border-color: #1e7e34; /* Darker green */
+}
+
+/* Modal styling */
+.modal-content {
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6f42c1, #4e73df); /* Purple-Blue Gradient */
+}
+
+.modal-header {
+    background-color: #f8f9fc;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+/* Table styles */
+.table {
+    margin-top: 20px;
+    background-color: #f9f9f9; /* Light background for the table */
+}
+
 .table th, .table td {
+    text-align: center;
     vertical-align: middle;
+    padding: 12px;
+}
+
+.table th {
+    background-color: #4e73df; /* Blue header */
+    color: white; /* White text for headers */
+}
+
+.table td {
+    background-color: #fff; /* White background for table rows */
+    border-bottom: 1px solid #e3e6f0;
+}
+
+/* File input styles */
+.form-control {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px;
+    }
+    .card-body {
+        padding: 15px;
+    }
 }

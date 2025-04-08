@@ -1,4 +1,108 @@
-﻿.content {
-    padding: 20px;
-    transition: all 0.3s;
+﻿/* ===========================
+   User Management Styles
+=========================== */
+
+/* Card Styling */
+.card {
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+/* Header */
+.card-header {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+}
+
+/* Title */
+.card-title {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Table */
+.table {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.table th {
+    background-color: #f7fafc;
+    font-weight: 600;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    border: none;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #5a67d8, #6b46c1);
+}
+
+.btn-warning {
+    background-color: #f6ad55;
+    border: none;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #dd6b20;
+}
+
+.btn-danger {
+    background-color: #e53e3e;
+    border: none;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c53030;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 1rem;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    background-color: #edf2f7;
+    border-bottom: 1px solid #cbd5e0;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+/* Form Fields */
+.form-label {
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.form-control {
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
 }

@@ -1,49 +1,116 @@
-﻿/* Style for the Forum Page */
+﻿/* General Styles */
+:root {
+    --primary-color: #6a1b9a; /* Purple */
+    --secondary-color: #1976d2; /* Blue */
+    --light-color: #f1f3f5; /* Light Gray */
+    --dark-color: #333; /* Dark Text */
+    --button-hover-color: #ff5722; /* Hover color for buttons */
+}
+
+/* Forum Page Header */
 .container-fluid {
-    margin-top: 20px;
+    background-color: var(--light-color);
+    padding-top: 50px;
 }
 
 .card {
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 30px;
 }
 
 .card-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.card p {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+}
+
+/* New Post Button */
+.d-flex.justify-content-end {
+    margin-bottom: 20px;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: var(--primary-color);
+    border: none;
 }
 
-.btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+.btn-primary:hover {
+    background-color: var(--button-hover-color);
 }
 
-.table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-    .table th, .table td {
-        padding: 15px;
-        text-align: left;
-    }
-
-.table-striped tbody tr:nth-child(odd) {
+/* Forum Topics List */
+.table-striped tbody tr:nth-of-type(odd) {
     background-color: #f9f9f9;
 }
 
-.modal-content {
-    border-radius: 8px;
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #ffffff;
 }
 
-textarea {
-    width: 100%;
-    height: 150px;
-    resize: none;
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Modal Styles */
+.modal-content {
+    background-color: #ffffff;
+    border: 1px solid var(--primary-color);
+}
+
+.modal-header {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.modal-header .close {
+    color: white;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-title {
+    font-weight: bold;
+    color: white;
+}
+
+.form-group label {
+    color: var(--dark-color);
+}
+
+.form-control {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.6rem;
+    }
+
+    .table th, .table td {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
 }
