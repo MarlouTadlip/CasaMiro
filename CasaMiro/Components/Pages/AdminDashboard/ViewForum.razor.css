@@ -1,0 +1,120 @@
+/* General Body Styling */
+body {
+    background: linear-gradient(135deg, #6a1b9a, #3f51b5); /* Purple to Blue gradient */
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Header */
+.card-header {
+    background-color: #3f51b5;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Text Muted */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Badge Styling */
+.badge {
+    border-radius: 12px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+}
+
+/* Custom Badge Colors */
+.badge.bg-info {
+    background-color: #2196f3;
+    color: #333;
+}
+
+.badge.bg-warning {
+    background-color: #ff9800;
+    color: #333;
+}
+
+.badge.bg-success {
+    background-color: #4caf50;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.badge.bg-light {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: 600;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+}
+
+.btn-outline-primary {
+    border: 2px solid #6a1b9a;
+    color: #6a1b9a;
+}
+
+.btn-outline-primary.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Forum Threads - List Item Styling */
+.list-group-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item-action:hover {
+    background-color: #f0f8ff;
+}
+
+/* Avatar Image */
+.list-group-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Footer Styling */
+.text-end.small {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px;
+    }
+
+    .list-group-item {
+        padding: 10px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+    }
+}

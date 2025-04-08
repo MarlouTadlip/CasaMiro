@@ -1,6 +1,6 @@
-﻿/* Event Calendar Page Styling */
+/* Feedback Page Styling */
 
-/* Container */
+/* General Container */
 .container {
     padding: 2rem;
 }
@@ -20,82 +20,78 @@ h1 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: white;
-    overflow: hidden;
 }
 
 .card-header {
-    background: transparent;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
 }
 
 .card-title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    color: #fff;
+    color: white;
     margin: 0;
 }
 
 /* Table Styling */
 .table {
+    margin: 0;
     background: transparent;
     color: white;
-    margin: 0;
 }
 
 .table th,
 .table td {
-    text-align: center;
-    vertical-align: top;
-    padding: 12px;
+    vertical-align: middle;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .table th {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.15);
     font-weight: 600;
 }
 
-/* Date Number */
-.date-number {
-    font-weight: bold;
-    font-size: 1.1rem;
-    display: block;
-    margin-bottom: 0.25rem;
-}
-
-/* Event List */
-.event-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-top: 0.5rem;
-}
-
-.event-list li {
-    margin-bottom: 0.25rem;
-}
-
-.event-list li a {
-    font-size: 0.9rem;
-    color: #ffdd57;
-    text-decoration: none;
-}
-
-.event-list li a:hover {
-    text-decoration: underline;
-}
-
 /* Buttons */
-.btn-primary {
-    background: #6a11cb;
+.btn-primary,
+.btn-warning,
+.btn-danger {
     border: none;
     border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
     color: white;
     transition: background 0.3s ease;
 }
 
+.btn-primary {
+    background-color: #6a11cb;
+}
+
 .btn-primary:hover {
-    background: #2575fc;
+    background-color: #2575fc;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
 }
 
 /* Modals */
@@ -120,8 +116,8 @@ h1 {
 
 /* Close Button */
 .close {
-    color: #333;
     font-size: 1.25rem;
+    color: #333;
     opacity: 0.8;
 }
 
@@ -142,7 +138,14 @@ h1 {
     margin-bottom: 1rem;
 }
 
-/* Responsive Table */
+/* Checkbox Label */
+.form-group span {
+    margin-left: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .table th,
     .table td {
@@ -151,10 +154,10 @@ h1 {
     }
 
     .card-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
-    .btn-primary {
-        font-size: 0.9rem;
+    .btn {
+        font-size: 0.8rem;
     }
 }

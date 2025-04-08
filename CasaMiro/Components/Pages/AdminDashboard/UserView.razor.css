@@ -1,0 +1,76 @@
+/* General Container with Gradient */
+.container-fluid {
+    margin-top: 20px;
+    background: linear-gradient(135deg, #6a1b9a, #1976d2); /* Purple-Blue gradient */
+    padding: 20px;
+}
+
+/* Card Styling with Gradient Border */
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-image: linear-gradient(white, white), linear-gradient(135deg, #6a1b9a, #1976d2); /* Purple-Blue Gradient Border */
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
+
+/* Card Header with Gradient Background */
+.card-header {
+    background: linear-gradient(135deg, #6a1b9a, #1976d2); /* Purple-Blue Gradient */
+    color: white;
+}
+
+/* Card Footer */
+.card-footer {
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+/* Buttons with Gradient Background on Hover */
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Search Bar with Gradient Border */
+#searchInput {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 500px;
+    border: 2px solid transparent;
+    background: linear-gradient(to right, #6a1b9a, #1976d2);
+    color: white;
+}
+
+/* Responsive Layout for User Cards */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-4 {
+    flex: 1 1 33%;
+}
+
+@media (max-width: 767px) {
+    .col-md-4 {
+        flex: 1 1 100%;
+    }
+}

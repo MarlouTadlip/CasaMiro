@@ -1,0 +1,108 @@
+/* Overall background gradient */
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card styles */
+.card {
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header,
+.card-body {
+    background-color: #f8f9fa;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4b4b4b;
+}
+
+/* Text Muted */
+.text-muted {
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+/* Billing Table */
+.billing-table {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.billing-table thead th {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+}
+
+.billing-table tbody tr td {
+    text-align: center;
+    vertical-align: middle;
+    color: #495057;
+}
+
+.billing-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+/* Row hover effect */
+.billing-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Payment Status */
+.table-success {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+}
+
+.table-danger {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: 10px;
+    background: linear-gradient(to top, #6a11cb, #2575fc);
+    color: white;
+}
+
+.modal-header {
+    background-color: #563d7c;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+}
+
+.modal-footer {
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6a11cb;
+    color: white;
+}
+
+.modal-footer .btn-primary {
+    background-color: #2575fc;
+    color: white;
+}
+
+/* Button Hover Effects */
+.btn-primary:hover {
+    background-color: #5b62e3;
+}
+
+.btn-secondary:hover {
+    background-color: #6a11cb;
+}
