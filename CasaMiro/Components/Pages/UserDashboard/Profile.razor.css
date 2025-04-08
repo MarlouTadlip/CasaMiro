@@ -1,10 +1,10 @@
-/* General Styles */
+﻿/* General Styles */
 :root {
-    --primary-color: #6a1b9a; /* Purple */
-    --secondary-color: #1976d2; /* Blue */
+    --primary-color: #111111; /* Dark Gray */
+    --secondary-color: #999999; /* Light Gray */
     --light-color: #f1f3f5; /* Light Gray */
     --dark-color: #333; /* Dark Text */
-    --button-hover-color: #ff5722; /* Example hover color for buttons */
+    --button-hover-color: #ff5722; /* Hover color for buttons */
 }
 
 /* Profile Page Layout */
@@ -15,61 +15,40 @@
 
 /* Profile Header */
 .profile-header {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background: linear-gradient(135deg, #111111, #999999); /* Dark to Light Gray Gradient */
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-.profile-header .profile-img {
-    border: 4px solid var(--primary-color); /* Purple border for profile image */
-    border-radius: 50%;
-    width: 140px;
-    height: 130px;
-    object-fit: cover;
-}
+    .profile-header .card-body {
+        padding: 30px;
+        text-align: center;
+    }
 
-.profile-header .profile-name {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-top: 15px;
-}
+    .profile-header .profile-img {
+        border: 4px solid var(--primary-color);
+        border-radius: 50%;
+        width: 140px;
+        height: 130px;
+        object-fit: cover;
+    }
 
-.profile-header p {
-    font-size: 1rem;
-    color: var(--dark-color);
-}
+    .profile-header .profile-name {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-top: 15px;
+    }
 
-.profile-header .d-flex {
-    margin-top: 20px;
-}
+    .profile-header p {
+        font-size: 1rem;
+        color: var(--dark-color);
+    }
 
-/* Button Styles */
-.btn-outline-primary {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    background-color: transparent;
-}
-
-.btn-outline-primary:hover {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-.btn-outline-danger {
-    border-color: var(--secondary-color);
-    color: var(--secondary-color);
-    background-color: transparent;
-}
-
-.btn-outline-danger:hover {
-    background-color: var(--secondary-color);
-    color: white;
-    border-color: var(--secondary-color);
-}
+    .profile-header .d-flex {
+        margin-top: 20px;
+    }
 
 /* Profile Info Section */
 .profile-info {
@@ -79,30 +58,30 @@
     margin-bottom: 30px;
 }
 
-.profile-info .card-body {
-    padding: 20px;
-}
+    .profile-info .card-body {
+        padding: 20px;
+    }
 
-.profile-info h5 {
-    color: var(--primary-color);
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-}
+    .profile-info h5 {
+        color: var(--primary-color);
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
 
-.profile-info .list-group-item {
-    font-size: 1rem;
-    padding: 15px;
-    border: 1px solid #f1f1f1;
-}
+    .profile-info .list-group-item {
+        font-size: 1rem;
+        padding: 15px;
+        border: 1px solid #f1f1f1;
+    }
 
-.profile-info .list-group-item strong {
-    font-weight: 600;
-    color: var(--dark-color);
-}
+        .profile-info .list-group-item strong {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
 
-.profile-info .list-group-item span {
-    color: var(--secondary-color);
-}
+        .profile-info .list-group-item span {
+            color: var(--secondary-color);
+        }
 
 /* Social Links Section */
 .social-links {
@@ -111,52 +90,77 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.social-links .card-body {
-    padding: 20px;
-}
+    .social-links .card-body {
+        padding: 20px;
+    }
 
-.social-links h5 {
+    .social-links h5 {
+        color: var(--primary-color);
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+
+    .social-links .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    .social-links .btn-outline-primary {
+        color: #3b5998;
+        border-color: #3b5998;
+    }
+
+        .social-links .btn-outline-primary:hover {
+            background-color: #3b5998;
+            color: white;
+        }
+
+    .social-links .btn-outline-info {
+        color: #1da1f2;
+        border-color: #1da1f2;
+    }
+
+        .social-links .btn-outline-info:hover {
+            background-color: #1da1f2;
+            color: white;
+        }
+
+    .social-links .btn-outline-secondary {
+        color: #0077b5;
+        border-color: #0077b5;
+    }
+
+        .social-links .btn-outline-secondary:hover {
+            background-color: #0077b5;
+            color: white;
+        }
+
+/* Button Styles */
+.btn-outline-primary {
+    border-color: var(--primary-color);
     color: var(--primary-color);
-    font-size: 1.4rem;
-    margin-bottom: 15px;
+    background-color: transparent;
 }
 
-.social-links .btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-    margin-right: 10px;
-    text-align: center;
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+.btn-outline-danger {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background-color: transparent;
 }
 
-.social-links .btn-outline-primary {
-    color: #3b5998;
-    border-color: #3b5998;
-}
-
-.social-links .btn-outline-primary:hover {
-    background-color: #3b5998;
-    color: white;
-}
-
-.social-links .btn-outline-info {
-    color: #1da1f2;
-    border-color: #1da1f2;
-}
-
-.social-links .btn-outline-info:hover {
-    background-color: #1da1f2;
-    color: white;
-}
-
-.social-links .btn-outline-secondary {
-    color: #0077b5;
-    border-color: #0077b5;
-}
-
-.social-links .btn-outline-secondary:hover {
-    background-color: #0077b5;
-    color: white;
-}
+    .btn-outline-danger:hover {
+        background-color: var(--secondary-color);
+        color: white;
+        border-color: var(--secondary-color);
+    }
 
 /* Modal Styles */
 .modal-content {
@@ -170,9 +174,9 @@
     border-bottom: 1px solid var(--primary-color);
 }
 
-.modal-header .close {
-    color: white;
-}
+    .modal-header .close {
+        color: white;
+    }
 
 .modal-body {
     padding: 20px;
@@ -202,4 +206,47 @@
         font-size: 0.9rem;
         padding: 8px 15px;
     }
+}
+
+/* Card Styling */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Card Header with Dark Gray Gradient */
+.card-header {
+    background: linear-gradient(135deg, #111111, #999999); /* Dark to Light Gray Gradient */
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Card Body Styling */
+.card-body {
+    background-color: #ffffff;
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Card Footer Styling */
+.card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
+    padding: 10px;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
 }

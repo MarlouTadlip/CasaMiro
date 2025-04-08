@@ -1,6 +1,6 @@
 /* General Body Styling */
 body {
-    background: linear-gradient(135deg, #6a1b9a, #3f51b5); /* Purple to Blue gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* Dark Gray to Light Gray gradient */
     color: #fff;
     font-family: 'Roboto', sans-serif;
 }
@@ -11,12 +11,41 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Card Header */
+/* Card Header with Gradient */
 .card-header {
-    background-color: #3f51b5;
+    background: linear-gradient(135deg, #111111, #999999); /* Dark Gray to Light Gray gradient */
     color: #fff;
+    font-size: 1.25rem;
     font-weight: bold;
     text-transform: uppercase;
+}
+
+/* Card Body Styling */
+.card-body {
+    background-color: #ffffff; /* White background for card body */
+    padding: 20px;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Card Footer Styling */
+.card-footer {
+    background-color: #f8f9fa; /* Light gray background for footer */
+    border-top: 1px solid #e0e0e0; /* Light border on top */
+    text-align: right; /* Align text to the right */
+    padding: 10px;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
 }
 
 /* Text Muted */
@@ -31,30 +60,30 @@ body {
     font-size: 0.85rem;
 }
 
-/* Custom Badge Colors */
-.badge.bg-info {
-    background-color: #2196f3;
-    color: #333;
-}
+    /* Custom Badge Colors */
+    .badge.bg-info {
+        background-color: #2196f3;
+        color: #333;
+    }
 
-.badge.bg-warning {
-    background-color: #ff9800;
-    color: #333;
-}
+    .badge.bg-warning {
+        background-color: #ff9800;
+        color: #333;
+    }
 
-.badge.bg-success {
-    background-color: #4caf50;
-}
+    .badge.bg-success {
+        background-color: #4caf50;
+    }
 
-.badge.bg-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
+    .badge.bg-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
 
-.badge.bg-light {
-    background-color: #f8f9fa;
-    color: #333;
-}
+    .badge.bg-light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
 
 /* Button Styling */
 .btn {
@@ -72,10 +101,10 @@ body {
     color: #6a1b9a;
 }
 
-.btn-outline-primary.disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
+    .btn-outline-primary.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
 
 /* Forum Threads - List Item Styling */
 .list-group-item {

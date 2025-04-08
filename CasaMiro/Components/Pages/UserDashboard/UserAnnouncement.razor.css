@@ -1,107 +1,149 @@
-/* General Styles */
+﻿/* General Styles */
 :root {
-    --primary-color: #6a1b9a; /* Purple */
-    --secondary-color: #1976d2; /* Blue */
+    --primary-color: #111111; /* Dark Gray */
+    --secondary-color: #999999; /* Light Gray */
+    --accent-color: #ff5722; /* Vibrant Accent Color */
     --light-color: #f1f3f5; /* Light Gray */
     --dark-color: #333; /* Dark Text */
     --button-hover-color: #ff5722; /* Hover color for buttons */
+    --card-shadow: rgba(0, 0, 0, 0.1); /* Card Shadow Color */
+    --background-gradient: linear-gradient(135deg, #111111, #999999); /* Base Gradient */
+}
+
+/* Apply gradient background to the entire page */
+body {
+    background: var(--background-gradient);
+    color: #fff; /* Ensure text is readable on dark background */
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    padding: 0;
 }
 
 /* Announcements List Section */
 .container-fluid {
     background-color: var(--light-color);
     padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 /* Announcements Header */
 .announcements-header {
-    background-color: #ffffff;
+    background-color: var(--primary-color);
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--card-shadow);
     margin-bottom: 30px;
+    color: white;
 }
 
-.announcements-header .card-body {
-    padding: 30px;
-}
+    .announcements-header .card-body {
+        padding: 40px;
+        background-color: var(--primary-color);
+        text-align: center;
+    }
 
-.announcements-header .card-title {
-    font-size: 2rem;
-    color: var(--primary-color);
-}
+    .announcements-header .card-title {
+        font-size: 2.2rem;
+        color: #fff;
+        font-weight: 600;
+    }
 
-.announcements-header p {
-    font-size: 1.1rem;
-    color: var(--dark-color);
-}
+    .announcements-header p {
+        font-size: 1.1rem;
+        color: #f1f3f5;
+        margin-top: 10px;
+    }
 
 /* Announcement Cards */
 .announcement-card {
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.announcement-card .card-body {
+    box-shadow: 0 4px 6px var(--card-shadow);
+    margin-bottom: 30px;
     padding: 20px;
 }
 
-.announcement-card h5 {
-    font-size: 1.5rem;
-    color: var(--primary-color);
-}
+    /* Card Header with Gradient */
+    .announcement-card .card-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        font-size: 1.3rem;
+        font-weight: bold;
+        padding: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
 
-.announcement-card .card-footer {
-    font-size: 0.9rem;
-    color: var(--secondary-color);
-}
+    /* Card Body Styling */
+    .announcement-card .card-body {
+        background-color: #ffffff;
+        padding: 20px;
+        font-size: 1rem;
+        color: var(--dark-color);
+        line-height: 1.6;
+    }
 
-.announcement-card .card-footer.text-muted {
-    text-align: right;
-}
+    /* Card Footer Styling */
+    .announcement-card .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #e0e0e0;
+        text-align: right;
+        padding: 10px;
+        font-size: 0.9rem;
+        color: var(--secondary-color);
+    }
+
+    /* Card Title */
+    .announcement-card .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    /* Card Text */
+    .announcement-card .card-text {
+        font-size: 0.95rem;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+    }
 
 /* Button Styles */
 .btn-outline-info {
     border-color: var(--primary-color);
     color: var(--primary-color);
     background-color: transparent;
-}
-
-.btn-outline-info:hover {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    padding: 8px 16px;
+    font-weight: 500;
+    border-radius: 5px;
 }
 
 .btn-outline-danger {
     border-color: var(--secondary-color);
     color: var(--secondary-color);
     background-color: transparent;
-}
-
-.btn-outline-danger:hover {
-    background-color: var(--secondary-color);
-    color: white;
-    border-color: var(--secondary-color);
+    padding: 8px 16px;
+    font-weight: 500;
+    border-radius: 5px;
 }
 
 /* Modal Styles */
 .modal-content {
     background-color: #ffffff;
     border: 1px solid var(--primary-color);
+    border-radius: 8px;
 }
 
 .modal-header {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border-bottom: 1px solid var(--primary-color);
+    padding: 15px;
+    font-size: 1.25rem;
 }
 
-.modal-header .close {
-    color: white;
-}
+    .modal-header .close {
+        color: white;
+    }
 
 .modal-body {
     padding: 20px;
@@ -115,11 +157,15 @@
 /* Responsive Styles */
 @media (max-width: 768px) {
     .announcements-header .card-title {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+    }
+
+    .announcement-card .card-header {
+        font-size: 1.1rem;
     }
 
     .announcement-card h5 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .announcement-card .card-footer {
@@ -130,4 +176,21 @@
         font-size: 0.9rem;
         padding: 8px 16px;
     }
+
+    .announcements-header .card-body {
+        padding: 20px;
+    }
+}
+
+/* Additional Gradient Styling for .card-body.text-center */
+.card-body.text-center {
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Make p.text-muted white */
+p.text-muted {
+    color: white !important;
 }

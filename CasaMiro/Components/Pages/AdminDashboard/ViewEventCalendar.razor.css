@@ -1,6 +1,13 @@
+/* General Body Styling */
+body {
+    background: linear-gradient(135deg, #111111, #999999); /* Dark Gray to Light Gray gradient */
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
 /* Card Header Styling */
 .card-header {
-    background-color: #28a745; /* Success Green */
+    background: linear-gradient(135deg, #111111, #999999); /* Dark Gray to Light Gray gradient */
     color: white;
     font-size: 1.25rem;
     font-weight: bold;
@@ -12,34 +19,34 @@
     border-collapse: collapse;
 }
 
-.table th, .table td {
-    padding: 10px;
-    border: 1px solid #dee2e6;
-}
+    .table th, .table td {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+    }
 
-.table th {
-    background-color: #f8f9fa; /* Light background */
-}
+    .table th {
+        background-color: #f8f9fa; /* Light background for table headers */
+    }
 
-.table .text-muted {
-    color: #6c757d; /* Light text color */
-}
+    .table .text-muted {
+        color: #6c757d; /* Light text color */
+    }
 
-.table .bg-warning {
-    background-color: #ffc107; /* Warning Yellow */
-}
+    .table .bg-warning {
+        background-color: #ffc107; /* Warning Yellow */
+    }
 
-.table .bg-info {
-    background-color: #17a2b8; /* Info Blue */
-}
+    .table .bg-info {
+        background-color: #17a2b8; /* Info Blue */
+    }
 
-.table .bg-primary {
-    background-color: #007bff; /* Primary Blue */
-}
+    .table .bg-primary {
+        background-color: #007bff; /* Primary Blue */
+    }
 
-.table .text-white {
-    color: white;
-}
+    .table .text-white {
+        color: white;
+    }
 
 /* Event Badge Styling */
 .badge {
@@ -47,21 +54,26 @@
     padding: 0.375rem 0.75rem;
 }
 
-.badge.bg-light {
-    background-color: #f8f9fa; /* Light Background for Admin Badge */
-}
+    /* Custom Badge Colors */
+    .badge.bg-light {
+        background-color: #f8f9fa; /* Light background for Admin Badge */
+        color: #333; /* Dark text for contrast */
+    }
 
-.badge.bg-warning {
-    background-color: #ffc107; /* Yellow for Homeowners Meeting */
-}
+    .badge.bg-warning {
+        background-color: #ffc107; /* Yellow for Homeowners Meeting */
+        color: #333; /* Dark text for readability */
+    }
 
-.badge.bg-info {
-    background-color: #17a2b8; /* Blue for Community Activity */
-}
+    .badge.bg-info {
+        background-color: #17a2b8; /* Blue for Community Activity */
+        color: #fff; /* White text for contrast */
+    }
 
-.badge.bg-primary {
-    background-color: #007bff; /* Blue for Health/Safety */
-}
+    .badge.bg-primary {
+        background-color: #007bff; /* Blue for Health/Safety */
+        color: #fff; /* White text for contrast */
+    }
 
 /* Upcoming Events List */
 .list-group-item {
@@ -71,11 +83,60 @@
     color: #495057;
 }
 
-.list-group-item strong {
-    font-size: 1rem;
-    font-weight: bold;
-}
+    .list-group-item strong {
+        font-size: 1rem;
+        font-weight: bold;
+    }
 
 .text-secondary {
     color: #6c757d !important;
+}
+
+/* Button Styling */
+.btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: 600;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+}
+
+.btn-outline-primary {
+    border: 2px solid #6a1b9a;
+    color: #6a1b9a;
+}
+
+    .btn-outline-primary.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+/* Avatar Image */
+.list-group-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Footer Styling */
+.text-end.small {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px;
+    }
+
+    .list-group-item {
+        padding: 10px;
+    }
+
+    .d-flex {
+        flex-direction: column;
+    }
 }

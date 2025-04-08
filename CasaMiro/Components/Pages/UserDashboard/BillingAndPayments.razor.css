@@ -106,3 +106,19 @@ body {
 .btn-secondary:hover {
     background-color: #6a11cb;
 }
+
+/* Additional Gradient Styling for .card-body.text-center */
+.card-body.text-center {
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Make p.text-muted white */
+p.text-muted {
+    color: white !important;
+}
+h3.card-title{
+    color: white !important;
+}

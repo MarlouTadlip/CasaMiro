@@ -1,6 +1,6 @@
 /* Card Header with Purple-Blue Gradient */
 .card-header {
-    background: linear-gradient(135deg, #6a1b9a, #2196f3); /* Purple to Blue Gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
     color: white;
     font-size: 1.25rem;
     font-weight: bold;
