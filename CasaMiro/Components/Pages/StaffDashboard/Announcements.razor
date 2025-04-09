@@ -1,8 +1,9 @@
 ﻿@page "/announcements"
 @using CasaMiro.Models
 @inject NavigationManager Navigation
-
+@rendermode InteractiveServer
 @using CasaMiro.Components.Layout
+@using Microsoft.EntityFrameworkCore
 @layout DashboardLayout
 
 <div class="container-fluid">
@@ -52,12 +53,12 @@
             </div>
 
             <!-- Modal for Adding/Editing Announcement -->
-            <div class="modal" tabindex="-1" role="dialog" id="addAnnouncementModal" style="@addAnnouncementModalStyle">
+            <div class="modal" tabindex="-1" role="dialog" id="addAnnouncementModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">@(announcementEditMode ? "Edit" : "Add") Announcement</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideAddAnnouncementModal">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -90,65 +91,73 @@
 </div>
 
 @code {
-    private List<Announcement> announcements = new List<Announcement>
-    {
-        new Announcement { Id = 1, Title = "Meeting", Description = "Annual meeting on 25th", Date = DateTime.Now.AddDays(5) },
-        new Announcement { Id = 2, Title = "New Service", Description = "We have added a new service!", Date = DateTime.Now.AddDays(2) }
-    };
-
-    private Announcement currentAnnouncement = new Announcement() { Title = "", Description = "" };
+    private List<Announcement> announcements = new();
+    private Announcement currentAnnouncement = new();
     private bool announcementEditMode = false;
-    private string addAnnouncementModalStyle = "display:none;";
+
+    [Inject] private IDbContextFactory<CasaMiro.Data.ApplicationDbContext> DbFactory { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAnnouncements();
+    }
+
+    private async Task LoadAnnouncements()
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        announcements = await context.Announcements.ToListAsync();
+        StateHasChanged();
+    }
 
     private void ShowAddAnnouncementModal()
     {
-        currentAnnouncement = new Announcement() { Title = "", Description = "" }; // Reset for new announcement
+        currentAnnouncement = new Announcement { Date = DateTime.Now };
         announcementEditMode = false;
-        addAnnouncementModalStyle = "display:block;";
+        JSRuntime.InvokeVoidAsync("showModal", "addAnnouncementModal");
     }
 
-    private void HideAddAnnouncementModal()
-    {
-        addAnnouncementModalStyle = "display:none;";
-    }
 
     private void EditAnnouncement(int id)
     {
+        currentAnnouncement = announcements.FirstOrDefault(a => a.Id == id) ?? new Announcement();
         announcementEditMode = true;
-        currentAnnouncement = announcements.FirstOrDefault(a => a.Id == id);
-        if (currentAnnouncement != null)
-        {
-            addAnnouncementModalStyle = "display:block;";
-        }
+        JSRuntime.InvokeVoidAsync("showModal", "addAnnouncementModal");
     }
 
-    private void DeleteAnnouncement(int id)
+    private async Task HandleValidSubmit()
     {
-        var announcement = announcements.FirstOrDefault(a => a.Id == id);
-        if (announcement != null)
-        {
-            announcements.Remove(announcement);
-        }
-    }
+        using var context = await DbFactory.CreateDbContextAsync();
 
-    private void HandleValidSubmit()
-    {
-        if (!announcementEditMode)
+        if (announcementEditMode)
         {
-            currentAnnouncement.Id = announcements.Max(a => a.Id) + 1; // Simple auto-increment logic
-            announcements.Add(currentAnnouncement);
+            context.Announcements.Update(currentAnnouncement);
         }
         else
         {
-            var announcement = announcements.FirstOrDefault(a => a.Id == currentAnnouncement.Id);
-            if (announcement != null)
-            {
-                announcement.Title = currentAnnouncement.Title;
-                announcement.Description = currentAnnouncement.Description;
-                announcement.Date = currentAnnouncement.Date;
-            }
+            context.Announcements.Add(currentAnnouncement);
         }
 
-        HideAddAnnouncementModal();
+        await context.SaveChangesAsync();
+        await LoadAnnouncements();
+        await JSRuntime.InvokeVoidAsync("hideModal", "addAnnouncementModal");
+    }
+
+    private async Task DeleteAnnouncement(int id)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirmDelete", id);
+        if (confirmed)
+        {
+            using var context = await DbFactory.CreateDbContextAsync();
+            var announcement = await context.Announcements.FindAsync(id);
+
+            if (announcement != null)
+            {
+                context.Announcements.Remove(announcement);
+                await context.SaveChangesAsync();
+                await LoadAnnouncements();
+            }
+        }
     }
 }
+
