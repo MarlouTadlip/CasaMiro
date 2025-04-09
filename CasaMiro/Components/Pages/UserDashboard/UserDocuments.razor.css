@@ -59,7 +59,8 @@
 }
 .table tr th {
 background-color: gray;
-color: black;
+color: white;
+
 }
 /* Table styles */
 .table {
@@ -112,7 +113,7 @@ p.text-muted {
 }
 
 h5.card-title {
-    color: black !important;
+    color: white !important;
 }
 button.btn.btn-primary {
     background: #111111;
@@ -124,4 +125,11 @@ button.btn.btn-success{
 }
 h3.card-title{
     color : white !important
+}
+
+.card-body {
+    padding: 20px;
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white;
+    border-radius: 10px 
 }

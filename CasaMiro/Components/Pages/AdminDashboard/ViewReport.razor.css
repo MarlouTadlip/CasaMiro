@@ -1,168 +1,173 @@
-/* General Body Styling */
-body {
-    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue gradient */
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-}
+    /* General Body Styling */
+    body {
+        background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue gradient */
+        color: #fff;
+        font-family: 'Roboto', sans-serif;
+    }
 
-/* Card Styling */
-.card {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
+    /* Card Styling */
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
 
-/* Card Header */
-.card-header {
-    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
-    color: white;
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
+    /* Card Header */
+    .card-header {
+        background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
+        color: white;
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
 
-/* Card Body Styling */
-.card-body {
-    background-color: #ffffff; /* White background */
-    padding: 20px;
-    font-size: 1rem;
-    color: #333; /* Dark text for readability */
-}
-
-/* Card Footer Styling */
-.card-footer {
-    background-color: #f8f9fa; /* Light gray background */
-    border-top: 1px solid #e0e0e0; /* Light border on top */
-    text-align: right; /* Align text to the right */
-    padding: 10px;
-}
-
-/* Card Title */
-.card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-/* Card Text */
-.card-text {
-    font-size: 0.9rem;
-    color: #666; /* Lighter text color for description */
-    margin-bottom: 15px;
-}
-
-/* Text Muted */
-.text-muted {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-/* Badge Styling */
-.badge {
-    border-radius: 12px;
-    padding: 5px 15px;
-    font-size: 0.85rem;
-}
-
-/* Custom Badge Colors */
-.badge.bg-warning {
-    background-color: #ff9800;
-    color: #333;
-}
-
-.badge.bg-success {
-    background-color: #4caf50;
-}
-
-.badge.bg-danger {
-    background-color: #f44336;
-}
-
-.badge.bg-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
-
-.badge.bg-light {
-    background-color: #f8f9fa;
-    color: #333;
-}
-
-/* New Custom Badge for Under Review */
-.badge.bg-under-review {
-    background-color: #000000; /* Black background for 'Under Review' */
-    color: #fff; /* White text */
-}
-
-/* Button Styling */
-.btn {
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: 600;
-}
-
-.btn-sm {
-    font-size: 0.875rem;
-}
-
-.btn-outline-dark {
-    border: 2px solid #333;
-    color: #333;
-}
-
-.btn-outline-dark.disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Table Styling */
-.table {
-    background-color: #fff;
-    border-radius: 8px;
-}
-
-.table-bordered {
-    border: 1px solid #ddd;
-}
-
-.table-light {
-    background-color: #f8f9fa;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f2f2f2;
-}
-
-.table th, .table td {
-    padding: 12px;
-    text-align: center;
-}
-
-.table th {
-    font-weight: bold;
-}
-
-/* Table Row Hover Effect */
-.table tbody tr:hover {
-    background-color: #eaeaea;
-}
-
-/* Footer Styling */
-.text-end.small {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-/* Responsive Design for Smaller Screens */
-@media (max-width: 768px) {
+    /* Card Body Styling */
     .card-body {
-        padding: 15px;
+        background-color: #ffffff; /* White background */
+        padding: 20px;
+        font-size: 1rem;
+        color: #333; /* Dark text for readability */
     }
 
-    .table td, .table th {
-        padding: 8px;
+    /* Card Footer Styling */
+    .card-footer {
+        background-color: #f8f9fa; /* Light gray background */
+        border-top: 1px solid #e0e0e0; /* Light border on top */
+        text-align: right; /* Align text to the right */
+        padding: 10px;
     }
 
-    .d-flex {
-        flex-direction: column;
+    /* Card Title */
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 10px;
     }
-}
+
+    /* Card Text */
+    .card-text {
+        font-size: 0.9rem;
+        color: #666; /* Lighter text color for description */
+        margin-bottom: 15px;
+    }
+
+    /* Text Muted */
+    .text-muted {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Badge Styling */
+    .badge {
+        border-radius: 12px;
+        padding: 5px 15px;
+        font-size: 0.85rem;
+    }
+
+    /* Custom Badge Colors */
+    .badge.bg-warning {
+        background-color: #ff9800;
+        color: white;
+    }
+
+    .badge.bg-success {
+        background-color: #4caf50;
+    }
+
+    .badge.bg-danger {
+        background-color: #f44336;
+    }
+
+    .badge.bg-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .badge.bg-light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    /* New Custom Badge for Under Review */
+    .badge.bg-under-review {
+        background-color: #000000; /* Black background for 'Under Review' */
+        color: #fff; /* White text */
+    }
+
+    /* Button Styling */
+    .btn {
+        border-radius: 5px;
+        padding: 10px 15px;
+        font-weight: 600;
+    }
+
+    .btn-sm {
+        font-size: 0.875rem;
+    }
+
+    .btn-outline-dark {
+        border: 2px solid #333;
+        color: #333;
+    }
+
+    .btn-outline-dark.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    /* Table Styling */
+    .table {
+        background-color: #fff;
+        border-radius: 8px;
+    }
+
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+    .table-light {
+        background-color: #f8f9fa;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f2f2f2;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+    }
+
+    .table th {
+        font-weight: bold;
+    }
+
+    /* Table Row Hover Effect */
+    .table tbody tr:hover {
+        background-color: #eaeaea;
+    }
+
+    /* Footer Styling */
+    .text-end.small {
+        font-size: 0.875rem;
+        color: #6c757d;
+    }
+
+    /* Responsive Design for Smaller Screens */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 15px;
+        }
+
+        .table td, .table th {
+            padding: 8px;
+        }
+
+        .d-flex {
+            flex-direction: column;
+        }
+    }
+
+
+    span.badge.bg-warning.text-dark{
+        color : white;
+    }

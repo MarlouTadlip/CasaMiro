@@ -10,7 +10,7 @@
 /* Forum Page Header */
 .container-fluid {
     background-color: var(--light-color);
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 .card {

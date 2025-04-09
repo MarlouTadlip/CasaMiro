@@ -24,13 +24,13 @@
     border-radius: 12px 12px 0 0;
 }
 
-.card-header h4 {
-    margin-bottom: 0;
-}
+    .card-header h4 {
+        margin-bottom: 0;
+    }
 
-.card-header .badge {
-    font-size: 0.875rem;
-}
+    .card-header .badge {
+        font-size: 0.875rem;
+    }
 
 /* Profile Information */
 .mb-4 h5 {
@@ -47,7 +47,7 @@
 /* Form Labels */
 .card-body .form-label {
     font-weight: bold;
-    color: #6c757d;
+    color: #ffffff; /* Changed to white */
     margin-bottom: 5px;
 }
 
@@ -59,18 +59,20 @@
     border: 1px solid #ccc;
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #6a11cb;
-    box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
-}
+    .form-control:focus, .form-select:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+    }
 
 /* Security Settings */
 .card-body .fw-bold {
     font-weight: 600;
+    color: #ffffff; /* Changed to white */
 }
 
 .card-body .form-check-label {
     font-size: 0.9rem;
+    color: #ffffff; /* Changed to white */
 }
 
 .card-body .form-check-input {
@@ -88,9 +90,9 @@
     transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #2575fc, #6a11cb);
-}
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #2575fc, #6a11cb);
+    }
 
 /* Notification Settings */
 .list-group-item {
@@ -98,6 +100,7 @@
     padding: 15px;
     background-color: #ffffff;
     border: 1px solid #ddd;
+    color: #ffffff; /* Changed to white */
 }
 
 /* Under Review Badge */
@@ -119,5 +122,24 @@
 /* Card Text */
 .card-text {
     font-size: 0.9rem;
-    color: #dddddd; /* Light text for contrast */
+    color: #ffffff; /* Changed to white */
+}
+
+p.text-muted.mb-4{
+    color :white;
+}
+
+p.text0-muted.mb-0{
+   color : white;
+}
+
+
+div.d-flex.align-items-center{
+    background-color: #e9ecef;
+    color : black;
+    border-radius:6px;
+}
+
+h5.border-bottom.pb-2{
+    color : white;
 }

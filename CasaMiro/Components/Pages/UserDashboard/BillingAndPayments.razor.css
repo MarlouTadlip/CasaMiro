@@ -2,6 +2,7 @@
 body {
     background: linear-gradient(to right, #6a11cb, #2575fc);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white; /* Set text color to white */
 }
 
 /* Card styles */
@@ -9,34 +10,39 @@ body {
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white; /* Set card text color to white */
 }
 
 .card-header,
 .card-body {
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white; /* Ensure text inside card header and body is white */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
 }
 
 .card-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #4b4b4b;
+    color: white; /* Ensure card title text is white */
 }
 
 /* Text Muted */
 .text-muted {
     font-size: 0.95rem;
-    color: #6c757d;
+    color: white !important; /* Ensure muted text is white */
 }
 
 /* Billing Table */
 .billing-table {
     margin-top: 1rem;
     font-size: 0.95rem;
+    color: white; /* Ensure table text is white */
 }
 
 .billing-table thead th {
     background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: white;
+    color: white; /* Table header text white */
     text-align: center;
     border: none;
     border-radius: 8px;
@@ -45,7 +51,7 @@ body {
 .billing-table tbody tr td {
     text-align: center;
     vertical-align: middle;
-    color: #495057;
+    color: white; /* Table body text white */
 }
 
 .billing-table tbody tr {
@@ -60,42 +66,43 @@ body {
 /* Payment Status */
 .table-success {
     background-color: #d4edda !important;
-    color: #155724 !important;
+    color: white !important; /* Ensure success status text is white */
 }
 
 .table-danger {
     background-color: #f8d7da !important;
-    color: #721c24 !important;
+    color: white !important; /* Ensure danger status text is white */
 }
 
 /* Modal Styles */
 .modal-content {
     border-radius: 10px;
     background: linear-gradient(to top, #6a11cb, #2575fc);
-    color: white;
+    color: white; /* Ensure modal text is white */
 }
 
 .modal-header {
     background-color: #563d7c;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    color: white;
+    color: white; /* Ensure modal header text is white */
 }
 
 .modal-footer {
     background-color: #f1f1f1;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    color: white; /* Ensure modal footer text is white */
 }
 
 .modal-footer .btn-secondary {
     background-color: #6a11cb;
-    color: white;
+    color: white; /* Ensure secondary button text is white */
 }
 
 .modal-footer .btn-primary {
     background-color: #2575fc;
-    color: white;
+    color: white; /* Ensure primary button text is white */
 }
 
 /* Button Hover Effects */
@@ -114,12 +121,19 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
+    margin-top: 20px;
 }
 
 /* Make p.text-muted white */
 p.text-muted {
     color: white !important;
 }
-h3.card-title{
-    color: white !important;
+
+h3.card-title {
+    color: white !important; /* Ensure all h3 titles inside card are white */
+}
+
+div.card-body {
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white; /* Ensure card body text is white */
 }

@@ -5,20 +5,31 @@
     border-radius: 8px;
     box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
     margin-top: 10px;
-}
-p.text-muted{
-    color : white !important;
+    width: 100%;
+    padding-top :50px;
 }
 
-a.btn.btn-outline-secondary{
+    div.card-body.text-center {
+        margin-top: 20px; /* Add some space at the top */
+        text-align: center; /* Optional, in case you want to center the text */
+    }
+
+p.text-muted {
+    color: white !important;
+}
+
+a.btn.btn-outline-secondary {
     color: yellowgreen;
 }
 
-button.btn.btn-outline-primary.mx-2{
-    background-color : navy;
+button.btn.btn-outline-primary.mx-2 {
+    background-color: navy;
     color: white;
 }
+
 button.btn.btn-outline-danger.mx-2 {
     background-color: darkred;
     color: white;
+}
+div.profile-header.card.shadow-sm.mb-4{ 
 }
