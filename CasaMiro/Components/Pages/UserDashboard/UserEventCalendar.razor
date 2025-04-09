@@ -8,6 +8,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 mx-auto">
+
             <!-- Calendar Header -->
             <div class="card shadow-sm mb-4">
                 <div class="card-body text-center">
@@ -24,32 +25,46 @@
             </div>
 
             <!-- Calendar Grid -->
-            <div class="calendar">
+            <div class="calendar mb-5">
+
                 <!-- Days of the Week -->
-                <div class="calendar-header">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
+                <div class="calendar-header d-grid text-center fw-bold border"
+                     style="grid-template-columns: repeat(7, 1fr);">
+                    @foreach (var dayName in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
+                    {
+                        <div class="border py-2 bg-light text-truncate">@dayName</div>
+                    }
                 </div>
 
                 <!-- Calendar Days -->
-                <div class="calendar-body">
+                <div class="calendar-body d-grid text-center"
+                     style="
+                        display: grid;
+                        grid-template-columns: repeat(7, 1fr);
+                        grid-auto-rows: 100px;
+                        overflow: hidden;
+                     ">
                     @for (int i = 0; i < startDayOffset; i++)
                     {
-                        <div class="calendar-day empty"></div>
+                        <div class="border bg-white"></div>
                     }
+
                     @foreach (var day in Enumerable.Range(1, daysInMonth))
                     {
-                        var eventForDay = userEvents.FirstOrDefault(e => e.EventDate.Date == new DateTime(currentMonth.Year, currentMonth.Month, day));
-                        <div class="calendar-day" @onclick="() => ShowEventDetails(day)">
-                            <span class="day-number">@day</span>
+                        var eventForDay = userEvents.FirstOrDefault(e =>
+                        e.EventDate.Date == new DateTime(currentMonth.Year, currentMonth.Month, day));
+
+                        <div class="border p-2 position-relative d-flex flex-column justify-content-between"
+                             @onclick="() => ShowEventDetails(day)"
+                             style="cursor: pointer; overflow: hidden;">
+                            <div class="text-end fw-bold">@day</div>
                             @if (eventForDay != null)
                             {
-                                <div class="event-badge">@eventForDay.Name</div>
+                                <div class="badge bg-info text-dark text-truncate mt-1 w-100"
+                                     style="font-size: 0.75rem;"
+                                     title="@eventForDay.Name">
+                                    @eventForDay.Name
+                                </div>
                             }
                         </div>
                     }
@@ -57,16 +72,25 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Event Modal -->
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" style="@eventModalStyle">
+<!-- Event Modal -->
+@if (isEventModalVisible)
+{
+    <div class="modal fade show d-block"
+         tabindex="-1"
+         role="dialog"
+         style="background-color: rgba(0,0,0,0.5);">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content border border-dark shadow rounded-3">
                 <div class="modal-header">
-                    <h5 class="modal-title">Event on @selectedEventDate.ToShortDateString()</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseEventModal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">
+                        Event on @selectedEventDate.ToShortDateString()
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            @onclick="CloseEventModal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     @if (selectedEvent != null)
@@ -79,24 +103,40 @@
                         <p>No events for this day.</p>
                     }
                 </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CloseEventModal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 @code {
     private DateTime currentMonth = DateTime.Now;
     private int daysInMonth;
     private int startDayOffset;
-    private List<UserEvent> userEvents = new List<UserEvent>
+
+    private List<UserEvent> userEvents = new()
     {
-        new UserEvent { Id = 1, Name = "Project Meeting", EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10), Description = "Monthly project discussion." },
-        new UserEvent { Id = 2, Name = "Dentist Appointment", EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15), Description = "Annual check-up." }
+        new UserEvent
+        {
+            Id = 1,
+            Name = "Project Meeting",
+            EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10),
+            Description = "Monthly project discussion."
+        },
+        new UserEvent
+        {
+            Id = 2,
+            Name = "Dentist Appointment",
+            EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15),
+            Description = "Annual check-up."
+        }
     };
 
     private UserEvent selectedEvent;
     private DateTime selectedEventDate;
-    private string eventModalStyle = "display:none;";
+    private bool isEventModalVisible = false;
 
     protected override void OnInitialized()
     {
@@ -125,11 +165,11 @@
     {
         selectedEventDate = new DateTime(currentMonth.Year, currentMonth.Month, day);
         selectedEvent = userEvents.FirstOrDefault(e => e.EventDate.Date == selectedEventDate);
-        eventModalStyle = "display:block;";
+        isEventModalVisible = true;
     }
 
     private void CloseEventModal()
     {
-        eventModalStyle = "display:none;";
+        isEventModalVisible = false;
     }
 }

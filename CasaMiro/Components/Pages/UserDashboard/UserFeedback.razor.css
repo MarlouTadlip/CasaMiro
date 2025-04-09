@@ -1,100 +1,19 @@
-﻿/* General Container */
-.container-fluid {
+﻿div.card-body {
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
+}
+
+p.text-muted{
+    color: white !important;
+}
+.table tr th {
+    background-color: gray;
+    color: white ;
+}
+.table {
     margin-top: 20px;
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient from purple to blue */
-    padding: 20px;
-    border-radius: 10px;
-}
-
-/* Table Styling */
-.table-striped {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table-striped th,
-.table-striped td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #e3e6f0;
-}
-
-/* Button Styling with Gradient */
-.btn-primary {
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient from purple to blue */
-    border-color: #6f42c1; /* Purple */
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #5a32b3, #0069d9); /* Darker gradient */
-    border-color: #4b2b99;
-}
-
-.btn-info {
-    background: linear-gradient(135deg, #17a2b8, #007bff); /* Gradient from info blue to primary blue */
-    border-color: #17a2b8;
-}
-
-.btn-info:hover {
-    background: linear-gradient(135deg, #138496, #0056b3); /* Darker gradient for hover */
-    border-color: #117a8b;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 0.875rem;
-}
-
-/* Modal Styling */
-.modal-content {
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Modal gradient background */
-}
-
-.modal-header {
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Purple-blue gradient */
-    color: white;
-    padding: 10px;
-}
-
-.modal-body {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-}
-
-/* Card Styling */
-.card {
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient on cards */
-}
-
-.card-body {
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-}
-
-.text-muted {
-    color: #6c757d;
-}
-
-.d-flex {
-    display: flex;
-}
-
-.justify-content-end {
-    justify-content: flex-end;
-}
-
-/* Modal Close Button */
-.close {
-    color: white;
-    font-size: 1.5rem;
+    background-color: #f9f9f9; /* Light background for the table */
 }

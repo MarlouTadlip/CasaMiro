@@ -1,84 +1,10 @@
-﻿/* General container and layout */
-.container-fluid {
-    margin-top: 20px;
-}
-
-/* Calendar Styling */
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-}
-
-/* Calendar Header Styling */
-.calendar-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-weight: bold;
-    background: linear-gradient(to right, #6f42c1, #4e2b94); /* Purple to Blue Gradient */
+﻿div.card-body {
+    background: linear-gradient(135deg, #111111, #999999);
     color: white;
-    padding: 10px;
-}
-
-/* Calendar Day Styling */
-.calendar-day {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #e3e6f0;
-    padding: 10px;
-    cursor: pointer;
-    position: relative;
-    transition: background-color 0.3s ease;
-}
-
-.calendar-day.empty {
-    background-color: #f9f9f9;
-}
-
-/* Day number styling */
-.day-number {
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-/* Updated Event Badge Styling (Purple or Blue) */
-.event-badge {
-    background-color: #6f42c1; /* Purple */
-    color: white;
-    border-radius: 12px;
-    padding: 2px 8px;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-/* Modal Styling */
-.modal-content {
-    border-radius: 10px;
-    background-color: #ffffff;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
 }
-
-.modal-header {
-    background-color: #f8f9fc;
-    border-bottom: 1px solid #e3e6f0;
-}
-
-/* Button Styling */
-.btn-secondary {
-    background-color: #6f42c1; /* Purple */
-    border-color: #6f42c1; /* Purple */
-}
-
-.btn-secondary:hover {
-    background-color: #5a32b3; /* Darker purple */
-    border-color: #4b2b99; /* Darker purple */
-}
-
-/* Modal Close Button */
-.close {
-    color: #6f42c1;
-    font-size: 1.5rem;
+p.text-muted{
+    color:white !important;
 }

@@ -113,6 +113,7 @@ body {
     color: white;
     padding: 20px;
     border-radius: 8px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
 }
 
 /* Make p.text-muted white */

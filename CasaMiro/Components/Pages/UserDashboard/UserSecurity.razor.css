@@ -1,91 +1,24 @@
-﻿/* General Container */
-.container-fluid {
-    margin-top: 20px;
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient from purple to blue */
-    padding: 20px;
-    border-radius: 10px;
-}
-
-/* Card Styling */
-.card {
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient background */
-}
-
-/* Card Header and Body */
-.card-body {
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
+﻿/* Additional Gradient Styling for .card-body.text-center */
+.card-body.text-center {
+    background: linear-gradient(135deg, #111111, #999999);
     color: white;
-}
-
-/* Buttons */
-.btn-primary {
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Gradient from purple to blue */
-    border-color: #6f42c1; /* Purple */
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #5a32b3, #0069d9); /* Darker gradient */
-    border-color: #4b2b99;
-}
-
-.btn-info {
-    background: linear-gradient(135deg, #17a2b8, #007bff); /* Gradient from info blue to primary blue */
-    border-color: #17a2b8;
-}
-
-.btn-info:hover {
-    background: linear-gradient(135deg, #138496, #0056b3); /* Darker gradient for hover */
-    border-color: #117a8b;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 0.875rem;
-}
-
-/* Form Inputs */
-.form-group label {
-    color: white;
-}
-
-.form-control {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-/* Text Styling */
-.text-muted {
-    color: #6c757d;
-}
-
-.mt-2 {
-    margin-top: 1rem;
-}
-
-/* Modal Styling (If Applicable) */
-.modal-content {
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Modal gradient background */
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
+}
+p.text-muted {
+    color: white !important;
 }
 
-.modal-header {
-    background: linear-gradient(135deg, #6f42c1, #007bff); /* Purple-blue gradient */
+div.card-body {
+    background: linear-gradient(135deg, #111111, #999999);
     color: white;
-    padding: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
 }
 
-.modal-body {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
+button.btn.btn-primary{
+    background-color: darkgreen;
+    margin-top: 10px;
 }

@@ -114,3 +114,25 @@
         padding: 8px 16px;
     }
 }
+
+/* Additional Gradient Styling for .card-body.text-center */
+.card-body.text-center {
+    background: linear-gradient(135deg, #111111, #999999);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, .5); /* Added shadow */
+}
+
+/* Make p.text-muted white */
+p.text-muted {
+    color: white !important;
+}
+
+h5.card-title {
+    color: white !important;
+}
+
+div.card-body {
+    background: linear-gradient(135deg, #111111, #999999);
+}
