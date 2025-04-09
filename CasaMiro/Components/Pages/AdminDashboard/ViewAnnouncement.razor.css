@@ -1,8 +1,20 @@
-/* Card Header with Purple-Blue Gradient */
+/* Card Styling */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #111111, #999999); /* Custom gradient applied */
+    padding: 20px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+/* Card Header with Preserved Custom Gradient */
 .card-header {
-    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* DO NOT CHANGE */
     color: white;
-    font-size: 1.25rem;
+    padding: 10px;
+    border-radius: 12px 12px 0 0;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -20,19 +32,14 @@
     border-top: 1px solid #e0e0e0;
     text-align: right;
     padding: 10px;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    border-radius: 0 0 12px 12px;
 }
 
 /* Card Title */
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 
 /* Card Text */

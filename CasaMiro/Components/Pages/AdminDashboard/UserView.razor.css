@@ -1,55 +1,65 @@
-/* Card Header with Purple-Blue Gradient */
+/* Card Styling */
+.card {
+    border-radius: 12px; /* Matches announcement.css */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #111111, #999999); /* Custom dark gradient */
+    color: white; /* Default text color for card if not overridden */
+    border: none;
+}
+
+/* Card Header with Custom Gradient */
 .card-header {
-    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* Preserved gradient */
     color: white;
     font-size: 1.25rem;
     font-weight: bold;
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0;
 }
 
 /* Card Body Styling */
 .card-body {
-    background-color: #ffffff; /* White background for card body */
+    background-color: #ffffff;
     padding: 20px;
     font-size: 1rem;
-    color: #333; /* Dark text for readability */
+    color: #333;
+    border-radius: 0 0 12px 12px;
 }
 
 /* Card Footer Styling */
 .card-footer {
-    background-color: #f8f9fa; /* Light gray background for footer */
-    border-top: 1px solid #e0e0e0; /* Light border on top */
-    text-align: right; /* Align text to the right */
+    background-color: #f1f1f1; /* Matches modal-footer in announcement.css */
+    border-top: 1px solid #e0e0e0;
+    text-align: right;
     padding: 10px;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow around the card */
-    margin-bottom: 20px; /* Spacing below the card */
+    border-radius: 0 0 12px 12px;
 }
 
 /* Card Title */
 .card-title {
-    font-size: 1.1rem; /* Slightly larger title */
-    font-weight: 600; /* Bold title text */
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #111; /* Ensure title is visible in white body */
 }
 
 /* Card Text */
 .card-text {
-    font-size: 0.9rem; /* Slightly smaller text for description */
-    color: #666; /* Lighter text color for the description */
+    font-size: 0.9rem;
+    color: #666;
 }
 
 /* Search Bar with Gradient Border */
 #searchInput {
-    border-radius: 5px;
+    border-radius: 6px;
     padding: 10px;
     font-size: 1rem;
     width: 100%;
     max-width: 500px;
-    border: 2px solid ;
-    background: white; /* Retain the gradient */
-    color: white;
-    margin-bottom: 20px; /* Space below the search bar */
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #111111, #999999) border-box;
+    color: #333;
 }

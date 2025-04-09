@@ -18,6 +18,7 @@ body {
     color: white;
     font-size: 1.25rem;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 /* Card Body Styling */
@@ -40,12 +41,14 @@ body {
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 
 /* Card Text */
 .card-text {
     font-size: 0.9rem;
     color: #666; /* Lighter text color for description */
+    margin-bottom: 15px;
 }
 
 /* Text Muted */
@@ -60,35 +63,35 @@ body {
     font-size: 0.85rem;
 }
 
-    /* Custom Badge Colors */
-    .badge.bg-warning {
-        background-color: #ff9800;
-        color: #333;
-    }
+/* Custom Badge Colors */
+.badge.bg-warning {
+    background-color: #ff9800;
+    color: #333;
+}
 
-    .badge.bg-success {
-        background-color: #4caf50;
-    }
+.badge.bg-success {
+    background-color: #4caf50;
+}
 
-    .badge.bg-danger {
-        background-color: #f44336;
-    }
+.badge.bg-danger {
+    background-color: #f44336;
+}
 
-    .badge.bg-secondary {
-        background-color: #6c757d;
-        color: #fff;
-    }
+.badge.bg-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
 
-    .badge.bg-light {
-        background-color: #f8f9fa;
-        color: #333;
-    }
+.badge.bg-light {
+    background-color: #f8f9fa;
+    color: #333;
+}
 
-    /* New Custom Badge for Under Review */
-    .badge.bg-under-review {
-        background-color: #000000; /* Black background for 'Under Review' */
-        color: #fff; /* White text */
-    }
+/* New Custom Badge for Under Review */
+.badge.bg-under-review {
+    background-color: #000000; /* Black background for 'Under Review' */
+    color: #fff; /* White text */
+}
 
 /* Button Styling */
 .btn {
@@ -104,6 +107,11 @@ body {
 .btn-outline-dark {
     border: 2px solid #333;
     color: #333;
+}
+
+.btn-outline-dark.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* Table Styling */
@@ -147,7 +155,7 @@ body {
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
     .card-body {
-        padding: 20px;
+        padding: 15px;
     }
 
     .table td, .table th {

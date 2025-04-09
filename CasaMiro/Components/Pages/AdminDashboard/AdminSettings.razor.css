@@ -1,59 +1,70 @@
 /* General Container */
 .container-fluid {
     margin-top: 20px;
-    background: #f8f9fa; /* Light gray background */
-    padding: 30px; /* Increased padding for more spacious layout */
-    border-radius: 8px;
+    background: #f3f4f6; /* Matches announcement.css lighter gradient end */
+    padding: 30px;
+    border-radius: 12px; /* Increased for consistency */
 }
 
 /* Card Styling */
 .card {
     margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px; /* Ensured padding inside the card */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); /* Matches announcement.css */
+    padding: 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #111111, #999999); /* Custom gradient */
 }
 
 /* Card Header */
 .card-header {
-    background-color: #343a40; /* Dark background for admin settings */
+    background: linear-gradient(135deg, #111111, #999999); /* Preserved dark gradient */
     color: white;
-    padding: 15px 20px; /* Adjusted padding for balance */
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0;
 }
 
-    .card-header h4 {
-        margin-bottom: 0;
-    }
+.card-header h4 {
+    margin-bottom: 0;
+}
 
-    .card-header .badge {
-        font-size: 0.875rem;
-    }
+.card-header .badge {
+    font-size: 0.875rem;
+}
 
 /* Profile Information */
 .mb-4 h5 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #343a40;
-    margin-bottom: 15px; /* Added margin to separate from other content */
+    color: #ffffff; /* Adjusted for contrast */
+    margin-bottom: 15px;
 }
 
 .card-body .d-flex img {
     border-radius: 50%;
 }
 
+/* Form Labels */
 .card-body .form-label {
-    font-weight: 500;
+    font-weight: bold;
     color: #6c757d;
-    margin-bottom: 5px; /* Added space for labels */
+    margin-bottom: 5px;
 }
 
 /* Form Inputs */
 .form-control, .form-select {
-    border-radius: 5px;
-    padding: 10px; /* Added padding for better input feel */
-    margin-bottom: 15px; /* Added margin for spacing between inputs */
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
 }
 
-/* Security Settings Section */
+.form-control:focus, .form-select:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+}
+
+/* Security Settings */
 .card-body .fw-bold {
     font-weight: 600;
 }
@@ -66,45 +77,47 @@
     margin-right: 10px;
 }
 
-/* Button */
+/* Buttons */
 .btn-primary {
-    background-color: #007bff; /* Blue */
-    border-color: #007bff;
-    padding: 10px 15px; /* Ensured proper padding */
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* announcement.css primary */
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: white;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
-    .btn-primary:hover {
-        background-color: #0056b3; /* Darker blue */
-        border-color: #004085;
-    }
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
 
 /* Notification Settings */
 .list-group-item {
     font-size: 0.9rem;
-    padding: 15px; /* Increased padding for better spacing */
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
 }
 
-    .list-group-item .fw-bold {
-        font-weight: 600;
-    }
-
-/* New Custom Badge for Under Review */
+/* Under Review Badge */
 .badge.bg-under-review {
-    background-color: #000000; /* Black background for 'Under Review' */
-    color: #fff; /* White text */
-    padding: 5px 10px; /* Adjusted padding for badge */
-    font-size: 0.875rem; /* Ensured font consistency */
+    background-color: #000000;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 0.875rem;
 }
 
 /* Card Title */
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 10px; /* Added margin for spacing */
+    margin-bottom: 10px;
+    color: #ffffff; /* Matches dark card theme */
 }
 
 /* Card Text */
 .card-text {
     font-size: 0.9rem;
-    color: #666; /* Lighter text color for description */
+    color: #dddddd; /* Light text for contrast */
 }
