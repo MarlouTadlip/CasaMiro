@@ -14,7 +14,7 @@ body {
 /* Card Styles */
 .card {
     border-radius: 12px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
     background: linear-gradient(135deg, #ffffff, #f3f4f6);
     padding: 20px;
     border: none;
@@ -22,7 +22,7 @@ body {
 
 /* Card Header Styling */
 .card-header {
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue gradient */
     color: white;
     padding: 10px;
     border-radius: 12px 12px 0 0;
@@ -68,10 +68,11 @@ body {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
 }
 
     .table thead {
-        background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+        background: #111111;
         color: white;
     }
 
@@ -98,24 +99,20 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+    background: #111111;
     border: none;
     color: white;
 }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #2575fc, #6a11cb);
+        background: linear-gradient(135deg, #999999, #111111);
     }
 
 .btn-warning {
-    background: linear-gradient(135deg, #ffc107, #d39e00);
-    border: none;
-    color: white;
+    background: transparent;
+    border: 1px solid black;
+    color: black;
 }
-
-    .btn-warning:hover {
-        background: linear-gradient(135deg, #d39e00, #a87900);
-    }
 
 .btn-danger {
     background: linear-gradient(135deg, #dc3545, #a71d2a);
@@ -123,9 +120,6 @@ body {
     color: white;
 }
 
-    .btn-danger:hover {
-        background: linear-gradient(135deg, #a71d2a, #820015);
-    }
 
 /* Modal Styling */
 .modal-content {

@@ -8,7 +8,7 @@
 h1 {
     font-size: 2rem;
     font-weight: bold;
-    color: #4e54c8;
+    color: #111111;
     margin-bottom: 1.5rem;
 }
 
@@ -16,8 +16,8 @@ h1 {
 .card {
     border: none;
     border-radius: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    color: white;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
+    color: black;
 }
 
 .card-header {
@@ -84,7 +84,7 @@ h1 {
 
 /* Info Alert */
 .alert-info {
-    background: linear-gradient(to right, #2193b0, #6dd5ed);
+    background: linear-gradient(to right, #999999, #111111);
     color: white;
     border: none;
     border-radius: 0.5rem;
