@@ -1,10 +1,11 @@
-﻿@page "/view-announce"
+﻿@page "/view-announcement"
 @using CasaMiro.Models
 @inject NavigationManager Navigation
-
+@inject IDbContextFactory<CasaMiro.Data.ApplicationDbContext> DbFactory
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
 @using CasaMiro.Components.Layout
 @layout AdminLayout
-
 
 <div class="container-fluid">
     <div class="row">
@@ -15,54 +16,51 @@
                     <h4 class="card-title">All Announcements</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Static Announcement Cards -->
+                    <!-- Dynamic Announcement Cards -->
                     <div class="row">
-                        <div class="col-12 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">Meeting Reminder</h5>
+                        @if (announcements.Any())
+                        {
+                            @foreach (var announcement in announcements)
+                            {
+                                <div class="col-12 col-md-4 mb-3">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            <h5 class="card-title">@announcement.Title</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">@announcement.Description</p>
+                                            <p class="card-text">
+                                                <small class="text-muted">Posted: @announcement.Date.ToString("MM/dd/yyyy")</small>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">Reminder: General assembly on April 15 at 9AM.</p>
-                                    <p class="card-text">
-                                        <small class="text-muted">Posted: 04/01/2025</small>
-                                    </p>
-                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12 text-center">
+                                <p>No announcements available at this time.</p>
                             </div>
-                        </div>
-
-                        <div class="col-12 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">New Facilities</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">We’ve added new equipment to the community center.</p>
-                                    <p class="card-text">
-                                        <small class="text-muted">Posted: 03/28/2025</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-4 mb-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">Maintenance Notice</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">Water supply will be interrupted on April 10 due to pipe repair.</p>
-                                    <p class="card-text">
-                                        <small class="text-muted">Posted: 03/30/2025</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Add more announcement cards below as needed -->
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@code {
+    private List<Announcement> announcements = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAnnouncements();
+    }
+
+    private async Task LoadAnnouncements()
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        announcements = await context.Announcements.ToListAsync();
+    }
+}
