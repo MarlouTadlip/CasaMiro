@@ -13,14 +13,14 @@ h1 {
     color: #fff;
     font-weight: bold;
     text-align: center;
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+    background: linear-gradient(135deg, #111111, #999999); /* Black to Gray gradient */
     padding: 20px;
     border-radius: 12px;
 }
 
 /* Create New Post Button */
 .btn-primary {
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+    background: #111111;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -28,13 +28,14 @@ h1 {
 }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #2575fc, #6a11cb); /* Reversed gradient for hover effect */
+        background: linear-gradient(135deg, #999999, #111111);
     }
+
 
 /* Forum Post Styles */
 .card {
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5); /* more natural */
     background: #ffffff;
     transition: transform 0.3s ease;
 }
@@ -44,7 +45,7 @@ h1 {
     }
 
 .card-header {
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to Blue gradient */
+    background: #111111;
     color: white;
     padding: 15px;
     border-radius: 12px 12px 0 0;
@@ -66,25 +67,17 @@ h1 {
 
 /* Like and Comment Buttons */
 .btn-outline-primary {
-    border: 1px solid #2575fc;
-    color: #2575fc;
+    border: 1px solid black;
+    color: #111111;
     background: transparent;
     padding: 8px 16px;
     border-radius: 8px;
 }
 
-    .btn-outline-primary:hover {
-        background-color: #2575fc;
-        color: white;
-    }
 
 .btn-link {
-    color: #2575fc;
+    color: #111111;
 }
-
-    .btn-link:hover {
-        text-decoration: underline;
-    }
 
 /* Comments Section */
 .list-group-item {

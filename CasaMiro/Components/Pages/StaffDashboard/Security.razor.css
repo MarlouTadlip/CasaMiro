@@ -7,7 +7,7 @@
 h1 {
     font-size: 2.25rem;
     font-weight: bold;
-    color: #5a67d8;
+    color: black;
     margin-bottom: 2rem;
 }
 
@@ -15,7 +15,7 @@ h1 {
 .card {
     border: none;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
     margin-bottom: 2rem;
 }
 
@@ -39,7 +39,7 @@ h1 {
 
 /* Button Styles */
 .btn-primary {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #111111;
     border: none;
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
@@ -47,7 +47,7 @@ h1 {
 }
 
 .btn-info {
-    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+    background: #111111;
     border: none;
     border-radius: 0.5rem;
     padding: 0.6rem 1.2rem;
@@ -56,7 +56,7 @@ h1 {
 }
 
 .btn-link {
-    color: #5b86e5;
+    color: #111111;
     text-decoration: underline;
     font-size: 0.9rem;
 }

@@ -9,7 +9,7 @@
 h1 {
     font-size: 2rem;
     font-weight: bold;
-    color: #6a11cb;
+    color: #111111;
     margin-bottom: 1.5rem;
 }
 
@@ -17,8 +17,8 @@ h1 {
 .card {
     border: none;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.5);
+    background: #f3f4f6;
     color: white;
     overflow: hidden;
 }
@@ -31,14 +31,14 @@ h1 {
 .card-title {
     font-size: 1.4rem;
     font-weight: 600;
-    color: #fff;
+    color: #111111;
     margin: 0;
 }
 
 /* Table Styling */
 .table {
     background: transparent;
-    color: white;
+    color: black;
     margin: 0;
 }
 
@@ -47,7 +47,7 @@ h1 {
     text-align: center;
     vertical-align: top;
     padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid black;
 }
 
 .table th {
@@ -76,7 +76,7 @@ h1 {
 
 .event-list li a {
     font-size: 0.9rem;
-    color: #ffdd57;
+    color: #2575fc;
     text-decoration: none;
 }
 
@@ -86,7 +86,7 @@ h1 {
 
 /* Buttons */
 .btn-primary {
-    background: #6a11cb;
+    background: #111111;
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
@@ -94,9 +94,9 @@ h1 {
     transition: background 0.3s ease;
 }
 
-.btn-primary:hover {
-    background: #2575fc;
-}
+    .btn-primary:hover {
+        background: linear-gradient(to bottom right, #111111, #999999)
+    }
 
 /* Modals */
 .modal-content {
