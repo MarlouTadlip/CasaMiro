@@ -15,7 +15,7 @@ body {
 
 .card-header,
 .card-body {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color: #999999;
     color: white; /* Ensure text inside card header and body is white */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 10px;
@@ -116,7 +116,7 @@ body {
 
 /* Additional Gradient Styling for .card-body.text-center */
 .card-body.text-center {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color: #999999;
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -134,6 +134,6 @@ h3.card-title {
 }
 
 div.card-body {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color: #999999;
     color: white; /* Ensure card body text is white */
 }

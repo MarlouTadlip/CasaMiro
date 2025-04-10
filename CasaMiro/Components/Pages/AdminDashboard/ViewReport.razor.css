@@ -1,67 +1,67 @@
-    /* General Body Styling */
-    body {
-        background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue gradient */
-        color: #fff;
-        font-family: 'Roboto', sans-serif;
-    }
+/* General Body Styling */
+body {
+    background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue gradient */
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
 
-    /* Card Styling */
-    .card {
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+/* Card Styling */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
-    /* Card Header */
-    .card-header {
-        background: linear-gradient(135deg, #111111, #999999); /* Purple to Blue Gradient */
-        color: white;
-        font-size: 1.25rem;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+/* Card Header */
+.card-header {
+    background-color: #000000; /* Black background */
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
 
-    /* Card Body Styling */
-    .card-body {
-        background-color: #ffffff; /* White background */
-        padding: 20px;
-        font-size: 1rem;
-        color: #333; /* Dark text for readability */
-    }
+/* Card Body Styling */
+.card-body {
+    background-color: #ffffff; /* White background */
+    padding: 20px;
+    font-size: 1rem;
+    color: #333; /* Dark text for readability */
+}
 
-    /* Card Footer Styling */
-    .card-footer {
-        background-color: #f8f9fa; /* Light gray background */
-        border-top: 1px solid #e0e0e0; /* Light border on top */
-        text-align: right; /* Align text to the right */
-        padding: 10px;
-    }
+/* Card Footer Styling */
+.card-footer {
+    background-color: #f8f9fa; /* Light gray background */
+    border-top: 1px solid #e0e0e0; /* Light border on top */
+    text-align: right; /* Align text to the right */
+    padding: 10px;
+}
 
-    /* Card Title */
-    .card-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
+/* Card Title */
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 
-    /* Card Text */
-    .card-text {
-        font-size: 0.9rem;
-        color: #666; /* Lighter text color for description */
-        margin-bottom: 15px;
-    }
+/* Card Text */
+.card-text {
+    font-size: 0.9rem;
+    color: #666; /* Lighter text color for description */
+    margin-bottom: 15px;
+}
 
-    /* Text Muted */
-    .text-muted {
-        color: rgba(255, 255, 255, 0.6);
-    }
+/* Text Muted */
+.text-muted {
+    color: rgba(255, 255, 255, 0.6);
+}
 
-    /* Badge Styling */
-    .badge {
-        border-radius: 12px;
-        padding: 5px 15px;
-        font-size: 0.85rem;
-    }
+/* Badge Styling */
+.badge {
+    border-radius: 12px;
+    padding: 5px 15px;
+    font-size: 0.85rem;
+}
 
     /* Custom Badge Colors */
     .badge.bg-warning {
@@ -93,81 +93,95 @@
         color: #fff; /* White text */
     }
 
-    /* Button Styling */
-    .btn {
-        border-radius: 5px;
-        padding: 10px 15px;
-        font-weight: 600;
-    }
+/* Button Styling */
+.btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: 600;
+}
 
-    .btn-sm {
-        font-size: 0.875rem;
-    }
+.btn-sm {
+    font-size: 0.875rem;
+}
 
-    .btn-outline-dark {
-        border: 2px solid #333;
-        color: #333;
-    }
+.btn-outline-dark {
+    border: 2px solid #333;
+    color: #333;
+}
 
     .btn-outline-dark.disabled {
         cursor: not-allowed;
         opacity: 0.6;
     }
 
-    /* Table Styling */
-    .table {
-        background-color: #fff;
-        border-radius: 8px;
+/* Table Styling */
+.table {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-light {
+    background-color: #f8f9fa;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+}
+
+.table th {
+    font-weight: bold;
+}
+
+/* Table Row Hover Effect */
+.table tbody tr:hover {
+    background-color: #eaeaea;
+}
+
+/* Footer Styling */
+.text-end.small {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 15px;
     }
 
-    .table-bordered {
-        border: 1px solid #ddd;
+    .table td, .table th {
+        padding: 8px;
     }
 
-    .table-light {
-        background-color: #f8f9fa;
+    .d-flex {
+        flex-direction: column;
     }
+}
 
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f2f2f2;
-    }
+span.badge.bg-warning.text-dark {
+    color: white;
+}
 
-    .table th, .table td {
-        padding: 12px;
-        text-align: center;
-    }
-
-    .table th {
-        font-weight: bold;
-    }
-
-    /* Table Row Hover Effect */
-    .table tbody tr:hover {
-        background-color: #eaeaea;
-    }
-
-    /* Footer Styling */
-    .text-end.small {
-        font-size: 0.875rem;
-        color: #6c757d;
-    }
-
-    /* Responsive Design for Smaller Screens */
-    @media (max-width: 768px) {
-        .card-body {
-            padding: 15px;
-        }
-
-        .table td, .table th {
-            padding: 8px;
-        }
-
-        .d-flex {
-            flex-direction: column;
-        }
-    }
-
-
-    span.badge.bg-warning.text-dark{
-        color : white;
-    }
+/* Custom Styling for Specific Header Element */
+.card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center {
+    background-color: #000000 !important; /* Black background */
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -183,7 +183,7 @@ body {
 
 /* Additional Gradient Styling for .card-body.text-center */
 .card-body.text-center {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color:  #999999;
     color: white;
     padding: 20px;
     border-radius: 8px;

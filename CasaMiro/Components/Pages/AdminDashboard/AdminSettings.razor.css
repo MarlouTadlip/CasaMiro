@@ -1,35 +1,26 @@
 /* General Container */
 .container-fluid {
-    margin-top: 20px;
+    margin-top: 3px;
     background: #f3f4f6; /* Matches announcement.css lighter gradient end */
-    padding: 30px;
     border-radius: 12px; /* Increased for consistency */
-}
-
-/* Card Styling */
-.card {
-    margin-bottom: 20px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); /* Matches announcement.css */
-    padding: 20px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, #111111, #999999); /* Custom gradient */
 }
 
 /* Card Header */
 .card-header {
-    background: linear-gradient(135deg, #111111, #999999); /* Preserved dark gradient */
-    color: white;
-    padding: 15px 20px;
+    background-color: #000000; /* Set the background color to black */
+    color: white; /* Ensure the text is white */
+    padding: 20px;
     border-radius: 12px 12px 0 0;
 }
 
     .card-header h4 {
         margin-bottom: 0;
+        color: #ffffff; /* Ensured header text color is white */
     }
 
     .card-header .badge {
         font-size: 0.875rem;
+        color: white; /* Ensure badges have white text on dark backgrounds */
     }
 
 /* Profile Information */
@@ -40,6 +31,7 @@
     margin-bottom: 15px;
 }
 
+/* Card Body Image */
 .card-body .d-flex img {
     border-radius: 50%;
 }
@@ -47,7 +39,7 @@
 /* Form Labels */
 .card-body .form-label {
     font-weight: bold;
-    color: #ffffff; /* Changed to white */
+    color: #ffffff; /* Changed to white for contrast */
     margin-bottom: 5px;
 }
 
@@ -67,12 +59,12 @@
 /* Security Settings */
 .card-body .fw-bold {
     font-weight: 600;
-    color: #ffffff; /* Changed to white */
+    color: #ffffff; /* Changed to white for visibility */
 }
 
 .card-body .form-check-label {
     font-size: 0.9rem;
-    color: #ffffff; /* Changed to white */
+    color: #ffffff; /* Changed to white for contrast */
 }
 
 .card-body .form-check-input {
@@ -100,7 +92,7 @@
     padding: 15px;
     background-color: #ffffff;
     border: 1px solid #ddd;
-    color: #ffffff; /* Changed to white */
+    color: #333; /* Darkened text for readability on light background */
 }
 
 /* Under Review Badge */
@@ -122,24 +114,46 @@
 /* Card Text */
 .card-text {
     font-size: 0.9rem;
-    color: #ffffff; /* Changed to white */
+    color: #ffffff; /* Changed to white for readability */
 }
 
-p.text-muted.mb-4{
-    color :white;
+p.text-muted.mb-4 {
+    color: #ffffff; /* Made text white for consistency */
 }
 
-p.text0-muted.mb-0{
-   color : white;
+p.text0-muted.mb-0 {
+    color: #ffffff; /* Made text white for consistency */
 }
 
-
-div.d-flex.align-items-center{
+div.d-flex.align-items-center {
     background-color: #e9ecef;
-    color : black;
-    border-radius:6px;
+    color: black;
+    border-radius: 6px;
 }
 
-h5.border-bottom.pb-2{
-    color : white;
+h5.border-bottom.pb-2 {
+    color: white;
+}
+
+/* Ensure specific elements have black background and white text */
+h5.border-bottom.pb-2 {
+    color: black !important;
+}
+
+label.form-label {
+    color: black !important;
+}
+
+div.card-header.bg-dark.text-white.d-flex.justify-content-between.align-items-center {
+    background-color: #000000 !important; /* Ensure the background is black */
+    color: white !important; /* Ensure the text is white */
+}
+
+
+label.form-check-label{
+    color: black !important;
+}
+
+span.fw-bold{
+    color : black !important ;
 }

@@ -1,5 +1,5 @@
 ﻿div.card-body {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color: #999999;
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -32,4 +32,8 @@ button.btn.btn-outline-danger.mx-2 {
     color: white;
 }
 div.profile-header.card.shadow-sm.mb-4{ 
+}
+
+h5.card-title{
+    color: black;
 }

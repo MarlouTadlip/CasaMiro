@@ -1,40 +1,30 @@
-/* Card Styling */
-.card {
-    border-radius: 12px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
-    background: linear-gradient(135deg, #111111, #999999); /* Custom gradient applied */
-    padding: 20px;
-    border: none;
-    margin-bottom: 20px;
-    color: white; /* Ensure all text in the card is white */
-}
-
-/* Card Header with Preserved Custom Gradient */
+/* Card Header with Solid Black Background */
 .card-header {
-    background: linear-gradient(135deg, #111111, #999999); /* DO NOT CHANGE */
-    color: white; /* Ensuring header text is white */
+    background-color: #000000; /* Solid black header */
+    color: white;
     padding: 10px;
     border-radius: 12px 12px 0 0;
     font-size: 20px;
     font-weight: bold;
 }
 
-/* Card Body Styling */
+/* Card Body Styling (White background, dark text) */
 .card-body {
-    background: linear-gradient(135deg, #111111, #999999);
+    background-color: #ffffff;
     padding: 20px;
     font-size: 1rem;
-    color: white; /* Ensure all text inside card body is white */
+    color: #333; /* Dark text for readability on white */
+    border-radius: 0 0 12px 12px;
 }
 
 /* Card Footer Styling */
 .card-footer {
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #111111, #999999);
     border-top: 1px solid #e0e0e0;
     text-align: right;
     padding: 10px;
     border-radius: 0 0 12px 12px;
-    color: white; /* Ensure footer text is white */
+    color: white;
 }
 
 /* Card Title */
@@ -42,30 +32,43 @@
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 10px;
-    color: white; /* Ensure card title text is white */
+    color: #333; /* Match dark text on white background */
 }
 
 /* Card Text */
 .card-text {
     font-size: 0.9rem;
-    color: white; /* Ensure card text is white */
+    color: #555;
 }
 
 /* Paragraphs inside card body */
 .card-body p {
-    color: white; /* Ensure paragraphs inside the body are white */
+    color: #333;
 }
 
-/* Additional Text Elements (Ensure all text is white) */
-.card-body h1, .card-body h2, .card-body h3, .card-body h4, .card-body h5, .card-body h6 {
-    color: white; /* Ensure all headings are white */
+/* Additional Text Elements */
+.card-body h1,
+.card-body h2,
+.card-body h3,
+.card-body h4,
+.card-body h5,
+.card-body h6 {
+    color: #222;
 }
 
-.card-body span, .card-body li, .card-body a, .card-body label {
-    color: white; /* Ensure inline elements, list items, and labels are white */
+.card-body span,
+.card-body li,
+.card-body a,
+.card-body label {
+    color: #333;
 }
 
-/* Ensuring Small Text and Muted Text are White */
-small, .text-muted {
-    color: white !important; /* Force all small and muted text to be white */
+/* Small and Muted Text */
+small,
+.text-muted {
+    color: #666 !important;
+}
+
+h4.card-title{
+    color : white;
 }
