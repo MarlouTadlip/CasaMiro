@@ -1,40 +1,49 @@
 ﻿using CasaMiro.Data;
 using CasaMiro.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Components.Authorization;
+
 public class AuthenticationService
 {
     private readonly ApplicationDbContext _context;
-    private readonly AuthenticationStateProvider _authStateProvider;
 
-    public AuthenticationService(
-        ApplicationDbContext context,
-        AuthenticationStateProvider authStateProvider)
+    public AuthenticationService(ApplicationDbContext context)
     {
         _context = context;
-        _authStateProvider = authStateProvider;
     }
 
     public async Task<User?> LoginAsync(string email, string password)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-        if (user == null || user.Password != password) return null;
-
-        // Update authentication state
-        var claims = new List<Claim>
+        try
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role ?? "User")
-        };
-        var identity = new ClaimsIdentity(claims, "Cookies");
-        await ((CustomAuthStateProvider)_authStateProvider).SetUserAuthentication(identity);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user == null || user.Password != password) return null;
 
-        return user;
+            return user;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during login: {ex.Message}");
+            throw; // Re-throw exception for logging or higher-level handling
+        }
+    }
+
+    public async Task LogoutAsync()
+    {
+        try
+        {
+            // Implement logout logic here if necessary
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during logout: {ex.Message}");
+            throw; // Re-throw exception for logging or higher-level handling
+        }
+    }
+
+    public async Task<User?> GetUserAsync()
+    {
+        // Implement logic to retrieve the current user based on authentication state
+        // For demonstration purposes, this is simplified
+        return await _context.Users.FirstOrDefaultAsync(u => u.Email == "example@example.com");
     }
 }
-
-

@@ -4,6 +4,7 @@ using CasaMiro.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasaMiro.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410024433_hehehheehehsss")]
+    partial class hehehheehehsss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,35 +106,6 @@ namespace CasaMiro.Migrations
                     b.ToTable("ForumPosts");
                 });
 
-            modelBuilder.Entity("CasaMiro.Models.Reply", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ForumPostId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ForumPostId");
-
-                    b.ToTable("Replies");
-                });
-
             modelBuilder.Entity("CasaMiro.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -185,20 +159,9 @@ namespace CasaMiro.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CasaMiro.Models.Reply", b =>
-                {
-                    b.HasOne("CasaMiro.Models.ForumPost", null)
-                        .WithMany("Replies")
-                        .HasForeignKey("ForumPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CasaMiro.Models.ForumPost", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Replies");
                 });
 #pragma warning restore 612, 618
         }

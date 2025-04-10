@@ -12,20 +12,24 @@
     <div class="login-container">
         <div class="login-box animate__animated animate__fadeIn">
             <h2 class="text-center">Welcome Back</h2>
-            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" FormName="handelogin">
+
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" FormName="handleLogin">
                 <DataAnnotationsValidator />
-                <ValidationSummary />
+                <ValidationSummary class="text-danger" role="alert" />
                 <p class="text-danger animate__animated" id="errorMessage">@ErrorMessage</p>
+
                 <div class="mb-3">
                     <label class="form-label" for="email">Email Address</label>
                     <InputText id="email" type="email" class="form-control" placeholder="Enter your email" @bind-Value="loginModel.Email" />
                     <ValidationMessage For="@(() => loginModel.Email)" />
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label" for="password">Password</label>
                     <InputText id="password" type="password" class="form-control" placeholder="Enter your password" @bind-Value="loginModel.Password" />
                     <ValidationMessage For="@(() => loginModel.Password)" />
                 </div>
+
                 <button type="submit" class="btn btn-primary w-100">Login</button>
             </EditForm>
         </div>
@@ -41,6 +45,7 @@
         try
         {
             ErrorMessage = string.Empty;
+
             var user = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
 
             if (user == null)
@@ -50,7 +55,6 @@
                 return;
             }
 
-            // Navigation remains the same
             var role = user.Role ?? "User";
             if (role.Equals("Admin"))
             {
@@ -76,6 +80,7 @@
             await JS.InvokeVoidAsync("triggerShakeAnimation");
         }
     }
+
     private class LoginModel
     {
         [Required(ErrorMessage = "Email is required")]
@@ -85,5 +90,4 @@
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = string.Empty;
     }
-
 }

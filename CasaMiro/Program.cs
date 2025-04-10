@@ -23,8 +23,13 @@ namespace CasaMiro
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents(); // .NET 8's new Blazor Server
 
-            // Database (ensure connection string is in appsettings.json)
-            
+            // Database configuration
+            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
+
+            // Add HttpContextAccessor for APIs (optional)
             builder.Services.AddHttpContextAccessor();
 
             // Authentication (Cookie-based)
@@ -36,15 +41,17 @@ namespace CasaMiro
                     options.ExpireTimeSpan = TimeSpan.FromDays(1);
                     options.SlidingExpiration = true; // Recommended
                 });
-            builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
+
+            // Authorization services
             builder.Services.AddAuthorization();
 
+            // Register Authentication Services
+            builder.Services.AddScoped<CustomAuthenticationStateProvider>();
             builder.Services.AddScoped<AuthenticationService>();
-            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
-            builder.Services.AddCascadingAuthenticationState();
+
+            // Add Cascading Authentication State
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
             var app = builder.Build();
 
             // Middleware pipeline
@@ -59,6 +66,7 @@ namespace CasaMiro
             app.UseRouting();
             app.UseAuthentication(); // Must come before UseAuthorization
             app.UseAuthorization();
+
             app.UseAntiforgery();
 
             // Blazor endpoints
@@ -69,6 +77,7 @@ namespace CasaMiro
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.Run();
         }
     }

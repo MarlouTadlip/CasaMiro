@@ -37,14 +37,7 @@
     margin-bottom: 20px;
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    border: none;
-}
 
-.btn-primary:hover {
-    background-color: var(--button-hover-color);
-}
 
 /* Forum Topics List */
 .table-striped tbody tr:nth-of-type(odd) {
