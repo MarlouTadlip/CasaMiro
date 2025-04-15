@@ -57,32 +57,29 @@ h1 {
 
 /* Date Number */
 .date-number {
-    font-weight: bold;
-    font-size: 1.1rem;
     display: block;
-    margin-bottom: 0.25rem;
+    font-weight: bold;
 }
 
-/* Event List */
 .event-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-top: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
 }
 
-.event-list li {
-    margin-bottom: 0.25rem;
-}
+    .event-list li {
+        font-size: 0.9em;
+    }
 
-.event-list li a {
-    font-size: 0.9rem;
-    color: #ffdd57;
+.event-link {
+    color: #007bff;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.event-list li a:hover {
-    text-decoration: underline;
-}
+    .event-link:hover {
+        text-decoration: underline;
+    }
 
 /* Buttons */
 .btn-primary {

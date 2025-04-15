@@ -16,7 +16,7 @@ namespace CasaMiro.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; } // New table
-
+        public DbSet<Event> Events { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

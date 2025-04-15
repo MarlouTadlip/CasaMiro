@@ -1,152 +1,159 @@
 ﻿@page "/usereventcalendar"
 @using CasaMiro.Models
+@using CasaMiro.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
-
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JSRuntime
 @using CasaMiro.Components.Layout
 @layout UserDashboardLayout
+@rendermode InteractiveServer
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-10 mx-auto">
-
             <!-- Calendar Header -->
             <div class="card shadow-sm mb-4">
                 <div class="card-body text-center">
                     <h3 class="card-title">Event Calendar</h3>
-                    <p class="text-muted">View and manage your scheduled events.</p>
+                    <p class="text-muted">View community events and activities.</p>
 
                     <!-- Month Navigation -->
                     <div class="d-flex justify-content-between align-items-center">
-                        <button class="btn btn-secondary" @onclick="PreviousMonth">← Previous</button>
+                        <button class="btn btn-secondary" @onclick="PreviousMonth"><i class="fa-solid fa-chevron-left"></i> Previous</button>
                         <h4>@currentMonth.ToString("MMMM yyyy")</h4>
-                        <button class="btn btn-secondary" @onclick="NextMonth">Next →</button>
+                        <button class="btn btn-secondary" @onclick="NextMonth">Next <i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
             </div>
 
             <!-- Calendar Grid -->
-            <div class="calendar mb-5">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <!-- Days of the Week -->
+                    <div class="calendar-header d-grid text-center fw-bold border"
+                         style="grid-template-columns: repeat(7, 1fr);">
+                        @foreach (var dayName in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
+                        {
+                            <div class="border py-2 bg-light text-truncate">@dayName</div>
+                        }
+                    </div>
 
-                <!-- Days of the Week -->
-                <div class="calendar-header d-grid text-center fw-bold border"
-                     style="grid-template-columns: repeat(7, 1fr);">
-                    @foreach (var dayName in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
-                    {
-                        <div class="border py-2 bg-light text-truncate">@dayName</div>
-                    }
-                </div>
+                    <!-- Calendar Days -->
+                    <div class="calendar-body d-grid text-center"
+                         style="grid-template-columns: repeat(7, 1fr); grid-auto-rows: 100px; overflow: hidden;">
+                        @for (int i = 0; i < startDayOffset; i++)
+                        {
+                            <div class="border bg-white"></div>
+                        }
 
-                <!-- Calendar Days -->
-                <div class="calendar-body d-grid text-center"
-                     style="
-                        display: grid;
-                        grid-template-columns: repeat(7, 1fr);
-                        grid-auto-rows: 100px;
-                        overflow: hidden;
-                     ">
-                    @for (int i = 0; i < startDayOffset; i++)
-                    {
-                        <div class="border bg-white"></div>
-                    }
+                        @foreach (var day in Enumerable.Range(1, daysInMonth))
+                        {
+                            var date = new DateTime(currentMonth.Year, currentMonth.Month, day);
+                            var eventsForDay = events.Where(e => e.Date.Date == date).ToList();
 
-                    @foreach (var day in Enumerable.Range(1, daysInMonth))
-                    {
-                        var eventForDay = userEvents.FirstOrDefault(e =>
-                        e.EventDate.Date == new DateTime(currentMonth.Year, currentMonth.Month, day));
-
-                        <div class="border p-2 position-relative d-flex flex-column justify-content-between"
-                             @onclick="() => ShowEventDetails(day)"
-                             style="cursor: pointer; overflow: hidden;">
-                            <div class="text-end fw-bold">@day</div>
-                            @if (eventForDay != null)
-                            {
-                                <div class="badge bg-info text-dark text-truncate mt-1 w-100"
-                                     style="font-size: 0.75rem;"
-                                     title="@eventForDay.Name">
-                                    @eventForDay.Name
-                                </div>
-                            }
-                        </div>
-                    }
+                            <div class="border p-2 position-relative d-flex flex-column justify-content-between"
+                                 @onclick="() => ShowEventDetails(date)"
+                                 style="cursor: pointer; overflow: hidden;">
+                                <div class="text-end fw-bold">@day</div>
+                                @if (eventsForDay.Any())
+                                {
+                                    @foreach (var evt in eventsForDay)
+                                    {
+                                        <div class="badge bg-info text-dark text-truncate mt-1 w-100"
+                                             style="font-size: 0.75rem;"
+                                             title="@evt.Title">
+                                            @evt.Title
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Event Modal -->
-@if (isEventModalVisible)
-{
-    <div class="modal fade show d-block"
-         tabindex="-1"
-         role="dialog"
-         style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content border border-dark shadow rounded-3">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        Event on @selectedEventDate.ToShortDateString()
-                    </h5>
-                    <button type="button"
-                            class="btn-close"
-                            @onclick="CloseEventModal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if (selectedEvent != null)
+<!-- Event Details Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventDetailsModalLabel">Events on @selectedEventDate.ToString("MMMM d, yyyy")</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseEventModal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (selectedEvents.Any())
+                {
+                    @foreach (var evt in selectedEvents)
                     {
-                        <p><strong>@selectedEvent.Name</strong></p>
-                        <p>@selectedEvent.Description</p>
+                        <div class="mb-3">
+                            <p><strong>@evt.Title</strong></p>
+                            <p>@evt.Description</p>
+                            <p><small>Created by: @(evt.CreatedBy?.FullName ?? "Unknown") (@(evt.CreatedBy?.Email ?? "N/A"))</small></p>
+                        </div>
                     }
-                    else
-                    {
-                        <p>No events for this day.</p>
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" @onclick="CloseEventModal">Close</button>
-                </div>
+                }
+                else
+                {
+                    <p>No events for this day.</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" @onclick="CloseEventModal">Close</button>
             </div>
         </div>
     </div>
-}
+</div>
 
 @code {
     private DateTime currentMonth = DateTime.Now;
     private int daysInMonth;
     private int startDayOffset;
-
-    private List<UserEvent> userEvents = new()
-    {
-        new UserEvent
-        {
-            Id = 1,
-            Name = "Project Meeting",
-            EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10),
-            Description = "Monthly project discussion."
-        },
-        new UserEvent
-        {
-            Id = 2,
-            Name = "Dentist Appointment",
-            EventDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 15),
-            Description = "Annual check-up."
-        }
-    };
-
-    private UserEvent selectedEvent;
+    private List<Event> events = new();
+    private List<Event> selectedEvents = new();
     private DateTime selectedEventDate;
-    private bool isEventModalVisible = false;
+    private string? currentUserEmail;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        UpdateCalendar();
+        // Get current user
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            currentUserEmail = user.FindFirst(ClaimTypes.Name)?.Value;
+            Console.WriteLine($"UserEventCalendar: Initialized for user {currentUserEmail}");
+        }
+        else
+        {
+            Console.WriteLine("UserEventCalendar: User not authenticated, redirecting to login");
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        await UpdateCalendar();
     }
 
-    private void UpdateCalendar()
+    private async Task UpdateCalendar()
     {
         daysInMonth = DateTime.DaysInMonth(currentMonth.Year, currentMonth.Month);
         startDayOffset = (int)new DateTime(currentMonth.Year, currentMonth.Month, 1).DayOfWeek;
+
+        // Load events for the current month
+        using var context = await DbFactory.CreateDbContextAsync();
+        events = await context.Events
+            .Include(e => e.CreatedBy)
+            .Where(e => e.Date.Year == currentMonth.Year && e.Date.Month == currentMonth.Month)
+            .OrderBy(e => e.Date)
+            .ToListAsync();
+        StateHasChanged();
     }
 
     private void PreviousMonth()
@@ -161,15 +168,15 @@
         UpdateCalendar();
     }
 
-    private void ShowEventDetails(int day)
+    private void ShowEventDetails(DateTime date)
     {
-        selectedEventDate = new DateTime(currentMonth.Year, currentMonth.Month, day);
-        selectedEvent = userEvents.FirstOrDefault(e => e.EventDate.Date == selectedEventDate);
-        isEventModalVisible = true;
+        selectedEventDate = date;
+        selectedEvents = events.Where(e => e.Date.Date == date).ToList();
+        JSRuntime.InvokeVoidAsync("showModal", "eventDetailsModal");
     }
 
     private void CloseEventModal()
     {
-        isEventModalVisible = false;
+        JSRuntime.InvokeVoidAsync("hideModal", "eventDetailsModal");
     }
 }

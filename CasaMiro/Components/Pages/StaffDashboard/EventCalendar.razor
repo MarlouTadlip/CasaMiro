@@ -1,11 +1,25 @@
 ﻿@page "/eventcalendar"
 @using CasaMiro.Models
+@using CasaMiro.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IJSRuntime JSRuntime
 @using CasaMiro.Components.Layout
 @layout DashboardLayout
+@rendermode InteractiveServer
 
 <div class="container">
     <h1 class="mb-4">Event Calendar</h1>
+
+    <!-- Calendar Navigation -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-secondary" @onclick="PreviousMonth"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+        <h4 class="my-auto">@currentMonth.ToString("MMMM yyyy")</h4>
+        <button class="btn btn-secondary" @onclick="NextMonth">Next <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
 
     <!-- Event Calendar Display -->
     <div class="card mb-4">
@@ -27,15 +41,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < 6; i++) 
+                    @{
+                        var firstDayOfMonth = new DateTime(currentMonth.Year, currentMonth.Month, 1);
+                        var startDate = firstDayOfMonth.AddDays(-(int)firstDayOfMonth.DayOfWeek);
+                    }
+                    @for (int i = 0; i < 6; i++)
                     {
                         <tr>
                             @for (int j = 0; j < 7; j++)
                             {
-                                var currentDate = currentMonth.StartOfWeek().AddDays(i * 7 + j);
+                                var currentDate = startDate.AddDays(i * 7 + j);
+                                var isCurrentMonth = currentDate.Month == currentMonth.Month;
                                 var eventsForDay = events.Where(e => e.Date.Date == currentDate.Date).ToList();
 
-                                <td class="position-relative">
+                                <td class="@(isCurrentMonth ? "" : "text-muted") position-relative">
                                     <span class="date-number">@currentDate.Day</span>
                                     @if (eventsForDay.Any())
                                     {
@@ -43,7 +62,7 @@
                                             @foreach (var ev in eventsForDay)
                                             {
                                                 <li>
-                                                    <a href="#" @onclick="() => ShowEventDetails(ev)">@ev.Title</a>
+                                                    <span class="event-link" @onclick="() => ShowEventDetails(ev)">@ev.Title</span>
                                                 </li>
                                             }
                                         </ul>
@@ -65,13 +84,13 @@
     </div>
 
     <!-- Modal for Adding/Editing Event -->
-    <div class="modal" tabindex="-1" role="dialog" id="addEventModal" style="@eventModalStyle">
+    <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@(eventEditMode ? "Edit" : "Add") Event</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideEventModal">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title" id="addEventModalLabel">@(eventEditMode ? "Edit" : "Add") Event</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" @onclick="HideEventModal">
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -100,82 +119,169 @@
     </div>
 
     <!-- Event Details Modal -->
-    <div class="modal" tabindex="-1" role="dialog" id="eventDetailsModal" style="@eventDetailsModalStyle">
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Event Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideEventDetailsModal">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title" id="eventDetailsModalLabel">Event Details</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" @onclick="HideEventDetailsModal">
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <h4>@currentEvent.Title</h4>
                     <p><strong>Date:</strong> @currentEvent.Date.ToString("MM/dd/yyyy")</p>
-                    <p>@currentEvent.Description</p>
+                    <p><strong>Description:</strong> @currentEvent.Description</p>
+                    <p><strong>Created By:</strong> @(currentEvent.CreatedBy?.FullName ?? "Unknown") (@(currentEvent.CreatedBy?.Email ?? "N/A"))</p>
+                    <p><strong>Created On:</strong> @currentEvent.CreatedDate.ToString("MM/dd/yyyy")</p>
+                    <button class="btn btn-warning btn-sm" @onclick="() => EditEvent(currentEvent)">Edit</button>
+                    <button class="btn btn-danger btn-sm" @onclick="() => DeleteEvent(currentEvent.Id)">Delete</button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 @code {
-    private List<Event> events = new List<Event>
-    {
-        new Event { Id = 1, Title = "Team Meeting", Date = DateTime.Now.AddDays(5), Description = "Annual planning session." },
-        new Event { Id = 2, Title = "Product Launch", Date = DateTime.Now.AddDays(10), Description = "Launch of the new product." },
-        new Event { Id = 3, Title = "Holiday Party", Date = DateTime.Now.AddDays(12), Description = "Year-end celebration." }
-    };
-
-    private Event currentEvent = new Event() { Title = "", Description = "" };
+    private List<Event> events = new();
+    private Event currentEvent = new() { Title = "", Description = "", Date = DateTime.Today };
     private bool eventEditMode = false;
-    private string eventModalStyle = "display:none;";
-    private string eventDetailsModalStyle = "display:none;";
+    private DateTime currentMonth = DateTime.Today;
+    private string? currentUserEmail;
 
-    private DateTime currentMonth = DateTime.Now;
+    protected override async Task OnInitializedAsync()
+    {
+        // Get current user
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            currentUserEmail = user.FindFirst(ClaimTypes.Name)?.Value;
+            Console.WriteLine($"EventCalendar: Initialized for user {currentUserEmail}");
+        }
+        else
+        {
+            Console.WriteLine("EventCalendar: User not authenticated, redirecting to login");
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        // Load events
+        await LoadEvents();
+    }
+
+    private async Task LoadEvents()
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        events = await context.Events
+            .Include(e => e.CreatedBy)
+            .Where(e => e.Date.Year == currentMonth.Year && e.Date.Month == currentMonth.Month)
+            .OrderBy(e => e.Date)
+            .ToListAsync();
+        StateHasChanged();
+    }
+
+    private void PreviousMonth()
+    {
+        currentMonth = currentMonth.AddMonths(-1);
+        LoadEvents();
+    }
+
+    private void NextMonth()
+    {
+        currentMonth = currentMonth.AddMonths(1);
+        LoadEvents();
+    }
 
     private void ShowAddEventModal()
     {
-        currentEvent = new Event() { Title = "", Description = "" };
+        currentEvent = new Event { Title = "", Description = "", Date = DateTime.Today };
         eventEditMode = false;
-        eventModalStyle = "display:block;";
+        JSRuntime.InvokeVoidAsync("showModal", "addEventModal");
     }
 
     private void ShowEventDetails(Event eventDetails)
     {
         currentEvent = eventDetails;
-        eventDetailsModalStyle = "display:block;";
+        JSRuntime.InvokeVoidAsync("showModal", "eventDetailsModal");
+    }
+
+    private void EditEvent(Event eventToEdit)
+    {
+        currentEvent = new Event
+            {
+                Id = eventToEdit.Id,
+                Title = eventToEdit.Title,
+                Date = eventToEdit.Date,
+                Description = eventToEdit.Description,
+                CreatedById = eventToEdit.CreatedById,
+                CreatedDate = eventToEdit.CreatedDate
+            };
+        eventEditMode = true;
+        JSRuntime.InvokeVoidAsync("hideModal", "eventDetailsModal");
+        JSRuntime.InvokeVoidAsync("showModal", "addEventModal");
+    }
+
+    private async Task DeleteEvent(int eventId)
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        var eventToDelete = await context.Events.FindAsync(eventId);
+        if (eventToDelete != null)
+        {
+            context.Events.Remove(eventToDelete);
+            await context.SaveChangesAsync();
+            await LoadEvents();
+        }
+        JSRuntime.InvokeVoidAsync("hideModal", "eventDetailsModal");
     }
 
     private void HideEventModal()
     {
-        eventModalStyle = "display:none;";
+        JSRuntime.InvokeVoidAsync("hideModal", "addEventModal");
     }
 
     private void HideEventDetailsModal()
     {
-        eventDetailsModalStyle = "display:none;";
+        JSRuntime.InvokeVoidAsync("hideModal", "eventDetailsModal");
     }
 
-    private void HandleEventSubmit()
+    private async Task HandleEventSubmit()
     {
+        if (string.IsNullOrEmpty(currentUserEmail))
+        {
+            Console.WriteLine("EventCalendar: Cannot submit event, no user email");
+            return;
+        }
+
+        using var context = await DbFactory.CreateDbContextAsync();
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+        if (user == null)
+        {
+            Console.WriteLine($"EventCalendar: User {currentUserEmail} not found in database");
+            return;
+        }
+
         if (!eventEditMode)
         {
-            currentEvent.Id = events.Max(e => e.Id) + 1; // Simple auto-increment logic
-            events.Add(currentEvent);
+            currentEvent.CreatedById = user.Id; // User.Id is int, matches CreatedById
+            currentEvent.CreatedDate = DateTime.UtcNow;
+            context.Events.Add(currentEvent);
         }
         else
         {
-            var eventToUpdate = events.FirstOrDefault(e => e.Id == currentEvent.Id);
+            var eventToUpdate = await context.Events.FindAsync(currentEvent.Id);
             if (eventToUpdate != null)
             {
                 eventToUpdate.Title = currentEvent.Title;
-                eventToUpdate.Description = currentEvent.Description;
                 eventToUpdate.Date = currentEvent.Date;
+                eventToUpdate.Description = currentEvent.Description;
+                // CreatedById and CreatedDate remain unchanged during edit
             }
         }
 
+        await context.SaveChangesAsync();
+        Console.WriteLine($"EventCalendar: Saved event {currentEvent.Title} for user {currentUserEmail}");
+        await LoadEvents();
         HideEventModal();
     }
 }
