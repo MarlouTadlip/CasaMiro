@@ -13,50 +13,52 @@
         <div class="col-12">
             <div class="card shadow-sm mt-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title mb-0">Service Requests Overview</h4>
+                    <h4 class="mb-0 text-white">Service Requests Overview</h4>
                 </div>
                 <div class="card-body">
                     @if (serviceRequests is not null && serviceRequests.Any())
                     {
-                        <table class="table table-hover table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Request ID</th>
-                                    <th>Description</th>
-                                    <th>Submitted By</th>
-                                    <th>Date Created</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var req in serviceRequests)
-                                {
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered">
+                                <thead>
                                     <tr>
-                                        <td>@req.Id</td>
-                                        <td>@req.RequestId</td>
-                                        <td>@(req.Description.Length > 50 ? req.Description[..50] + "..." : req.Description)</td>
-                                        <td>@req.User?.FullName</td>
-                                        <td>@req.CreatedDate.ToString("MM/dd/yyyy")</td>
-                                        <td>
-                                            <span class="badge @GetStatusBadgeClass(req.Status)">
-                                                @req.Status
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <select class="form-select form-select-sm" @onchange="e => UpdateStatus(req.Id, e.Value?.ToString())">
-                                                <option disabled selected>Change Status</option>
-                                                <option value="Pending">Pending</option>
-                                                <option value="In Progress">In Progress</option>
-                                                <option value="Completed">Completed</option>
-                                                <option value="Rejected">Rejected</option>
-                                            </select>
-                                        </td>
+                                        <th>#</th>
+                                        <th>Request ID</th>
+                                        <th>Description</th>
+                                        <th>Submitted By</th>
+                                        <th>Date Created</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var req in serviceRequests)
+                                    {
+                                        <tr>
+                                            <td>@req.Id</td>
+                                            <td>@req.RequestId</td>
+                                            <td>@(req.Description.Length > 50 ? req.Description[..50] + "..." : req.Description)</td>
+                                            <td>@req.User?.FullName</td>
+                                            <td>@req.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                            <td>
+                                                <span class="badge @GetStatusBadgeClass(req.Status)">
+                                                    @req.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <select class="form-select form-select-sm" @onchange="e => UpdateStatus(req.Id, e.Value?.ToString())">
+                                                    <option disabled selected>Change Status</option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="In Progress">In Progress</option>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Rejected">Rejected</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     }
                     else
                     {
@@ -103,8 +105,8 @@
     {
         "Pending" => "bg-warning text-dark",
         "In Progress" => "bg-info text-white",
-        "Completed" => "bg-success",
-        "Rejected" => "bg-danger",
-        _ => "bg-secondary"
+        "Completed" => "bg-success text-white",
+        "Rejected" => "bg-danger text-white",
+        _ => "bg-secondary text-white"
     };
 }
