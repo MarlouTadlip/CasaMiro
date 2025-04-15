@@ -1,9 +1,11 @@
 using CasaMiro.Components;
 using CasaMiro.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using CasaMiro.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace CasaMiro
 {
@@ -13,60 +15,64 @@ namespace CasaMiro
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Enable detailed Blazor circuit errors (for debugging)
+            // Enable detailed Blazor circuit errors
             builder.Services.Configure<CircuitOptions>(options =>
             {
                 options.DetailedErrors = true;
             });
 
-            // Add services to the container
+            // Add services
             builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents(); // .NET 8's new Blazor Server
+                .AddInteractiveServerComponents();
 
-            // Database configuration
+            builder.Services.AddHttpClient();
+
+            // Database
             builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
 
-            // Add HttpContextAccessor for APIs (optional)
-            builder.Services.AddHttpContextAccessor();
+            // Authentication services
+            builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            builder.Services.AddScoped<AuthenticationService>();
+            builder.Services.AddScoped<UserDataService>();
 
-            // Authentication (Cookie-based)
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.Cookie.HttpOnly = true;
-                    options.LoginPath = "/login"; // Ensure this route exists
-                    options.ExpireTimeSpan = TimeSpan.FromDays(1);
-                    options.SlidingExpiration = true; // Recommended
-                });
-
-            // Authorization services
+            // Authentication and Authorization
+            builder.Services.AddAuthentication("SimpleAuth")
+                .AddScheme<AuthenticationSchemeOptions, SimpleAuthenticationHandler>("SimpleAuth", null);
             builder.Services.AddAuthorization();
 
-            // Register Authentication Services
-            builder.Services.AddScoped<CustomAuthenticationStateProvider>();
-            builder.Services.AddScoped<AuthenticationService>();
+            // Circuit retention
+            builder.Services.AddServerSideBlazor(options =>
+            {
+                options.DetailedErrors = true;
+                options.DisconnectedCircuitRetentionPeriod = TimeSpan.FromMinutes(5);
+            });
 
-            // Add Cascading Authentication State
-            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            // Logging
+            builder.Services.AddLogging(logging =>
+            {
+                logging.AddConsole();
+                logging.AddDebug();
+            });
 
             var app = builder.Build();
 
-            // Middleware pipeline
+            // Middleware
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Error"); // Production error handling
-                app.UseHsts(); // HTTP Strict Transport Security
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthentication(); // Must come before UseAuthorization
-            app.UseAuthorization();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseAntiforgery();
 
             // Blazor endpoints
@@ -77,6 +83,25 @@ namespace CasaMiro
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Debug endpoint
+            app.MapGet("/debug-auth", async (CustomAuthenticationStateProvider authProvider) =>
+            {
+                var state = await authProvider.GetAuthenticationStateAsync();
+                var user = state.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    var claims = user.Claims.Select(c => $"{c.Type}: {c.Value}").ToList();
+                    return Results.Ok(new
+                    {
+                        Authenticated = true,
+                        Name = user.Identity.Name,
+                        Roles = user.FindAll(ClaimTypes.Role).Select(c => c.Value),
+                        Claims = claims
+                    });
+                }
+                return Results.Ok(new { Authenticated = false });
+            });
 
             app.Run();
         }

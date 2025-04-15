@@ -1,61 +1,60 @@
-﻿using CasaMiro.Data;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
+using CasaMiro.Models;
 
-public class CustomAuthenticationStateProvider : AuthenticationStateProvider
+namespace CasaMiro
 {
-    private readonly ApplicationDbContext _context;
-
-    public CustomAuthenticationStateProvider(ApplicationDbContext context)
+    public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        _context = context;
-    }
+        // Use static to share state across instances (temporary for debugging)
+        private static User? _currentUser;
 
-    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-    {
-        try
+        public override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            // Example: Retrieve user from database or session (replace with your logic)
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "example@example.com");
-
-            if (user != null)
+            if (_currentUser == null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role ?? "User")
-                };
-
-                var identity = new ClaimsIdentity(claims, "CustomAuthScheme");
-                var principal = new ClaimsPrincipal(identity);
-
-                return new AuthenticationState(principal);
+                Console.WriteLine($"CustomAuthProvider: GetAuthenticationStateAsync - No user set (Thread: {Thread.CurrentThread.ManagedThreadId})");
+                return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
             }
 
-            return new AuthenticationState(new ClaimsPrincipal());
+            var identity = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, _currentUser.Email),
+                new Claim(ClaimTypes.Role, _currentUser.Role ?? "User"),
+                new Claim("FullName", _currentUser.FullName ?? "User")
+            }, "SimpleAuth");
+
+            Console.WriteLine($"CustomAuthProvider: GetAuthenticationStateAsync - User: {_currentUser.Email}, Role: {_currentUser.Role} (Thread: {Thread.CurrentThread.ManagedThreadId})");
+            var principal = new ClaimsPrincipal(identity);
+            return Task.FromResult(new AuthenticationState(principal));
         }
-        catch (Exception ex)
+
+        public async Task LoginAsync(User user)
         {
-            Console.WriteLine($"Error getting authentication state: {ex.Message}");
-            return new AuthenticationState(new ClaimsPrincipal());
+            if (user == null)
+            {
+                Console.WriteLine("CustomAuthProvider: LoginAsync - Null user provided");
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            _currentUser = user;
+            Console.WriteLine($"CustomAuthProvider: LoginAsync - Set user: {user.Email}, Role: {user.Role}, FullName: {user.FullName} (Thread: {Thread.CurrentThread.ManagedThreadId})");
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            await Task.CompletedTask;
         }
-    }
 
-    public void NotifyUserAuthentication(string email)
-    {
-        var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[]
+        public async Task LogoutAsync()
         {
-            new Claim(ClaimTypes.Name, email)
-        }, "CustomAuthScheme"));
+            Console.WriteLine($"CustomAuthProvider: LogoutAsync - Clearing user: {_currentUser?.Email} (Thread: {Thread.CurrentThread.ManagedThreadId})");
+            _currentUser = null;
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            await Task.CompletedTask;
+        }
 
-        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(authenticatedUser)));
-    }
-
-    public void NotifyUserLogout()
-    {
-        var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
-        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymousUser)));
+        public User? GetCurrentUser()
+        {
+            Console.WriteLine($"CustomAuthProvider: GetCurrentUser - User is: {(_currentUser != null ? _currentUser.Email : "null")} (Thread: {Thread.CurrentThread.ManagedThreadId})");
+            return _currentUser;
+        }
     }
 }

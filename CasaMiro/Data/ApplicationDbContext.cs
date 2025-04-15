@@ -15,6 +15,7 @@ namespace CasaMiro.Data
         public DbSet<ForumPost> ForumPosts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        public DbSet<ServiceRequest> ServiceRequests { get; set; } // New table
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,18 @@ namespace CasaMiro.Data
                .HasOne<ForumPost>()
                .WithMany(p => p.Replies)
                .HasForeignKey(r => r.ForumPostId);
+
+            // Configure ServiceRequest relationship
+            modelBuilder.Entity<ServiceRequest>()
+                .HasOne(sr => sr.User)
+                .WithMany() // No navigation property on User
+                .HasForeignKey(sr => sr.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // Delete requests if user is deleted
+
+            // Ensure RequestId is unique
+            modelBuilder.Entity<ServiceRequest>()
+                .HasIndex(sr => sr.RequestId)
+                .IsUnique();
         }
     }
 }

@@ -1,18 +1,24 @@
 ﻿@page "/userservicerequests"
 @using CasaMiro.Models
+@using CasaMiro.Data
+@using Microsoft.EntityFrameworkCore
+@using System.Security.Claims
 @inject NavigationManager Navigation
-
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+@inject IJSRuntime JSRuntime
+@inject AuthenticationStateProvider AuthStateProvider
+@rendermode InteractiveServer
 @using CasaMiro.Components.Layout
 @layout UserDashboardLayout
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Page Header Section -->
+        <!-- Page Header -->
         <div class="col-lg-8 mx-auto">
             <div class="card shadow-sm mb-4">
                 <div class="card-body text-center">
                     <h3 class="card-title">Service Requests</h3>
-                    <p class="text-muted">Submit and track your service requests. Here, you can view the status of your requests and follow up on them.</p>
+                    <p class="text-muted">Submit and track your service requests. View status and details below.</p>
                 </div>
             </div>
 
@@ -23,64 +29,109 @@
                 </button>
             </div>
 
-            <!-- User's Service Requests Table -->
+            <!-- Service Requests Table -->
             <div class="card shadow-sm mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Your Service Requests</h5>
-                    <p class="text-muted">Here are all your requests with the current status. You can click on any request to get more details.</p>
+                    <p class="text-muted">Click 'View Details' to see more information about each request.</p>
 
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Request ID</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var request in serviceRequests)
-                            {
+                    @if (serviceRequests.Any())
+                    {
+                        <table class="table table-striped">
+                            <thead>
                                 <tr>
-                                    <td>@request.Id</td>
-                                    <td>@request.RequestId</td>
-                                    <td>@request.Description</td>
-                                    <td>@request.Status</td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm" @onclick="() => ViewRequestDetails(request.Id)">
-                                            <i class="fa-solid fa-eye"></i> View Details
-                                        </button>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Request ID</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var request in serviceRequests)
+                                {
+                                    <tr>
+                                        <td>@request.Id</td>
+                                        <td>@request.RequestId</td>
+                                        <td>@(request.Description.Length > 50 ? request.Description.Substring(0, 50) + "..." : request.Description)</td>
+                                        <td>@request.Status</td>
+                                        <td>@request.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" @onclick="() => ShowDetailsModal(request.Id)">
+                                                <i class="fa-solid fa-eye"></i> View Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No service requests found.</p>
+                    }
                 </div>
             </div>
 
-            <!-- Modal for Creating a New Service Request -->
-            <div class="modal fade" id="newRequestModal" tabindex="-1" role="dialog" aria-labelledby="newRequestModalLabel" aria-hidden="true" style="@newRequestModalStyle">
+            <!-- Modal for New Service Request -->
+            <div class="modal fade" id="newRequestModal" tabindex="-1" role="dialog" aria-labelledby="newRequestModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="newRequestModalLabel">Submit New Service Request</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="HideNewRequestModal">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" @onclick="HideNewRequestModal">
+                                <span aria-hidden="true">×</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <EditForm Model="newRequest" OnValidSubmit="HandleSubmitNewRequest">
                                 <DataAnnotationsValidator />
-                                <ValidationSummary />
+                                <ValidationSummary class="text-danger" />
 
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="Description">Request Description</label>
-                                    <InputTextArea id="Description" class="form-control" @bind-Value="newRequest.Description" placeholder="Describe the issue" />
+                                    <InputTextArea id="Description" class="form-control" @bind-Value="newRequest.Description" placeholder="Describe the issue (e.g., leaking faucet)" />
+                                    <ValidationMessage For="@(() => newRequest.Description)" />
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Submit Request</button>
                             </EditForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for Viewing Details -->
+            <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailsModalLabel">Service Request Details</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" @onclick="HideDetailsModal">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @if (selectedRequest != null)
+                            {
+                                <dl>
+                                    <dt>Request ID</dt>
+                                    <dd>@selectedRequest.RequestId</dd>
+                                    <dt>Description</dt>
+                                    <dd>@selectedRequest.Description</dd>
+                                    <dt>Status</dt>
+                                    <dd>@selectedRequest.Status</dd>
+                                    <dt>Created Date</dt>
+                                    <dd>@selectedRequest.CreatedDate.ToString("MM/dd/yyyy HH:mm")</dd>
+                                    <dt>Submitted By</dt>
+                                    <dd>@selectedRequest.User?.FullName (@selectedRequest.User?.Email)</dd>
+                                </dl>
+                            }
+                            else
+                            {
+                                <p>Loading...</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -90,50 +141,100 @@
 </div>
 
 @code {
-    // Sample data for user service requests using your model
-    private List<UserServiceRequest> serviceRequests = new List<UserServiceRequest>
+    private List<ServiceRequest> serviceRequests = new();
+    private ServiceRequest newRequest = new();
+    private ServiceRequest? selectedRequest;
+    private string? currentUserEmail;
+
+    protected override async Task OnInitializedAsync()
     {
-        new UserServiceRequest { Id = 1, RequestId = "SR001", Description = "Water leakage in the kitchen", Status = "Pending" },
-        new UserServiceRequest { Id = 2, RequestId = "SR002", Description = "Air conditioner not cooling", Status = "In Progress" }
-    };
+        // Get current user
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            currentUserEmail = user.FindFirst(ClaimTypes.Name)?.Value;
+            Console.WriteLine($"UserServiceRequests: Initialized for user {currentUserEmail}");
+        }
+        else
+        {
+            Console.WriteLine("UserServiceRequests: User not authenticated, redirecting to login");
+            Navigation.NavigateTo("/login");
+            return;
+        }
 
-    private UserServiceRequest newRequest = new UserServiceRequest();
-    private string newRequestModalStyle = "display:none;";
+        // Load service requests
+        await LoadServiceRequests();
+    }
 
-    // Show modal for submitting a new service request
+    private async Task LoadServiceRequests()
+    {
+        if (string.IsNullOrEmpty(currentUserEmail))
+        {
+            Console.WriteLine("UserServiceRequests: No user email, cannot load requests");
+            return;
+        }
+
+        using var context = await DbFactory.CreateDbContextAsync();
+        serviceRequests = await context.ServiceRequests
+            .Include(sr => sr.User)
+            .Where(sr => sr.User != null && sr.User.Email == currentUserEmail)
+            .OrderByDescending(sr => sr.CreatedDate)
+            .ToListAsync();
+        Console.WriteLine($"UserServiceRequests: Loaded {serviceRequests.Count} requests for {currentUserEmail}");
+        StateHasChanged();
+    }
+
     private void ShowNewRequestModal()
     {
-        newRequest = new UserServiceRequest(); // Reset new request model
-        newRequestModalStyle = "display:block;";
+        newRequest = new ServiceRequest();
+        JSRuntime.InvokeVoidAsync("showModal", "newRequestModal");
     }
 
-    // Hide modal for new service request
     private void HideNewRequestModal()
     {
-        newRequestModalStyle = "display:none;";
+        JSRuntime.InvokeVoidAsync("hideModal", "newRequestModal");
     }
 
-    // Handle submitting the new service request form
-    private void HandleSubmitNewRequest()
+    private async Task HandleSubmitNewRequest()
     {
-        // Add the new service request to the list
-        newRequest.RequestId = "SR" + (serviceRequests.Count + 1).ToString("D3");
-        newRequest.Status = "Pending"; // New requests start as pending
-        serviceRequests.Add(newRequest);
-
-        // Hide the modal after submitting
-        HideNewRequestModal();
-    }
-
-    // View details of a service request
-    private void ViewRequestDetails(int id)
-    {
-        var request = serviceRequests.FirstOrDefault(r => r.Id == id);
-        if (request != null)
+        if (string.IsNullOrEmpty(currentUserEmail))
         {
-            // For simplicity, you could show the request details in a modal or alert
-            // For now, we'll just show it in the console (you can customize this)
-            Console.WriteLine($"Viewing request details: {request.Description}, Status: {request.Status}");
+            Console.WriteLine("UserServiceRequests: Cannot submit request, no user email");
+            return;
         }
+
+        using var context = await DbFactory.CreateDbContextAsync();
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+        if (user == null)
+        {
+            Console.WriteLine($"UserServiceRequests: User {currentUserEmail} not found in database");
+            return;
+        }
+
+        newRequest.UserId = user.Id;
+        newRequest.CreatedDate = DateTime.Now;
+        context.ServiceRequests.Add(newRequest);
+
+        await context.SaveChangesAsync();
+        Console.WriteLine($"UserServiceRequests: Submitted request {newRequest.RequestId} for {currentUserEmail}");
+        await LoadServiceRequests();
+        await JSRuntime.InvokeVoidAsync("hideModal", "newRequestModal");
+    }
+
+    private async Task ShowDetailsModal(int id)
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+        selectedRequest = await context.ServiceRequests
+            .Include(sr => sr.User)
+            .FirstOrDefaultAsync(sr => sr.Id == id);
+        Console.WriteLine($"UserServiceRequests: Showing details for request {selectedRequest?.RequestId}");
+        await JSRuntime.InvokeVoidAsync("showModal", "detailsModal");
+    }
+
+    private void HideDetailsModal()
+    {
+        selectedRequest = null;
+        JSRuntime.InvokeVoidAsync("hideModal", "detailsModal");
     }
 }

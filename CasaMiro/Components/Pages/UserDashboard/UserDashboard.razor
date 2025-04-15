@@ -1,7 +1,12 @@
 ﻿@page "/user-dashboard"
+@attribute [Authorize(Roles = "Homeowner")]
+@rendermode InteractiveServer
 @using CasaMiro.Components.Layout
-
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 @layout UserDashboardLayout
+@using System.Security.Claims
 
 <div class="dashboard-container">
     <div class="sidebar-container">
@@ -10,7 +15,7 @@
 
     <div class="main-content">
         <div class="content">
-            <h1>Welcome to Your User Dashboard</h1><br>
+            <h1>Welcome to Your User Dashboard, @name</h1><br>
             <p>View your activity, track your balance, and manage requests effectively.</p>
 
             <!-- User Overview -->
@@ -100,28 +105,64 @@
 <script>
     var ctx1 = document.getElementById('balanceTrendChart').getContext('2d');
     var balanceTrendChart = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [{
-                label: 'Balance ($)',
-                data: [450, 460, 470, 480, 490, 500],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2
-            }]
-        }
+    type: 'line',
+    data: {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+    datasets: [{
+    label: 'Balance ($)',
+    data: [450, 460, 470, 480, 490, 500],
+    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+    borderColor: 'rgba(75, 192, 192, 1)',
+    borderWidth: 2
+    }]
+    }
     });
 
     var ctx2 = document.getElementById('serviceRequestChart').getContext('2d');
     var serviceRequestChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: ['Plumbing', 'Electrical', 'Security', 'Other'],
-            datasets: [{
-                data: [30, 40, 20, 10],
-                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
-            }]
-        }
+    type: 'pie',
+    data: {
+    labels: ['Plumbing', 'Electrical', 'Security', 'Other'],
+    datasets: [{
+    data: [30, 40, 20, 10],
+    backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0']
+    }]
+    }
     });
 </script>
+@code {
+    private string name = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity.IsAuthenticated)
+        {
+            name = user.FindFirst("FullName")?.Value ?? user.FindFirst(ClaimTypes.Name)?.Value ?? "User";
+            var role = user.FindFirst(ClaimTypes.Role)?.Value ?? "None";
+            Console.WriteLine($"UserDashboard: Authenticated user {name}, Role: {role}");
+        }
+        else
+        {
+            Console.WriteLine("UserDashboard: User not authenticated, redirecting to login");
+            Navigation.NavigateTo("/login");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("initializeCharts");
+                Console.WriteLine("UserDashboard: Charts initialized");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"UserDashboard: Chart error: {ex.Message}");
+            }
+        }
+    }
+}

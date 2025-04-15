@@ -2,48 +2,43 @@
 using CasaMiro.Models;
 using Microsoft.EntityFrameworkCore;
 
-public class AuthenticationService
+namespace CasaMiro
 {
-    private readonly ApplicationDbContext _context;
-
-    public AuthenticationService(ApplicationDbContext context)
+    public class AuthenticationService
     {
-        _context = context;
-    }
+        private readonly IDbContextFactory<ApplicationDbContext> _dbFactory;
+        private readonly CustomAuthenticationStateProvider _authStateProvider;
 
-    public async Task<User?> LoginAsync(string email, string password)
-    {
-        try
+        public AuthenticationService(
+            IDbContextFactory<ApplicationDbContext> dbFactory,
+            CustomAuthenticationStateProvider authStateProvider)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null || user.Password != password) return null;
+            _dbFactory = dbFactory;
+            _authStateProvider = authStateProvider;
+            Console.WriteLine($"AuthService: Initialized with provider instance {authStateProvider.GetHashCode()}");
+        }
+
+        public async Task<User?> LoginAsync(string email, string password)
+        {
+            Console.WriteLine($"AuthService: Login attempt for {email}");
+            using var context = await _dbFactory.CreateDbContextAsync();
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            if (user != null)
+            {
+                Console.WriteLine($"AuthService: Found user - Email: {user.Email}, Role: {user.Role}, FullName: {user.FullName}");
+                await _authStateProvider.LoginAsync(user);
+                Console.WriteLine($"AuthService: LoginAsync called for {user.Email}");
+                var currentUser = _authStateProvider.GetCurrentUser();
+                Console.WriteLine($"AuthService: Post-login state - User: {(currentUser != null ? currentUser.Email : "null")}");
+            }
+            else
+            {
+                Console.WriteLine($"AuthService: No user found for {email} or incorrect password");
+            }
 
             return user;
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error during login: {ex.Message}");
-            throw; // Re-throw exception for logging or higher-level handling
-        }
-    }
-
-    public async Task LogoutAsync()
-    {
-        try
-        {
-            // Implement logout logic here if necessary
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error during logout: {ex.Message}");
-            throw; // Re-throw exception for logging or higher-level handling
-        }
-    }
-
-    public async Task<User?> GetUserAsync()
-    {
-        // Implement logic to retrieve the current user based on authentication state
-        // For demonstration purposes, this is simplified
-        return await _context.Users.FirstOrDefaultAsync(u => u.Email == "example@example.com");
     }
 }

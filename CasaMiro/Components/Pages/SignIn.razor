@@ -45,37 +45,46 @@
         try
         {
             ErrorMessage = string.Empty;
+            Console.WriteLine($"SignIn: Attempting login for {loginModel.Email}");
 
             var user = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
-
             if (user == null)
             {
                 ErrorMessage = "Invalid email or password.";
+                Console.WriteLine("SignIn: Invalid email or password");
                 await JS.InvokeVoidAsync("triggerShakeAnimation");
                 return;
             }
 
-            var role = user.Role ?? "User";
-            if (role.Equals("Admin"))
+            Console.WriteLine($"SignIn: User {user.Email} logged in, Role: {user.Role}, FullName: {user.FullName}");
+
+            // Wait briefly to ensure state propagation
+            await Task.Delay(100);
+
+            // Navigate based on role
+            var role = user.Role?.Trim() ?? "User";
+            Console.WriteLine($"SignIn: Navigating for role {role}");
+            switch (role)
             {
-                Navigation.NavigateTo("/admin-dashboard");
-            }
-            else if (role.Equals("Staff"))
-            {
-                Navigation.NavigateTo("/staff-dashboard");
-            }
-            else if (role.Equals("Homeowner"))
-            {
-                Navigation.NavigateTo("/user-dashboard");
-            }
-            else
-            {
-                Console.WriteLine("Error: Invalid Role");
+                case "Homeowner":
+                    Navigation.NavigateTo("/user-dashboard", forceLoad: true);
+                    break;
+                case "Admin":
+                    Navigation.NavigateTo("/admin-dashboard", forceLoad: true);
+                    break;
+                case "Staff":
+                    Navigation.NavigateTo("/staff-dashboard", forceLoad: true);
+                    break;
+                default:
+                    ErrorMessage = $"Unknown role: {role}";
+                    Console.WriteLine($"SignIn: Unknown role: {role}");
+                    await JS.InvokeVoidAsync("triggerShakeAnimation");
+                    break;
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Login error: {ex.Message}");
+            Console.WriteLine($"SignIn: Login error: {ex.Message}");
             ErrorMessage = "Login failed. Please try again.";
             await JS.InvokeVoidAsync("triggerShakeAnimation");
         }
