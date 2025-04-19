@@ -1,142 +1,124 @@
-/* General Body Styling */
+/* Page Background */
 body {
     background: linear-gradient(135deg, #111111, #999999);
-    color: #fff;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-}
-
-/* Card Styling */
-.card {
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-/* Card Header with Black Background */
-.card-header {
-    background-color: #000000; /* Solid black background */
-    color: #fff;
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-/* Card Body Styling */
-.card-body {
-    background-color: #ffffff;
-    padding: 20px;
-    font-size: 1rem;
     color: #333;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
 }
 
-/* Card Footer Styling */
+/* Container */
+.container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Modern Card Styling - White Body Version */
+.card {
+    border-radius: 20px;
+    background: #ffffff;
+    color: #333333;
+    border: none;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 28px;
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6C5CE7, #00CEC9);
+    }
+
+/* Card Header - Dark with Gradient Strip */
+.card-header {
+    background: rgba(31, 31, 31, 0.95);
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 22px 28px;
+    border-bottom: none;
+    position: relative;
+}
+
+    /* Special combined class version for utility use */
+    .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center {
+        background: rgba(31, 31, 31, 0.95) !important;
+        color: #ffffff !important;
+        font-size: 1.4rem;
+        font-weight: 700;
+        padding: 22px 28px;
+        border-bottom: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+/* Card Body */
+.card-body {
+    padding: 28px;
+    font-size: 1rem;
+    color: #444444;
+    background: #ffffff;
+    line-height: 1.6;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Card Footer */
 .card-footer {
-    background-color: #f8f9fa;
-    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
     text-align: right;
-    padding: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    padding: 18px 28px;
+    border-radius: 0 0 20px 20px;
 }
 
 /* Card Title */
 .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222222;
+    letter-spacing: 0.3px;
 }
 
 /* Card Text */
 .card-text {
-    font-size: 0.9rem;
-    color: #666;
-    line-height: 1.5;
+    font-size: 0.95rem;
+    color: #555555;
+    line-height: 1.7;
+    font-weight: 400;
 }
+
 
 /* Text Muted */
 .text-muted {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
 }
 
-/* Badge Styling */
-.badge {
-    border-radius: 12px;
-    padding: 5px 15px;
-    font-size: 0.85rem;
-    display: inline-block;
-    margin-right: 5px;
+/* Avatar in List Items */
+.list-group-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-    /* Custom Badge Colors */
-    .badge.bg-info {
-        background-color: #2196f3;
-        color: #333;
-    }
-
-    .badge.bg-warning {
-        background-color: #ff9800;
-        color: #333;
-    }
-
-    .badge.bg-success {
-        background-color: #4caf50;
-    }
-
-    .badge.bg-secondary {
-        background-color: #6c757d;
-        color: #fff;
-    }
-
-    .badge.bg-light {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-/* Button Styling */
-.btn {
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: 600;
-    display: inline-block;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.btn-sm {
-    font-size: 0.875rem;
-}
-
-.btn-outline-primary {
-    border: 2px solid #6a1b9a;
-    color: #6a1b9a;
-}
-
-    .btn-outline-primary.disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-    }
-
-    .btn-outline-primary:hover {
-        background-color: #6a1b9a;
-        color: #fff;
-    }
-
-/* Forum Threads - List Item Styling */
+/* Forum Thread List */
 .list-group-item {
     background-color: #fff;
     border: 1px solid #ddd;
     margin-bottom: 15px;
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
     transition: background-color 0.3s ease;
 }
 
@@ -144,27 +126,81 @@ body {
     background-color: #f0f8ff;
 }
 
-/* Avatar Image */
-.list-group-item img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-/* Footer Styling */
+/* Footer Text */
 .text-end.small {
     font-size: 0.875rem;
     color: #6c757d;
 }
 
-/* Responsive Design for Smaller Screens */
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+}
+
+/* Gradient Buttons */
+button.btn.btn-warning.btn-sm {
+    background: linear-gradient(135deg, #00B894, #55EFC4);
+    border: none;
+    color: white;
+}
+
+button.btn.btn-danger.btn-sm {
+    background: linear-gradient(135deg, #D63031, #FF7675);
+    border: none;
+    color: white;
+}
+
+/* Outline Primary Button */
+.btn-outline-primary {
+    border: 2px solid #6C5CE7;
+    color: #6C5CE7;
+    background: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background: #6C5CE7;
+        color: white;
+    }
+
+    /* Disabled State */
+    .btn-outline-primary.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+/* Accessibility: Links */
+.card-body a {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+    .card-body a:hover {
+        color: #004499;
+    }
+
+/* Title Highlights */
+h4.card-title,
+h5.card-title {
+    color: #6C5CE7;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .card-body {
-        padding: 15px;
+        padding: 20px;
     }
 
     .list-group-item {
-        padding: 10px;
+        padding: 15px;
     }
 
     .d-flex {
@@ -175,30 +211,11 @@ body {
         font-size: 0.8rem;
     }
 }
-
-/* Page Layout Cleanup */
-html, body {
-    margin: 0;
-    padding: 0;
+span.badge bg-info text-dark{
+    color : white !important;
 }
 
-.container {
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-}
+span.badge.bg-light.text-dark {
+    border-radius: 12px;
 
-/* Custom Styling for Specific Header Element */
-.card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }

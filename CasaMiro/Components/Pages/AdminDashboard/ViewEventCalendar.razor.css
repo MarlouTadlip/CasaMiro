@@ -2,92 +2,124 @@
 body {
     background: linear-gradient(135deg, #111111, #999999);
     color: #fff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Modern font family */
 }
 
 /* Card Styling */
 .card {
-    border-radius: 12px;
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
     background: #ffffff;
-    margin-bottom: 20px;
+    color: #333333;
     border: none;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 28px;
+    transition: none;
+    overflow: hidden;
+    position: relative;
 }
 
-/* Card Header Styling - Background set to black */
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6C5CE7, #00CEC9);
+    }
+
+/* Hover effect removed */
+
+/* Card Header Styling */
 .card-header {
-    background-color: #000000; /* Solid black background */
-    color: white;
-    font-size: 1.25rem;
-    font-weight: bold;
-    padding: 15px 20px;
-    border-radius: 12px 12px 0 0;
+    background: rgba(31, 31, 31, 0.95);
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 22px 28px;
+    border-bottom: none;
+    position: relative;
 }
 
 /* Card Body Styling */
 .card-body {
-    background-color: #ffffff;
-    padding: 20px;
+    padding: 28px;
     font-size: 1rem;
-    color: #333;
-    border-radius: 0 0 12px 12px;
+    color: #444444;
+    background: #ffffff;
+    line-height: 1.6;
 }
 
 /* Card Footer Styling */
 .card-footer {
-    background-color: #f8f9fa;
-    border-top: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
     text-align: right;
-    padding: 10px;
-    border-radius: 0 0 12px 12px;
+    padding: 18px 28px;
+    border-radius: 0 0 20px 20px;
 }
 
 /* Card Title */
 .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222222;
+    letter-spacing: 0.3px;
 }
 
 /* Card Text */
 .card-text {
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.95rem;
+    color: #555555;
+    line-height: 1.7;
+    font-weight: 400;
 }
 
-/* Calendar Table Styling */
-.table {
+/* Search Input */
+#searchInput {
+    border-radius: 12px;
+    padding: 14px 20px;
     font-size: 1rem;
-    border-collapse: collapse;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 28px;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    color: #333333;
+    transition: none;
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-    .table th, .table td {
-        padding: 10px;
-        border: 1px solid #dee2e6;
+    #searchInput::placeholder {
+        color: #999999;
     }
 
-    .table th {
-        background-color: #f8f9fa;
+    #searchInput:focus {
+        border-color: #6C5CE7;
+        box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
     }
 
-    .table .text-muted {
-        color: #6c757d;
-    }
+/* Button Styling */
+.card-footer .btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #6C5CE7, #00CEC9);
+    border: none;
+    color: white;
+    transition: none;
+}
 
-    .table .bg-warning {
-        background-color: #ffc107;
-    }
+/* Card Links */
+.card-body a {
+    color: #0066cc;
+    text-decoration: underline;
+}
 
-    .table .bg-info {
-        background-color: #17a2b8;
-    }
-
-    .table .bg-primary {
-        background-color: #007bff;
-    }
-
-    .table .text-white {
-        color: white;
+    .card-body a:hover {
+        color: #004499;
     }
 
 /* Event Badge Styling */
@@ -116,35 +148,14 @@ body {
         color: #fff;
     }
 
-/* Upcoming Events List */
-.list-group-item {
-    padding: 15px;
-    border: 1px solid #dee2e6;
-    background-color: #fff;
-    color: #495057;
-    border-radius: 8px;
+/* Avatar Image */
+.list-group-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-    .list-group-item strong {
-        font-size: 1rem;
-        font-weight: bold;
-    }
-
-.text-secondary {
-    color: #6c757d !important;
-}
-
-/* Button Styling */
-.btn {
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: 600;
-}
-
-.btn-sm {
-    font-size: 0.875rem;
-}
-
+/* Button Outline Primary */
 .btn-outline-primary {
     border: 2px solid #007bff;
     color: #007bff;
@@ -161,20 +172,22 @@ body {
         opacity: 0.6;
     }
 
-/* Avatar Image */
-.list-group-item img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+/* Card Header for Special Classes */
+div.card-header.bg-success.text-white.d-flex.justify-content-between.align-items-center {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Footer Styling */
-.text-end.small {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
     .card-body {
         padding: 20px;
@@ -189,17 +202,6 @@ body {
     }
 }
 
-/* Ensure the card header stays black, without the need for specific class targeting */
-div.card-header.bg-success.text-white.d-flex.justify-content-between.align-items-center {
-    background-color: #000000 !important; /* Black background */
-    color: #ffffff !important;
-    font-size: 1.25rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+h4.card-title.mb-0 {
+    color: white !important;
 }
