@@ -1,20 +1,13 @@
-/* Page Background */
+/* General Body Styling */
 body {
-    background: linear-gradient(135deg, #111111, #999999);
+    background: linear-gradient(135deg, #1e1e2f, #4b4b75);
+    color: #333;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
 }
 
-/* Container */
-.container {
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-}
-
-/* Modern Card Styling - White Body Version */
+/* Modern Card Styling - White Body with Gradient Accent */
 .card {
     border-radius: 20px;
     background: #ffffff;
@@ -37,7 +30,12 @@ body {
         background: linear-gradient(90deg, #6C5CE7, #00CEC9);
     }
 
-/* Card Header - Dark with Gradient Strip */
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+/* Card Header */
 .card-header {
     background: rgba(31, 31, 31, 0.95);
     color: #ffffff;
@@ -46,20 +44,8 @@ body {
     padding: 22px 28px;
     border-bottom: none;
     position: relative;
+    text-transform: uppercase;
 }
-
-    /* Special combined class version for utility use */
-    .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center {
-        background: rgba(31, 31, 31, 0.95) !important;
-        color: #ffffff !important;
-        font-size: 1.4rem;
-        font-weight: 700;
-        padding: 22px 28px;
-        border-bottom: none;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
 
 /* Card Body */
 .card-body {
@@ -68,8 +54,6 @@ body {
     color: #444444;
     background: #ffffff;
     line-height: 1.6;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
 }
 
 /* Card Footer */
@@ -98,124 +82,181 @@ body {
     font-weight: 400;
 }
 
-
-/* Text Muted */
-.text-muted {
-    color: rgba(0, 0, 0, 0.6);
+/* Badges */
+.badge {
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    text-transform: capitalize;
 }
 
-/* Avatar in List Items */
-.list-group-item img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
+    .badge.bg-warning {
+        background: linear-gradient(135deg, #FFA726, #FF7043);
+        color: white;
+    }
 
-/* Forum Thread List */
-.list-group-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s ease;
-}
+    .badge.bg-success {
+        background: linear-gradient(135deg, #66BB6A, #43A047);
+        color: white;
+    }
 
-.list-group-item-action:hover {
-    background-color: #f0f8ff;
-}
+    .badge.bg-danger {
+        background: linear-gradient(135deg, #E53935, #D32F2F);
+        color: white;
+    }
 
-/* Footer Text */
-.text-end.small {
-    font-size: 0.875rem;
-    color: #6c757d;
-}
+    .badge.bg-secondary {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    .badge.bg-light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .badge.bg-under-review {
+        background: linear-gradient(135deg, #333333, #111111);
+        color: white;
+    }
 
 /* Buttons */
 .btn {
     border-radius: 8px;
-    padding: 10px 15px;
+    padding: 10px 18px;
     font-weight: 600;
-    text-align: center;
-    cursor: pointer;
     transition: all 0.3s ease;
+    border: none;
 }
 
 .btn-sm {
     font-size: 0.875rem;
+    padding: 6px 14px;
 }
 
-/* Gradient Buttons */
+.btn-outline-dark {
+    border: 2px solid #333;
+    color: #333;
+    background: transparent;
+}
+
+    .btn-outline-dark.disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+.card-footer .btn {
+    background: linear-gradient(135deg, #6C5CE7, #00CEC9);
+    color: white;
+}
+
+    .card-footer .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+    }
+
+/* Custom Color Buttons */
 button.btn.btn-warning.btn-sm {
     background: linear-gradient(135deg, #00B894, #55EFC4);
-    border: none;
     color: white;
 }
 
 button.btn.btn-danger.btn-sm {
     background: linear-gradient(135deg, #D63031, #FF7675);
-    border: none;
     color: white;
 }
 
-/* Outline Primary Button */
-.btn-outline-primary {
-    border: 2px solid #6C5CE7;
-    color: #6C5CE7;
-    background: transparent;
+/* Table Styling */
+.table {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-    .btn-outline-primary:hover {
-        background: #6C5CE7;
-        color: white;
-    }
-
-    /* Disabled State */
-    .btn-outline-primary.disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-    }
-
-/* Accessibility: Links */
-.card-body a {
-    color: #0066cc;
-    text-decoration: underline;
+.table-bordered {
+    border: 1px solid #ddd;
 }
 
-    .card-body a:hover {
-        color: #004499;
-    }
-
-/* Title Highlights */
-h4.card-title,
-h5.card-title {
-    color: #6C5CE7;
+.table-light {
+    background-color: #f8f9fa;
 }
 
-/* Responsive */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.table th,
+.table td {
+    padding: 14px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    font-weight: bold;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.table tbody tr:hover {
+    background-color: #eaeaea;
+}
+
+/* Search Input */
+#searchInput {
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 28px;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    color: #333333;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+    #searchInput::placeholder {
+        color: #999999;
+    }
+
+    #searchInput:focus {
+        border-color: #6C5CE7;
+        box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+    }
+
+/* Misc Text Styling */
+.text-muted {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.text-end.small {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .card-body {
         padding: 20px;
     }
 
-    .list-group-item {
-        padding: 15px;
+    .table td,
+    .table th {
+        padding: 10px;
     }
 
     .d-flex {
         flex-direction: column;
     }
-
-    .btn-sm {
-        font-size: 0.8rem;
-    }
-}
-span.badge bg-info text-dark{
-    color : white !important;
 }
 
-span.badge.bg-light.text-dark {
-    border-radius: 12px;
-
+/* Headings inside Cards */
+h4.card-title,
+h5.card-title {
+    color: #6C5CE7;
 }
