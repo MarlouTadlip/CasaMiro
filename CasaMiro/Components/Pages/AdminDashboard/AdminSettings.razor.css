@@ -1,159 +1,203 @@
-/* General Container */
+/* Page Background */
+body {
+    background: linear-gradient(135deg, #111111, #999999);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Container */
 .container-fluid {
     margin-top: 3px;
-    background: #f3f4f6; /* Matches announcement.css lighter gradient end */
-    border-radius: 12px; /* Increased for consistency */
+    padding: 20px;
+    background: transparent;
 }
+
+/* Card Wrapper */
+.card {
+    border-radius: 20px;
+    background: #ffffff;
+    color: #333333;
+    border: none;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 28px;
+    overflow: hidden;
+    transition: all 0.35s ease;
+    position: relative;
+}
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #6C5CE7, #00CEC9);
+    }
 
 /* Card Header */
 .card-header {
-    background-color: #000000; /* Set the background color to black */
-    color: white; /* Ensure the text is white */
-    padding: 20px;
-    border-radius: 12px 12px 0 0;
+    background: rgba(31, 31, 31, 0.95);
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 22px 28px;
+    border-bottom: none;
 }
 
-    .card-header h4 {
-        margin-bottom: 0;
-        color: #ffffff; /* Ensured header text color is white */
+/* Card Body */
+.card-body {
+    padding: 28px;
+    font-size: 1rem;
+    color: #444444;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+    /* Avatar */
+    .card-body .d-flex img {
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
     }
 
-    .card-header .badge {
-        font-size: 0.875rem;
-        color: white; /* Ensure badges have white text on dark backgrounds */
-    }
-
-/* Profile Information */
-.mb-4 h5 {
-    font-size: 1.25rem;
+/* Labels */
+.form-label {
     font-weight: 600;
-    color: #ffffff; /* Adjusted for contrast */
-    margin-bottom: 15px;
+    color: #222222;
+    margin-bottom: 6px;
 }
 
-/* Card Body Image */
-.card-body .d-flex img {
-    border-radius: 50%;
-}
-
-/* Form Labels */
-.card-body .form-label {
-    font-weight: bold;
-    color: #ffffff; /* Changed to white for contrast */
-    margin-bottom: 5px;
-}
-
-/* Form Inputs */
+/* Inputs */
 .form-control, .form-select {
-    border-radius: 6px;
-    padding: 10px;
-    margin-bottom: 15px;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 18px;
     border: 1px solid #ccc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
     .form-control:focus, .form-select:focus {
-        border-color: #6a11cb;
-        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        border-color: #6C5CE7;
+        box-shadow: 0 0 6px rgba(108, 92, 231, 0.4);
     }
 
-/* Security Settings */
-.card-body .fw-bold {
-    font-weight: 600;
-    color: #ffffff; /* Changed to white for visibility */
+/* Bold Text */
+.fw-bold {
+    font-weight: 700;
+    color: #333333;
 }
 
-.card-body .form-check-label {
-    font-size: 0.9rem;
-    color: #ffffff; /* Changed to white for contrast */
+/* Checkboxes */
+.form-check-label {
+    font-size: 0.95rem;
+    color: #444;
 }
 
-.card-body .form-check-input {
+.form-check-input {
     margin-right: 10px;
 }
 
 /* Buttons */
-.btn-primary {
-    background: linear-gradient(135deg, #6a11cb, #2575fc); /* announcement.css primary */
-    border: none;
+.btn {
+    border-radius: 8px;
     padding: 10px 15px;
     font-weight: 600;
-    color: white;
-    border-radius: 6px;
+    cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    color: white;
 }
 
     .btn-primary:hover {
         background: linear-gradient(135deg, #2575fc, #6a11cb);
     }
 
-/* Notification Settings */
-.list-group-item {
-    font-size: 0.9rem;
-    padding: 15px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    color: #333; /* Darkened text for readability on light background */
+.btn-warning {
+    background: linear-gradient(135deg, #00B894, #55EFC4);
+    color: white;
+    border: none;
 }
 
-/* Under Review Badge */
-.badge.bg-under-review {
-    background-color: #000000;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 0.875rem;
+.btn-danger {
+    background: linear-gradient(135deg, #D63031, #FF7675);
+    color: white;
+    border: none;
 }
+
+.btn-outline-primary {
+    border: 2px solid #6C5CE7;
+    color: #6C5CE7;
+    background: transparent;
+}
+
+    .btn-outline-primary:hover {
+        background: #6C5CE7;
+        color: white;
+    }
 
 /* Card Title */
 .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #ffffff; /* Matches dark card theme */
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #6C5CE7;
 }
 
 /* Card Text */
-.card-text {
-    font-size: 0.9rem;
-    color: #ffffff; /* Changed to white for readability */
+.card-text, .text-muted, p.text-muted.mb-4, p.text-muted.mb-0 {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.95rem;
 }
 
-p.text-muted.mb-4 {
-    color: #ffffff; /* Made text white for consistency */
+/* List Group Items */
+.list-group-item {
+    font-size: 0.95rem;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
 }
 
-p.text0-muted.mb-0 {
-    color: #ffffff; /* Made text white for consistency */
+.list-group-item-action:hover {
+    background-color: #f0f8ff;
 }
 
-div.d-flex.align-items-center {
-    background-color: #e9ecef;
-    color: black;
-    border-radius: 6px;
+/* Badges */
+.badge.bg-under-review,
+span.badge.bg-info.text-dark,
+span.badge.bg-light.text-dark {
+    background-color: #6C5CE7;
+    color: white !important;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.875rem;
 }
 
-h5.border-bottom.pb-2 {
-    color: white;
-}
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px;
+    }
 
-/* Ensure specific elements have black background and white text */
-h5.border-bottom.pb-2 {
-    color: black !important;
-}
+    .list-group-item {
+        padding: 15px;
+    }
 
-label.form-label {
-    color: black !important;
-}
+    .d-flex {
+        flex-direction: column;
+    }
 
-div.card-header.bg-dark.text-white.d-flex.justify-content-between.align-items-center {
-    background-color: #000000 !important; /* Ensure the background is black */
-    color: white !important; /* Ensure the text is white */
-}
-
-
-label.form-check-label{
-    color: black !important;
-}
-
-span.fw-bold{
-    color : black !important ;
+    .btn-sm {
+        font-size: 0.8rem;
+    }
 }
